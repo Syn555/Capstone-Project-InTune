@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.capstone_test">
+    package="com.example.capstone_project_intune">
    <application
-        android:label="capstone_test"
+        android:label="capstone_project_intune"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
