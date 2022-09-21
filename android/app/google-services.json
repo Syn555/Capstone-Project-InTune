@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "892872803918",
+    "project_id": "intune-19e26",
+    "storage_bucket": "intune-19e26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892872803918:android:85e6e99890a560c5ec251f",
+        "android_client_info": {
+          "package_name": "com.example.capstone_project_intune"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "892872803918-21ft91oqdoluc1uv0pu6nhqidcpiligb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDzSTR_b-EclJTiUfgQo-zkY3n5uoxb-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "892872803918-21ft91oqdoluc1uv0pu6nhqidcpiligb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
