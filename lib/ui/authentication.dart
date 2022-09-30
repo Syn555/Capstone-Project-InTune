@@ -1,3 +1,4 @@
+import 'package:capstone_project_intune/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterfire_ui/auth.dart';
@@ -16,13 +17,7 @@ class Authentication extends StatelessWidget {
                 EmailProviderConfiguration(),
           ]);
         }
-
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('InTune Auth'),
-          ),
-          body: const SignOutButton(),
-        );
+        return const MaterialApp(home: MyHomePage(title: "Home"),);
       }
     );
 
