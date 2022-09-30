@@ -29,6 +29,13 @@
             {
               "client_id": "892872803918-21ft91oqdoluc1uv0pu6nhqidcpiligb.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "892872803918-vf5pvka68djgtgk3tm708h4ie13rj6d7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.capstone-project-intune"
+              }
             }
           ]
         }
