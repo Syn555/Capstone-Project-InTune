@@ -18,14 +18,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'InTune',
-      home: MyHomePage(title: 'InTune'),
+      home: Tuning(),
     );
   }
 }
-
+/*
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
+
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style =
@@ -40,8 +41,7 @@ class MyHomePage extends StatelessWidget {
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const Authentication();;
-              }));
-            },
+              }));},
             child: const Text('Login'),
           ),
 
@@ -49,7 +49,7 @@ class MyHomePage extends StatelessWidget {
             style: style,
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Tuning(title: 'Tuning');
+                return const Tuning();
               }));
             },
             child: const Text('Tuning'),
@@ -59,35 +59,11 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
-
-class Tuning extends StatelessWidget {
-  const Tuning({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Home'),
-        ),
-      ),
-    );
-  }
-}
-
-
+*/
+//Locked Features
 class LockedFeatures extends StatelessWidget {
   const LockedFeatures({Key? key, required this.title}) : super(key: key);
   final String title;
-
 
   @override
   Widget build(BuildContext context) {
@@ -98,24 +74,36 @@ class LockedFeatures extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          //Practice
           ElevatedButton(
             style: style,
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Comp(title: 'Comp');
+                return const Practice();
               }));
             },
-            child: const Text('Comp'),
+            child: const Text('Practice'),
+          ),
+          //Composition
+          ElevatedButton(
+            style: style,
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const Composition();
+              }));
+            },
+            child: const Text('Composition'),
           ),
 
+          //Virtual Band
           ElevatedButton(
             style: style,
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Int(title: 'Int');
+                return const VirtualBand();
               }));
             },
-            child: const Text('Int'),
+            child: const Text('Virtual Band'),
           ),
         ],
       ),
@@ -123,45 +111,168 @@ class LockedFeatures extends StatelessWidget {
   }
 }
 
-class Comp extends StatelessWidget {
-  const Comp({Key? key, required this.title}) : super(key: key);
-  final String title;
+//Nav Bar (Side Bar)
+class SideDrawer extends StatelessWidget {
+  const SideDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Back to LockedFeatures'),
-        ),
+    return Drawer(
+      child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 150,
+            child: DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+              ),
+              child: Center(
+                child: Text(
+                  'InTune',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontSize: 30),
+                ),
+              ),
+            ),
+          ),
+
+          //Login
+          ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text('Login/Register'),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                //return const SignIn();
+                return const Authentication();
+              },),),},
+          ),
+          //Tuning
+          ListTile(
+            //leading: const Icon(Icons.home),
+            title: const Text('Tuning'),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const Tuning();
+              },),),},
+          ),
+          //Practice
+          ListTile(
+             leading: const Icon(Icons.lock),
+            title: const Text('Practice'),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const Practice();
+              },),),},
+          ),
+          //Composition
+          ListTile(
+             leading: const Icon(Icons.lock),
+            title: const Text('Composition'),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const Composition();
+              },),),},
+          ),
+          //Virtual Band
+          ListTile(
+            leading: const Icon(Icons.lock),
+            title: const Text('Virtual Band'),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const VirtualBand();
+              },),),},
+          ),
+        ],
       ),
     );
   }
 }
 
-class Int extends StatelessWidget {
-  const Int({Key? key, required this.title}) : super(key: key);
-  final String title;
+//Tuning Widget
+class Tuning extends StatelessWidget {
+  const Tuning({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const SideDrawer(),
       appBar: AppBar(
-        title: Text(title),
+        title: const Text('Tuning'),
       ),
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Back to LockedFeatures'),
-        ),
+      body: const Center(
+        child: Text('Tuning'),
+      ),
+    );
+  }
+}
+
+//Practice Widget
+class Practice extends StatelessWidget {
+  const Practice({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const SideDrawer(),
+      appBar: AppBar(
+        title: const Text('Practice'),
+      ),
+      body: const Center(
+        child: Text('Practice'),
+      ),
+    );
+  }
+}
+
+//Composition Widget
+class Composition extends StatelessWidget {
+  const Composition({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const SideDrawer(),
+      appBar: AppBar(
+        title: const Text("Composition"),
+      ),
+      body: const Center(
+        child: Text('Composition'),
+      ),
+    );
+  }
+}
+
+//Virtual Band Widget
+class VirtualBand extends StatelessWidget {
+  const VirtualBand({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const SideDrawer(),
+      appBar: AppBar(
+        title: const Text('Virtual Band'),
+      ),
+      body: const Center(
+        child: Text('Virtual Band'),
+      ),
+    );
+  }
+}
+
+//Account Widget
+class SignIn extends StatelessWidget {
+  const SignIn({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const SideDrawer(),
+      appBar: AppBar(
+        title: const Text('Sign In/Sign Up'),
+      ),
+      body: const Center(
+        child: Text('Sign In/Sign Up'),
       ),
     );
   }
