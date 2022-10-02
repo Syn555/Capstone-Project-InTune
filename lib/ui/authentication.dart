@@ -17,9 +17,8 @@ class Authentication extends StatelessWidget {
                 EmailProviderConfiguration(),
           ]);
         }
-        return const MaterialApp(home: Tuning());
+        return const MaterialApp(home: TuningReg());
       }
     );
-
   }
 }

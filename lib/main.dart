@@ -22,94 +22,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-/*
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    final ButtonStyle style =
-    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
-
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ElevatedButton(
-            style: style,
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Authentication();;
-              }));},
-            child: const Text('Login'),
-          ),
-
-          ElevatedButton(
-            style: style,
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Tuning();
-              }));
-            },
-            child: const Text('Tuning'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-*/
-//Locked Features
-class LockedFeatures extends StatelessWidget {
-  const LockedFeatures({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    final ButtonStyle style =
-    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
-
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          //Practice
-          ElevatedButton(
-            style: style,
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Practice();
-              }));
-            },
-            child: const Text('Practice'),
-          ),
-          //Composition
-          ElevatedButton(
-            style: style,
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Composition();
-              }));
-            },
-            child: const Text('Composition'),
-          ),
-
-          //Virtual Band
-          ElevatedButton(
-            style: style,
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const VirtualBand();
-              }));
-            },
-            child: const Text('Virtual Band'),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 //Nav Bar (Side Bar)
 class SideDrawer extends StatelessWidget {
@@ -160,26 +72,105 @@ class SideDrawer extends StatelessWidget {
              leading: const Icon(Icons.lock),
             title: const Text('Practice'),
             onTap: () => {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Practice();
-              },),),},
+              //Navigator.push(context, MaterialPageRoute(builder: (context) {
+                //return const Practice();
+              //},),),
+            },
           ),
           //Composition
           ListTile(
              leading: const Icon(Icons.lock),
             title: const Text('Composition'),
             onTap: () => {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Composition();
-              },),),},
+              //Navigator.push(context, MaterialPageRoute(builder: (context) {
+               // return const Composition();
+              //},),),
+            },
           ),
           //Virtual Band
           ListTile(
             leading: const Icon(Icons.lock),
             title: const Text('Virtual Band'),
             onTap: () => {
+              //Navigator.push(context, MaterialPageRoute(builder: (context) {
+               // return const VirtualBand();
+              //},),),
+              },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//Nav Bar (Side Bar) (Registered)
+class SideDrawerReg extends StatelessWidget {
+  const SideDrawerReg({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 150,
+            child: DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+              ),
+              child: Center(
+                child: Text(
+                  'InTune',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontSize: 30),
+                ),
+              ),
+            ),
+          ),
+
+          //Login
+          ListTile(
+            //leading: const Icon(Icons.account_circle),
+            title: const Text('Profile'),
+            onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const VirtualBand();
+                return const Profile();
+                },),),},
+          ),
+          //Tuning
+          ListTile(
+            //leading: const Icon(Icons.home),
+            title: const Text('Tuning'),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const TuningReg();
+              },),),},
+          ),
+          //Practice
+          ListTile(
+            //leading: const Icon(Icons.lock),
+            title: const Text('Practice'),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const Practice();
+              },),),},
+          ),
+          //Composition
+          ListTile(
+            //leading: const Icon(Icons.lock),
+            title: const Text('Composition'),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+               return const Composition();
+              },),),},
+          ),
+          //Virtual Band
+          ListTile(
+            //: const Icon(Icons.lock),
+            title: const Text('Virtual Band'),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+               return const VirtualBand();
               },),),},
           ),
         ],
@@ -206,6 +197,23 @@ class Tuning extends StatelessWidget {
   }
 }
 
+class TuningReg extends Tuning {
+  const TuningReg({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const SideDrawerReg(),
+      appBar: AppBar(
+        title: const Text('Tuning'),
+      ),
+      body: const Center(
+        child: Text('Tuning'),
+      ),
+    );
+  }
+}
+
 //Practice Widget
 class Practice extends StatelessWidget {
   const Practice({super.key});
@@ -213,7 +221,7 @@ class Practice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideDrawer(),
+      drawer: const SideDrawerReg(),
       appBar: AppBar(
         title: const Text('Practice'),
       ),
@@ -231,7 +239,7 @@ class Composition extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideDrawer(),
+      drawer: const SideDrawerReg(),
       appBar: AppBar(
         title: const Text("Composition"),
       ),
@@ -249,7 +257,7 @@ class VirtualBand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideDrawer(),
+      drawer: const SideDrawerReg(),
       appBar: AppBar(
         title: const Text('Virtual Band'),
       ),
@@ -261,18 +269,21 @@ class VirtualBand extends StatelessWidget {
 }
 
 //Account Widget
-class SignIn extends StatelessWidget {
-  const SignIn({super.key});
+class Profile extends StatelessWidget {
+  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideDrawer(),
+      drawer: const SideDrawerReg(),
       appBar: AppBar(
-        title: const Text('Sign In/Sign Up'),
+        leading: BackButton(
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text("Profile"),
       ),
       body: const Center(
-        child: Text('Sign In/Sign Up'),
+        child: Text('Profile'),
       ),
     );
   }
