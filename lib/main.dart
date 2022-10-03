@@ -6,7 +6,6 @@ import 'ui/authentication.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    name: "Test",
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
