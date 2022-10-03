@@ -6,6 +6,7 @@ import 'ui/authentication.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: "Test",
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'InTune',
       home: Tuning(),
+      debugShowCheckedModeBanner: false, //setup this property
     );
   }
 }
