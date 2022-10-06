@@ -20,7 +20,7 @@ class Tuning extends StatelessWidget {
       ),
       body:  Center(
         child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children:
           [
               Text('Tuning FROM UI FOLDER'),
