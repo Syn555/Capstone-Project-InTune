@@ -1,3 +1,4 @@
+import 'package:capstone_project_intune/ui/Tuning.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
@@ -142,10 +143,13 @@ class SideDrawerReg extends StatelessWidget {
           ListTile(
             //leading: const Icon(Icons.home),
             title: const Text('Tuning'),
-            onTap: () => {
+            onTap: () =>
+            {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const TuningReg();
               },),),},
+              /* Navigator.push(context, MaterialPageRoute(builder: (context) => const Tuning()),
+              )} */
           ),
           //Practice
           ListTile(
@@ -181,6 +185,7 @@ class SideDrawerReg extends StatelessWidget {
 }
 
 //Tuning Widget
+/*
 class Tuning extends StatelessWidget {
   const Tuning({super.key});
 
@@ -196,7 +201,8 @@ class Tuning extends StatelessWidget {
       ),
     );
   }
-}
+} */
+
 
 class TuningReg extends Tuning {
   const TuningReg({super.key});

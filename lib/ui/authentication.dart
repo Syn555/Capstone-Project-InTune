@@ -1,4 +1,5 @@
 import 'package:capstone_project_intune/main.dart';
+import 'package:capstone_project_intune/ui/Tuning.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterfire_ui/auth.dart';
@@ -17,7 +18,7 @@ class Authentication extends StatelessWidget {
                 EmailProviderConfiguration(),
           ]);
         }
-        return const MaterialApp(home: TuningReg());
+        return const MaterialApp(home: Tuning());
       }
     );
   }
