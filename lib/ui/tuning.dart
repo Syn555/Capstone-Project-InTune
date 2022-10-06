@@ -18,9 +18,15 @@ class Tuning extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Tuning'),
       ),
-      body: const Center(
-        //child: Text('Tuning FROM UI FOLDER'),
-        child: NoteSelectionDropdown(),
+      body:  Center(
+        child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children:
+          [
+              Text('Tuning FROM UI FOLDER'),
+              NoteSelectionDropdown(),
+          ]
+        ),
       ),
     );
   }
