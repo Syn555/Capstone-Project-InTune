@@ -16,14 +16,14 @@ class TuningReg extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Tuning'),
       ),
-      body:  Center(
+      body: Center(
         child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children:
-          const[
-              Text('Tuning FROM UI FOLDER'),
-              NoteSelectionDropdown(),
-          ]
+        const[
+          Text('Select Note'),
+          NoteSelectionDropdown(),
+        ]
         ),
       ),
     );
@@ -39,36 +39,33 @@ class NoteSelectionDropdown extends StatefulWidget {
 }
 
 // Create Different States for NoteSelectionDropdown
-class _NoteSelectionDropdownState extends State<NoteSelectionDropdown>{
+class _NoteSelectionDropdownState extends State<NoteSelectionDropdown> {
   String dropdownValue = notes.first;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-        value: dropdownValue,
-        icon: const Icon(Icons.arrow_drop_down_circle_sharp),
-        elevation: 16,
-        style: const TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
-        ),
-        onChanged: (String? value) {
-          // Called when user selects note
-          setState(() {
-            dropdownValue = value!;
+      value: dropdownValue,
+      icon: const Icon(Icons.keyboard_arrow_down_outlined),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value) {
+        // Called when user selects note
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
 
-          });
-        },
-
-        items: notes.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+      items: notes.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }
-
-// */

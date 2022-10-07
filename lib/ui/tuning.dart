@@ -21,7 +21,7 @@ class Tuning extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children:
         const[
-              Text('Tuning FROM UI FOLDER'),
+              Text('Select Note'),
               NoteSelectionDropdown(),
           ]
         ),
@@ -46,7 +46,7 @@ class _NoteSelectionDropdownState extends State<NoteSelectionDropdown>{
   Widget build(BuildContext context) {
     return DropdownButton<String>(
         value: dropdownValue,
-        icon: const Icon(Icons.arrow_drop_down_circle_sharp),
+        icon: const Icon(Icons.keyboard_arrow_down_outlined),
         elevation: 16,
         style: const TextStyle(color: Colors.deepPurple),
         underline: Container(
@@ -57,7 +57,6 @@ class _NoteSelectionDropdownState extends State<NoteSelectionDropdown>{
           // Called when user selects note
           setState(() {
             dropdownValue = value!;
-
           });
         },
 
@@ -70,5 +69,3 @@ class _NoteSelectionDropdownState extends State<NoteSelectionDropdown>{
     );
   }
 }
-
-// */
