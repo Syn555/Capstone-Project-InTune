@@ -1,5 +1,6 @@
 import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:capstone_project_intune/ui/tuningReg.dart';
+import 'package:capstone_project_intune/ui/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
@@ -57,7 +58,6 @@ class SideDrawer extends StatelessWidget {
             title: const Text('Login/Register'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //return const SignIn();
                 return const Authentication();
               },),),},
           ),
@@ -129,8 +129,7 @@ class SideDrawerReg extends StatelessWidget {
           ListTile(
             //leading: const Icon(Icons.home),
             title: const Text('Tuning'),
-            onTap: () =>
-            {
+            onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const TuningReg();
               },),),},
@@ -217,27 +216,6 @@ class VirtualBand extends StatelessWidget {
       ),
       body: const Center(
         child: Text('Virtual Band'),
-      ),
-    );
-  }
-}
-
-//Account Widget
-class Profile extends StatelessWidget {
-  const Profile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const SideDrawerReg(),
-      appBar: AppBar(
-        leading: BackButton(
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text("Profile"),
-      ),
-      body: const Center(
-        child: Text('Profile'),
       ),
     );
   }
