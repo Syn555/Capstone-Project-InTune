@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'ui/authentication.dart';
 
+// import package to play specific frequency for tuning
+import 'package:sound_generator/sound_generator.dart';
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
