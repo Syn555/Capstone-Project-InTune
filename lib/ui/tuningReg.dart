@@ -6,13 +6,13 @@ import '../main.dart';
 // Implement dropdown button for different instruments for ease of use?
 const List<String> notes = <String>['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-class Tuning extends StatelessWidget {
-  const Tuning({super.key});
+class TuningReg extends StatelessWidget {
+  const TuningReg({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideDrawer(),
+      drawer: const SideDrawerReg(),
       appBar: AppBar(
         title: const Text('Tuning'),
       ),
@@ -20,7 +20,7 @@ class Tuning extends StatelessWidget {
         child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children:
-        const[
+          const[
               Text('Tuning FROM UI FOLDER'),
               NoteSelectionDropdown(),
           ]
