@@ -40,7 +40,10 @@ class Profile extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 25),
               ),
-              onTap: () => {},
+              onTap: () => {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const UserName();
+                },),),},
             ),
             //Change Email
             ListTile(
@@ -50,7 +53,10 @@ class Profile extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 25),
               ),
-              onTap: () => {},
+              onTap: () => {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const Email();
+                },),),},
             ),
             //Change Password
             ListTile(
@@ -59,10 +65,76 @@ class Profile extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 25),
               ),
-              onTap: () => {},
+              onTap: () => {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const Password();
+                },),),},
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+//Username Widget
+class UserName extends StatelessWidget {
+  const UserName({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      //drawer: const SideDrawerReg(),
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text("Change Username"),
+      ),
+      body: const Center(
+        child: Text('Change Username'),
+      ),
+    );
+  }
+}
+
+//Email Widget
+class Email extends StatelessWidget {
+  const Email({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      //drawer: const SideDrawerReg(),
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text("Change Email"),
+      ),
+      body: const Center(
+        child: Text('Change Email'),
+      ),
+    );
+  }
+}
+
+//Email Widget
+class Password extends StatelessWidget {
+  const Password({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      //drawer: const SideDrawerReg(),
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text("Change Password"),
+      ),
+      body: const Center(
+        child: Text('Change Password'),
       ),
     );
   }
