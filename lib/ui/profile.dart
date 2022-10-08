@@ -14,8 +14,55 @@ class Profile extends StatelessWidget {
         ),
         title: const Text("Profile"),
       ),
-      body: const Center(
-        child: Text('Profile'),
+      body:  Center(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(
+              height: 150,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                ),
+                child: Center(
+                  child: Text(
+                    'Profile',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 35),
+                  ),
+                ),
+              ),
+            ),
+
+            //Change Username
+            ListTile(
+              title: const Text(
+                'Change Username',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 25),
+              ),
+              onTap: () => {},
+            ),
+            //Change Email
+            ListTile(
+              //leading: const Icon(Icons.home),
+              title: const Text(
+                'Change Email',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 25),
+              ),
+              onTap: () => {},
+            ),
+            //Change Password
+            ListTile(
+              title: const Text(
+                'Change Password',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 25),
+              ),
+              onTap: () => {},
+            ),
+          ],
+        ),
       ),
     );
   }

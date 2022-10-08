@@ -40,7 +40,7 @@ class SideDrawer extends StatelessWidget {
             height: 150,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blueGrey,
+                color: Colors.blue,
               ),
               child: Center(
                 child: Text(
@@ -104,7 +104,7 @@ class SideDrawerReg extends StatelessWidget {
             height: 150,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blueGrey,
+                color: Colors.blue,
               ),
               child: Center(
                 child: Text(
