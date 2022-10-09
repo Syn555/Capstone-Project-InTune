@@ -52,6 +52,8 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -69,6 +71,13 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation platform('com.google.firebase:firebase-bom:30.4.1') // Firebase dependency
-    implementation 'com.google.firebase:firebase-analytics-ktx' //Google Analytics
+    //multidex
+    implementation 'com.android.support:multidex:1.0.3'
+
+
+
+    implementation platform('com.google.firebase:firebase-bom:30.5.0') // Firebase dependency
+    implementation 'com.google.firebase:firebase-database-ktx' //Firebase Database
+    implementation 'com.google.firebase:firebase-analytics' //Google Analytics
+    implementation 'com.google.firebase:firebase-auth-ktx' //Firebase Authentication
 }
