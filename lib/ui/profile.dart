@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
+import 'package:capstone_project_intune/ui/updateProfile.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -7,16 +7,16 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideDrawerReg(),
+      //drawer: const SideDrawerReg(),
       appBar: AppBar(
         leading: BackButton(
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text("Profile"),
       ),
-      body:  Center(
-        child: Column(
-          children: <Widget>[
+
+      body: Column(
+        children: <Widget>[
             const SizedBox(
               height: 150,
               child: DrawerHeader(
@@ -33,108 +33,69 @@ class Profile extends StatelessWidget {
               ),
             ),
 
-            //Change Username
-            ListTile(
-              title: const Text(
-                'Change Username',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
+            //Username
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child:
+              ListTile(
+                title: Text(
+                  'Username',
+                  style: TextStyle(
+                      fontSize: 25,
+                      letterSpacing: 2
+                  ),
+                ),
               ),
-              onTap: () => {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const UserName();
-                },),),},
             ),
-            //Change Email
-            ListTile(
-              //leading: const Icon(Icons.home),
-              title: const Text(
-                'Change Email',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
-              ),
-              onTap: () => {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const Email();
-                },),),},
+            //Email
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child:
+                ListTile(
+                  title: Text(
+                    'Email',
+                    style: TextStyle(
+                        fontSize: 25,
+                        letterSpacing: 2
+                    ),
+                  ),
+                ),
             ),
-            //Change Password
-            ListTile(
-              title: const Text(
-                'Change Password',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
-              ),
-              onTap: () => {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const Password();
-                },),),},
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
-//Username Widget
-class UserName extends StatelessWidget {
-  const UserName({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      //drawer: const SideDrawerReg(),
-      appBar: AppBar(
-        leading: BackButton(
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text("Change Username"),
-      ),
-      body: const Center(
-        child: Text('Change Username'),
-      ),
-    );
-  }
-}
-
-//Email Widget
-class Email extends StatelessWidget {
-  const Email({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      //drawer: const SideDrawerReg(),
-      appBar: AppBar(
-        leading: BackButton(
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text("Change Email"),
-      ),
-      body: const Center(
-        child: Text('Change Email'),
-      ),
-    );
-  }
-}
-
-//Email Widget
-class Password extends StatelessWidget {
-  const Password({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      //drawer: const SideDrawerReg(),
-      appBar: AppBar(
-        leading: BackButton(
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text("Change Password"),
-      ),
-      body: const Center(
-        child: Text('Change Password'),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              child:
+              ElevatedButton(
+                onPressed: () => {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const UpdateProfile();},),),
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade100),
+                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  //padding: const EdgeInsets.all(10)
+                ),
+                child: Row(
+                    children: const [
+                      Expanded(
+                          child: Text(
+                          "Update Account",
+                          style: TextStyle(
+                              fontSize: 25,
+                              letterSpacing: 3,
+                              color: Colors.black
+                          ),
+                        )
+                      ),
+                      Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.black
+                      )
+                    ]
+                ),
+              )
+          )
+        ],
       ),
     );
   }
