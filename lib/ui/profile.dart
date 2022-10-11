@@ -1,5 +1,5 @@
 import 'package:capstone_project_intune/ui/tuning.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone_project_intune/ui/updateProfile.dart';
 
@@ -25,7 +25,7 @@ class _Profile extends State<Profile> {
 
       body: Column(
         children: <Widget>[
-            const SizedBox(
+          const SizedBox(
               height: 150,
               child: DrawerHeader(
                 decoration: BoxDecoration(
@@ -35,7 +35,7 @@ class _Profile extends State<Profile> {
                   child: Text(
                     'Profile',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 35),
+                    style: TextStyle(color: Colors.white, fontSize: 40),
                   ),
                 ),
               ),
@@ -43,7 +43,7 @@ class _Profile extends State<Profile> {
 
           //Account Settings
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
               child:
               ElevatedButton(
                 onPressed: () => {
@@ -59,8 +59,8 @@ class _Profile extends State<Profile> {
                           child: Text(
                           "Update Account",
                           style: TextStyle(
-                              fontSize: 25,
-                              letterSpacing: 3,
+                              fontSize: 30,
+                              letterSpacing: 2,
                               color: Colors.black
                           ),
                         )
@@ -76,7 +76,7 @@ class _Profile extends State<Profile> {
 
           //Uploaded Sheets
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
               child:
               ElevatedButton(
                 onPressed: () => {
@@ -92,8 +92,8 @@ class _Profile extends State<Profile> {
                           child: Text(
                             "Uploaded Sheets",
                             style: TextStyle(
-                                fontSize: 25,
-                                letterSpacing: 3,
+                                fontSize: 30,
+                                letterSpacing: 2,
                                 color: Colors.black
                             ),
                           )
@@ -109,7 +109,7 @@ class _Profile extends State<Profile> {
 
           //Created Sheets
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
               child:
               ElevatedButton(
                 onPressed: () => {
@@ -125,8 +125,8 @@ class _Profile extends State<Profile> {
                           child: Text(
                             "Created Sheets",
                             style: TextStyle(
-                                fontSize: 25,
-                                letterSpacing: 3,
+                                fontSize: 30,
+                                letterSpacing: 2,
                                 color: Colors.black
                             ),
                           )
@@ -140,9 +140,11 @@ class _Profile extends State<Profile> {
               )
           ),
 
+          const SizedBox(height: 50,),
+
           //Log Out
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
               child:
               ElevatedButton(
                 onPressed: () => {
@@ -159,8 +161,8 @@ class _Profile extends State<Profile> {
                           child: Text(
                             "Log Out",
                             style: TextStyle(
-                                fontSize: 25,
-                                letterSpacing: 3,
+                                fontSize: 30,
+                                letterSpacing: 2,
                                 color: Colors.red
                             ),
                           )
@@ -168,6 +170,42 @@ class _Profile extends State<Profile> {
                       Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.red
+                      )
+                    ]
+                ),
+              )
+          ),
+
+          //Delete Account
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+              child:
+              ElevatedButton(
+                onPressed: () =>{
+                  FirebaseAuth.instance.currentUser!.delete(),
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const Tuning();
+                  },),),
+                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Account Deleted"),),),
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red.shade900),
+                ),
+                child: Row(
+                    children: const [
+                       Expanded(
+                          child: Text(
+                            "Delete Account",
+                            style: TextStyle(
+                                fontSize: 30,
+                                letterSpacing: 2,
+                                color: Colors.white
+                            ),
+                          )
+                      ),
+                      Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
                       )
                     ]
                 ),
