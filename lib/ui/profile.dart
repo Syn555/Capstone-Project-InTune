@@ -1,4 +1,5 @@
 import 'package:capstone_project_intune/ui/tuning.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone_project_intune/ui/updateProfile.dart';
 
@@ -7,6 +8,7 @@ class Profile extends StatefulWidget{
 
   @override
   _Profile createState() => _Profile();
+
 }
 
 class _Profile extends State<Profile> {
@@ -50,8 +52,6 @@ class _Profile extends State<Profile> {
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade100),
-                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  //padding: const EdgeInsets.all(10)
                 ),
                 child: Row(
                     children: const [
@@ -85,8 +85,6 @@ class _Profile extends State<Profile> {
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade100),
-                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  //padding: const EdgeInsets.all(10)
                 ),
                 child: Row(
                     children: const [
@@ -120,8 +118,6 @@ class _Profile extends State<Profile> {
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade100),
-                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  //padding: const EdgeInsets.all(10)
                 ),
                 child: Row(
                     children: const [
@@ -150,13 +146,12 @@ class _Profile extends State<Profile> {
               child:
               ElevatedButton(
                 onPressed: () => {
+                  //FirebaseAuth.instance.signOut(),
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const Tuning();
                 },),),},
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade100),
-                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  //padding: const EdgeInsets.all(10)
                 ),
                 child: Row(
                     children: const [
@@ -181,9 +176,5 @@ class _Profile extends State<Profile> {
         ],
       ),
     );
-  }
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

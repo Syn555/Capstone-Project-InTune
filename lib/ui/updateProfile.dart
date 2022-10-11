@@ -40,8 +40,19 @@ class _UpdateProfile extends State<UpdateProfile> {
 
         child: ListView(
          children: <Widget> [
+           //Change Username
            const SizedBox(height: 35,),
-           buildTextDisplay("Username", username),
+           Padding(
+             padding: const EdgeInsets.symmetric(vertical: 20),
+             child:
+             Text(
+               "Current Username: ${displayUsername()}",
+               style: const TextStyle(
+                   fontSize: 25,
+                   letterSpacing: 2
+               ),
+             ),
+           ),
            buildTextField("New Username", false, _username),
            ElevatedButton(
              onPressed: () {
@@ -50,7 +61,7 @@ class _UpdateProfile extends State<UpdateProfile> {
                  setState(() {
                    username = _username.text;
                  });
-                 print(_username.text);
+                 //print(_username.text);
                }
              },
              style: ElevatedButton.styleFrom(
@@ -69,8 +80,19 @@ class _UpdateProfile extends State<UpdateProfile> {
              )
          ),
 
+           //Change Email
            const SizedBox(height: 35,),
-            buildTextDisplay("Email", email),
+            Padding(
+               padding: const EdgeInsets.symmetric(vertical: 20),
+               child:
+               Text(
+                 "Current Email: ${user!.email}",
+                 style: const TextStyle(
+                     fontSize: 25,
+                     letterSpacing: 2
+                 ),
+               ),
+             ),
             buildTextField("New Email", false, _email),
             ElevatedButton(
                onPressed: () {
@@ -79,7 +101,8 @@ class _UpdateProfile extends State<UpdateProfile> {
                      email = _email.text;
                    });
                    changeEmail();
-                   print(_email.text);
+                   //print(user!.email);
+                   //print(_email.text);
                  }
                },
                style: ElevatedButton.styleFrom(
@@ -98,8 +121,12 @@ class _UpdateProfile extends State<UpdateProfile> {
                )
            ),
 
-           const SizedBox(height: 35,),
-            buildTextDisplay("Password", password),
+            //Change Password
+            const SizedBox(height: 35,),
+            const Padding(
+               padding: EdgeInsets.symmetric(vertical: 20),
+               child: null
+           ),
             buildTextField("New Password", true, _password),
             ElevatedButton(
                onPressed: () {
@@ -108,7 +135,7 @@ class _UpdateProfile extends State<UpdateProfile> {
                      password = _password.text;
                    });
                    changePassword();
-                   print(_password.text);
+                   //print(_password.text);
                  }
                },
                style: ElevatedButton.styleFrom(
@@ -127,24 +154,11 @@ class _UpdateProfile extends State<UpdateProfile> {
                )
            ),
 
-           const SizedBox(height: 35,),
+            const SizedBox(height: 35,),
          ],
         ),
        ),
      ),
-    );
-  }
-
-  Widget buildTextDisplay(String desc, String info){
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child:Text(
-        "$desc: $info",
-        style: const TextStyle(
-            fontSize: 25,
-            letterSpacing: 2
-        ),
-      ),
     );
   }
 
@@ -204,7 +218,15 @@ class _UpdateProfile extends State<UpdateProfile> {
   @override
   void dispose() {
     _password.dispose();
+    _email.dispose();
     super.dispose();
+  }
+
+  String? displayUsername(){
+    if(user!.displayName != null){
+      return user!.displayName;
+    }
+    return " ";
   }
 }
 
