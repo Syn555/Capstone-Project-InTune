@@ -1,13 +1,19 @@
+import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone_project_intune/ui/updateProfile.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget{
   const Profile({super.key});
+
+  @override
+  _Profile createState() => _Profile();
+}
+
+class _Profile extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //drawer: const SideDrawerReg(),
       appBar: AppBar(
         leading: BackButton(
           onPressed: () => Navigator.pop(context),
@@ -33,35 +39,7 @@ class Profile extends StatelessWidget {
               ),
             ),
 
-            //Username
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child:
-              ListTile(
-                title: Text(
-                  'Username',
-                  style: TextStyle(
-                      fontSize: 25,
-                      letterSpacing: 2
-                  ),
-                ),
-              ),
-            ),
-            //Email
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child:
-                ListTile(
-                  title: Text(
-                    'Email',
-                    style: TextStyle(
-                        fontSize: 25,
-                        letterSpacing: 2
-                    ),
-                  ),
-                ),
-            ),
-
+          //Account Settings
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
               child:
@@ -94,9 +72,118 @@ class Profile extends StatelessWidget {
                     ]
                 ),
               )
+          ),
+
+          //Uploaded Sheets
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              child:
+              ElevatedButton(
+                onPressed: () => {
+                 // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                 //   return const UpdateProfile();},),),
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade100),
+                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  //padding: const EdgeInsets.all(10)
+                ),
+                child: Row(
+                    children: const [
+                      Expanded(
+                          child: Text(
+                            "Uploaded Sheets",
+                            style: TextStyle(
+                                fontSize: 25,
+                                letterSpacing: 3,
+                                color: Colors.black
+                            ),
+                          )
+                      ),
+                      Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.black
+                      )
+                    ]
+                ),
+              )
+          ),
+
+          //Created Sheets
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              child:
+              ElevatedButton(
+                onPressed: () => {
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) {
+                   // return const UpdateProfile();},),),
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade100),
+                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  //padding: const EdgeInsets.all(10)
+                ),
+                child: Row(
+                    children: const [
+                      Expanded(
+                          child: Text(
+                            "Created Sheets",
+                            style: TextStyle(
+                                fontSize: 25,
+                                letterSpacing: 3,
+                                color: Colors.black
+                            ),
+                          )
+                      ),
+                      Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.black
+                      )
+                    ]
+                ),
+              )
+          ),
+
+          //Log Out
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              child:
+              ElevatedButton(
+                onPressed: () => {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const Tuning();
+                },),),},
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade100),
+                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  //padding: const EdgeInsets.all(10)
+                ),
+                child: Row(
+                    children: const [
+                      Expanded(
+                          child: Text(
+                            "Log Out",
+                            style: TextStyle(
+                                fontSize: 25,
+                                letterSpacing: 3,
+                                color: Colors.red
+                            ),
+                          )
+                      ),
+                      Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.red
+                      )
+                    ]
+                ),
+              )
           )
         ],
       ),
     );
+  }
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

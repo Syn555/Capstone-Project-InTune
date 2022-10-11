@@ -69,13 +69,13 @@ class SideDrawer extends StatelessWidget {
           ),
           //Practice
           ListTile(
-             leading: const Icon(Icons.lock),
+            leading: const Icon(Icons.lock),
             title: const Text('Practice'),
             onTap: () => {},
           ),
           //Composition
           ListTile(
-             leading: const Icon(Icons.lock),
+            leading: const Icon(Icons.lock),
             title: const Text('Composition'),
             onTap: () => {},
           ),

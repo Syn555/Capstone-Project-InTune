@@ -1,3 +1,5 @@
+import 'package:capstone_project_intune/ui/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UpdateProfile extends StatefulWidget{
@@ -10,10 +12,18 @@ class UpdateProfile extends StatefulWidget{
 class _UpdateProfile extends State<UpdateProfile> {
   bool showPassword = true;
 
+  final user = FirebaseAuth.instance.currentUser;
+
+  final _username = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  var username = "";
+  var email = "";
+  var password = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //drawer: const SideDrawerReg(),
       appBar: AppBar(
         leading: BackButton(
           onPressed: () => Navigator.pop(context),
@@ -27,65 +37,123 @@ class _UpdateProfile extends State<UpdateProfile> {
          onTap: () {
            FocusScope.of(context).unfocus();
          },
+
         child: ListView(
-         children: [
-           const SizedBox(
-             height: 35,
-           ),
-
-           buildTextField("Change Username", false),
-           buildTextField("Change Email", false),
-           buildTextField("Change Password", true),
-
-           const SizedBox(
-             height: 35,
-           ),
-
-           Row(
-             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-             children:[
-               OutlinedButton(
-                 onPressed: (){},
-                 style: OutlinedButton.styleFrom(
-                   padding: const EdgeInsets.symmetric(horizontal: 50),
-                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
-                 ),
-                 child: const Text(
-                     "Cancel",
-                      style: TextStyle(
-                        fontSize: 14,
-                        letterSpacing: 2,
-                        color: Colors.black
-                      ),
-                 )
-              ),
-             ElevatedButton(
-                 onPressed: (){},
-                 style: ElevatedButton.styleFrom(
-                     foregroundColor: Colors.blue,
-                     padding: const EdgeInsets.symmetric(horizontal: 50),
-                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
-                 ),
-                 child: const Text(
-                   "Save",
-                   style: TextStyle(
-                    fontSize: 14,
-                    letterSpacing: 2,
-                    color: Colors.white
-                   ),
-                 )
+         children: <Widget> [
+           const SizedBox(height: 35,),
+           buildTextDisplay("Username", username),
+           buildTextField("New Username", false, _username),
+           ElevatedButton(
+             onPressed: () {
+               if (_username.text != "") {
+                 //user?.updatePassword(password);
+                 setState(() {
+                   username = _username.text;
+                 });
+                 print(_username.text);
+               }
+             },
+             style: ElevatedButton.styleFrom(
+                 foregroundColor: Colors.blue,
+                 padding: const EdgeInsets.symmetric(horizontal: 50),
+                 shape: RoundedRectangleBorder(
+                     borderRadius: BorderRadius.circular(20))
              ),
-           ])],
+             child: const Text(
+               "Change Username",
+               style: TextStyle(
+                   fontSize: 14,
+                   letterSpacing: 2,
+                   color: Colors.white
+               ),
+             )
+         ),
+
+           const SizedBox(height: 35,),
+            buildTextDisplay("Email", email),
+            buildTextField("New Email", false, _email),
+            ElevatedButton(
+               onPressed: () {
+                 if (_email.text != "") {
+                   setState(() {
+                     email = _email.text;
+                   });
+                   changeEmail();
+                   print(_email.text);
+                 }
+               },
+               style: ElevatedButton.styleFrom(
+                   foregroundColor: Colors.blue,
+                   padding: const EdgeInsets.symmetric(horizontal: 50),
+                   shape: RoundedRectangleBorder(
+                       borderRadius: BorderRadius.circular(20))
+               ),
+               child: const Text(
+                 "Change Email",
+                 style: TextStyle(
+                     fontSize: 14,
+                     letterSpacing: 2,
+                     color: Colors.white
+                 ),
+               )
+           ),
+
+           const SizedBox(height: 35,),
+            buildTextDisplay("Password", password),
+            buildTextField("New Password", true, _password),
+            ElevatedButton(
+               onPressed: () {
+                 if (_password.text != "") {
+                   setState(() {
+                     password = _password.text;
+                   });
+                   changePassword();
+                   print(_password.text);
+                 }
+               },
+               style: ElevatedButton.styleFrom(
+                   foregroundColor: Colors.blue,
+                   padding: const EdgeInsets.symmetric(horizontal: 50),
+                   shape: RoundedRectangleBorder(
+                       borderRadius: BorderRadius.circular(20))
+               ),
+               child: const Text(
+                 "Change Password",
+                 style: TextStyle(
+                     fontSize: 14,
+                     letterSpacing: 2,
+                     color: Colors.white
+                 ),
+               )
+           ),
+
+           const SizedBox(height: 35,),
+         ],
         ),
        ),
      ),
     );
   }
 
-  Widget buildTextField(String label, bool isPassword){
+  Widget buildTextDisplay(String desc, String info){
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child:Text(
+        "$desc: $info",
+        style: const TextStyle(
+            fontSize: 25,
+            letterSpacing: 2
+        ),
+      ),
+    );
+  }
+
+  Widget buildTextField(String label, bool isPassword, TextEditingController info){
     return Padding(
       padding: const EdgeInsets.only(bottom: 35),
-      child: TextField(
+      child:
+      TextField(
+        controller: info,
         obscureText: isPassword ? showPassword : false,
         decoration: InputDecoration(
           suffixIcon: isPassword ? IconButton(
@@ -106,4 +174,38 @@ class _UpdateProfile extends State<UpdateProfile> {
       ),
     );
   }
+
+  //Change Password on Firebase
+  changePassword() async{
+    try{
+      await user!.updatePassword(password);
+      FirebaseAuth.instance.signOut();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Authentication()));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Password has changed ... Login again"),),);
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
+  //Change Email on Firebase
+  changeEmail() async{
+    try{
+      await user!.updateEmail(email);
+      FirebaseAuth.instance.signOut();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Authentication()));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Email has changed ... Login again"),),);
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
+  @override
+  void dispose() {
+    _password.dispose();
+    super.dispose();
+  }
 }
+
+
