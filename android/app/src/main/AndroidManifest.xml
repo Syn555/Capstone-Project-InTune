@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.capstone_project_intune">
+    package="com.ymd.flutter_audio_capture">
    <application
         android:label="capstone_project_intune"
         android:name="${applicationName}"
@@ -31,4 +32,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    //audio capture
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
 </manifest>

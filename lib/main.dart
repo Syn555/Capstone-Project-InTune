@@ -1,7 +1,16 @@
+import 'dart:typed_data';
+import 'package:capstone_project_intune/pitch_detector.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pitchupdart/instrument_type.dart';
+import 'package:pitchupdart/pitch_handler.dart';
 import 'firebase_options.dart';
 import 'ui/authentication.dart';
+import 'package:flutter_audio_capture/flutter_audio_capture.dart';
+
+
+// import package to play specific frequency for tuning
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'InTune',
-      home: Tuning(),
+      home: Tuning(title: 'Tuning',),
       debugShowCheckedModeBanner: false, //setup this property
     );
   }
@@ -65,7 +74,7 @@ class SideDrawer extends StatelessWidget {
             title: const Text('Tuning'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Tuning();
+                return const Tuning(title: 'Tuning',);
               },),),},
           ),
           //Practice
@@ -142,10 +151,13 @@ class SideDrawerReg extends StatelessWidget {
           ListTile(
             //leading: const Icon(Icons.home),
             title: const Text('Tuning'),
-            onTap: () => {
+            onTap: () =>
+            {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const TuningReg();
+                return const Tuning(title: 'Tuning',);
               },),),},
+              /* Navigator.push(context, MaterialPageRoute(builder: (context) => const Tuning()),
+              )} */
           ),
           //Practice
           ListTile(
@@ -181,6 +193,7 @@ class SideDrawerReg extends StatelessWidget {
 }
 
 //Tuning Widget
+/*
 class Tuning extends StatelessWidget {
   const Tuning({super.key});
 
@@ -196,9 +209,92 @@ class Tuning extends StatelessWidget {
       ),
     );
   }
-}
 
-class TuningReg extends Tuning {
+
+
+  Future<void> _stopCapture() async {
+    await _audioRecorder.stop();
+
+    setState(() {
+      note = "";
+      status = "Click on start";
+    });
+  }
+
+  void listener(dynamic obj) {
+    //Gets the audio sample
+    var buffer = Float64List.fromList(obj.cast<double>());
+    final List<double> audioSample = buffer.toList();
+
+    //Uses pitch_detector_dart library to detect a pitch from the audio sample
+    final result = pitchDetectorDart.getPitch(audioSample);
+
+    //If there is a pitch - evaluate it
+    if (result.pitched) {
+      //Uses the pitchupDart library to check a given pitch for a Guitar
+      final handledPitchResult = pitchupDart.handlePitch(result.pitch);
+
+      //Updates the state with the result
+      setState(() {
+        note = handledPitchResult.note;
+        status = handledPitchResult.tuningStatus.toString();
+      });
+    }
+  }
+
+  void onError(Object e) {
+    print(e);
+  }
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const SideDrawer(),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(children: [
+          Center(
+              child: Text(
+                note,
+                style: const TextStyle(
+                    color: Colors.black87,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold),
+              )),
+          const Spacer(),
+          Center(
+              child: Text(
+                status,
+                style: const TextStyle(
+                    color: Colors.black87,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold),
+              )),
+          Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: _startCapture,
+                              child: const Text("Start")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: _stopCapture, child: const Text("Stop")))),
+                ],
+              ))
+        ]),
+      ),
+    );
+  }
+}
+*/
+/*
+class TuningReg extends Tuning() {
   const TuningReg({super.key});
 
   @override
@@ -214,6 +310,113 @@ class TuningReg extends Tuning {
     );
   }
 }
+*/
+class Tuning extends StatefulWidget {
+  const Tuning({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<Tuning> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<Tuning> {
+  final _audioRecorder = FlutterAudioCapture();
+  final pitchDetectorDart = PitchDetector(44100, 2000);
+  final pitchupDart = PitchHandler(InstrumentType.guitar);
+
+  var note = "";
+  var status = "Click on start";
+
+  Future<void> _startCapture() async {
+    await _audioRecorder.start(listener, onError,
+        sampleRate: 44100, bufferSize: 3000);
+
+    setState(() {
+      note = "";
+      status = "Play something";
+    });
+  }
+
+  Future<void> _stopCapture() async {
+    await _audioRecorder.stop();
+
+    setState(() {
+      note = "";
+      status = "Click on start";
+    });
+  }
+
+  void listener(dynamic obj) {
+    //Gets the audio sample
+    var buffer = Float64List.fromList(obj.cast<double>());
+    final List<double> audioSample = buffer.toList();
+
+    //Uses pitch_detector_dart library to detect a pitch from the audio sample
+    final result = pitchDetectorDart.getPitch(audioSample);
+
+    //If there is a pitch - evaluate it
+    if (result.pitched) {
+      //Uses the pitchupDart library to check a given pitch for a Guitar
+      final handledPitchResult = pitchupDart.handlePitch(result.pitch);
+
+      //Updates the state with the result
+      setState(() {
+        note = handledPitchResult.note;
+        status = handledPitchResult.tuningStatus.toString();
+      });
+    }
+  }
+
+  void onError(Object e) {
+    print(e);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(children: [
+          Center(
+              child: Text(
+                note,
+                style: const TextStyle(
+                    color: Colors.black87,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold),
+              )),
+          const Spacer(),
+          Center(
+              child: Text(
+                status,
+                style: const TextStyle(
+                    color: Colors.black87,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold),
+              )),
+          Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: _startCapture,
+                              child: const Text("Start")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: _stopCapture, child: const Text("Stop")))),
+                ],
+              ))
+        ]),
+      ),
+    );
+  }
+}
+
 
 //Practice Widget
 class Practice extends StatelessWidget {
