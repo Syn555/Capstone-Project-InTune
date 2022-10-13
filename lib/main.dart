@@ -375,7 +375,6 @@ class _MyHomePageState extends State<Tuning> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideDrawer(),
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -404,15 +403,12 @@ class _MyHomePageState extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
-                            heroTag: "start",
                               onPressed: _startCapture,
                               child: const Text("Start")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
-                            heroTag: "stop",
-                              onPressed: _stopCapture,
-                              child: const Text("Stop")))),
+                              onPressed: _stopCapture, child: const Text("Stop")))),
                 ],
               ))
         ]),
