@@ -312,6 +312,20 @@ class TuningReg extends Tuning() {
 }
 */
 class Tuning extends StatefulWidget {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const SideDrawer(),
+      appBar: AppBar(
+        title: const Text('Tuning'),
+      ),
+      body: const Center(
+        child: Text('Tuning'),
+      ),
+    );
+  }
   const Tuning({Key? key, required this.title}) : super(key: key);
 
   final String title;
