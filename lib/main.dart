@@ -432,10 +432,10 @@ class _MyHomePageState extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
-                          onPressed: (){
-                          notePicked = "C#".toString();
+                              onPressed: (){
+                                notePicked = "C#".toString();
 
-                          }, child: const Text("C#")))),
+                              }, child: const Text("C#")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
@@ -464,6 +464,13 @@ class _MyHomePageState extends State<Tuning> {
                                 notePicked = "F".toString();
 
                               }, child: const Text("F")))),
+
+                ],
+              )),
+
+          Expanded(
+              child: Row(
+                children: [
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
