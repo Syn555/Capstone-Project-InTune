@@ -340,6 +340,8 @@ class _MyHomePageState extends State<Tuning> {
   final pitchupDart = PitchHandler(InstrumentType.guitar);
 
   var note = "";
+  var notePicked = "";
+  var noteStatus= "";
   var status = "Click on start";
 
   Future<void> _startCapture() async {
@@ -373,11 +375,17 @@ class _MyHomePageState extends State<Tuning> {
     if (result.pitched) {
       //Uses the pitchupDart library to check a given pitch for a Guitar
       final handledPitchResult = pitchupDart.handlePitch(result.pitch);
+      status = handledPitchResult.tuningStatus.toString();
 
       //Updates the state with the result
       setState(() {
-        note = handledPitchResult.note;
-        status = handledPitchResult.tuningStatus.toString();
+        if(status == "TuningStatus.tuned"){
+            status = "Tuned!!!!".toUpperCase();
+        }else if (status == "TuningStatus.toohigh" || status == "TuningStatus.waytoohigh"){
+          status = "Too high, please tune lower";
+        }else if( status == "TuningStatus.toolow" || status ==  "TuningStatus.waytoolow"){
+          status = "Too low, please tune higher";
+        }
       });
     }
   }
@@ -396,10 +404,10 @@ class _MyHomePageState extends State<Tuning> {
         child: Column(children: [
           Center(
               child: Text(
-                note,
+                notePicked,
                 style: const TextStyle(
-                    color: Colors.black87,
-                    fontSize: 25.0,
+                    color: Colors.blue,
+                    fontSize: 50.0,
                     fontWeight: FontWeight.bold),
               )),
           const Spacer(),
@@ -408,7 +416,7 @@ class _MyHomePageState extends State<Tuning> {
                 status,
                 style: const TextStyle(
                     color: Colors.black87,
-                    fontSize: 14.0,
+                    fontSize: 20.0,
                     fontWeight: FontWeight.bold),
               )),
           Expanded(
@@ -417,12 +425,106 @@ class _MyHomePageState extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "C".toString();
+                              },
+                              child: const Text("C")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                          onPressed: (){
+                          notePicked = "C#".toString();
+
+                          }, child: const Text("C#")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "D".toString();
+
+                              }, child: const Text("D")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "D#".toString();
+
+                              }, child: const Text("D#")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "E".toString();
+
+                              }, child: const Text("E")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "F".toString();
+
+                              }, child: const Text("F")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "F#".toString();
+
+                              }, child: const Text("F#")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "G".toString();
+
+                              }, child: const Text("G")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "G#".toString();
+
+                              }, child: const Text("G#")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "A".toString();
+
+                              }, child: const Text("A")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "A#".toString();
+
+                              }, child: const Text("A#")))),
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              onPressed: (){
+                                notePicked = "B".toString();
+
+                              }, child: const Text("B")))),
+                ],
+              )),
+          Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Center(
+                          child: FloatingActionButton(
+                              backgroundColor: Colors.green,
+                              splashColor: Colors.blueGrey,
                               onPressed: _startCapture,
                               child: const Text("Start")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
-                              onPressed: _stopCapture, child: const Text("Stop")))),
+                              backgroundColor: Colors.red,
+                              splashColor: Colors.blueGrey,
+                              onPressed: _stopCapture,
+                              child: const Text("Stop")))),
                 ],
               ))
         ]),
