@@ -151,6 +151,7 @@ class _TuningReg extends State<TuningReg> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "Start",
                               backgroundColor: Colors.green,
                               splashColor: Colors.blueGrey,
                               onPressed: _startCapture,
@@ -158,6 +159,7 @@ class _TuningReg extends State<TuningReg> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "Stop",
                               backgroundColor: Colors.red,
                               splashColor: Colors.blueGrey,
                               onPressed: _stopCapture,

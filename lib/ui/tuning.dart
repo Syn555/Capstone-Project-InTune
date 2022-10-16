@@ -14,8 +14,16 @@ class Tuning extends StatefulWidget {
   @override
   State<Tuning> createState() => _Tuning();
 }
-class Tuning extends StatelessWidget {
-  const Tuning({super.key});
+
+class _Tuning extends State<Tuning> {
+  final _audioRecorder = FlutterAudioCapture();
+  final pitchDetectorDart = PitchDetector(44100, 2000);
+  final pitchupDart = PitchHandler(InstrumentType.guitar);
+
+  var note = "";
+  var notePicked = "";
+  var noteStatus= "";
+  var status = "Click on start";
 
   @override
   Widget build(BuildContext context) {
@@ -51,42 +59,42 @@ class Tuning extends StatelessWidget {
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "C".toString();
-                                },
+                              },
                               child: const Text("C")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "C#".toString();
-                                },
+                              },
                               child: const Text("C#")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "D".toString();
-                                },
+                              },
                               child: const Text("D")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "D#".toString();
-                                },
+                              },
                               child: const Text("D#")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "E".toString();
-                                },
+                              },
                               child: const Text("E")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "F".toString();
-                                },
+                              },
                               child: const Text("F")))),
                 ],
               )),
@@ -98,42 +106,42 @@ class Tuning extends StatelessWidget {
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "F#".toString();
-                                },
+                              },
                               child: const Text("F#")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "G".toString();
-                                },
+                              },
                               child: const Text("G")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "G#".toString();
-                                },
+                              },
                               child: const Text("G#")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "A".toString();
-                                },
+                              },
                               child: const Text("A")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "A#".toString();
-                                },
+                              },
                               child: const Text("A#")))),
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
                               onPressed: (){
                                 notePicked = "B".toString();
-                                },
+                              },
                               child: const Text("B")))),
                 ],
               )),
