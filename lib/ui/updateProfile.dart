@@ -14,7 +14,7 @@ class _UpdateProfile extends State<UpdateProfile> {
 
   final user = FirebaseAuth.instance.currentUser;
 
-  final _username = TextEditingController();
+  //final _username = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
   var username = "";
@@ -40,6 +40,7 @@ class _UpdateProfile extends State<UpdateProfile> {
 
         child: ListView(
          children: <Widget> [
+           /*
            //Change Username
            const SizedBox(height: 35,),
            Padding(
@@ -79,7 +80,7 @@ class _UpdateProfile extends State<UpdateProfile> {
                ),
              )
          ),
-
+          */
            //Change Email
             const SizedBox(height: 35,),
             Padding(
@@ -221,13 +222,14 @@ class _UpdateProfile extends State<UpdateProfile> {
     _email.dispose();
     super.dispose();
   }
-
+  /*
   String? displayUsername(){
     if(user!.displayName != null){
       return user!.displayName;
     }
     return " ";
   }
+  */
 }
 
 
