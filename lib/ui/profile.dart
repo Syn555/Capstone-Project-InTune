@@ -1,4 +1,3 @@
-import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone_project_intune/ui/updateProfile.dart';
@@ -8,11 +7,9 @@ class Profile extends StatefulWidget{
 
   @override
   _Profile createState() => _Profile();
-
 }
 
 class _Profile extends State<Profile> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +65,7 @@ class _Profile extends State<Profile> {
                       Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.black
-                      )
-                    ]
+                      )]
                 ),
               )
           ),
@@ -139,7 +135,6 @@ class _Profile extends State<Profile> {
                 ),
               )
           ),
-
           const SizedBox(height: 50,),
 
           //Log Out
@@ -148,10 +143,8 @@ class _Profile extends State<Profile> {
               child:
               ElevatedButton(
                 onPressed: () => {
-                  //FirebaseAuth.instance.signOut(),
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const Tuning();
-                },),),},
+                  FirebaseAuth.instance.signOut(),
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade100),
                 ),
@@ -183,10 +176,7 @@ class _Profile extends State<Profile> {
               ElevatedButton(
                 onPressed: () =>{
                   FirebaseAuth.instance.currentUser!.delete(),
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const Tuning();
-                  },),),
-                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Account Deleted"),),),
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Account Deleted"),),),
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.red.shade900),

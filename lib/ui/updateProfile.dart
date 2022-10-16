@@ -81,7 +81,7 @@ class _UpdateProfile extends State<UpdateProfile> {
          ),
 
            //Change Email
-           const SizedBox(height: 35,),
+            const SizedBox(height: 35,),
             Padding(
                padding: const EdgeInsets.symmetric(vertical: 20),
                child:
