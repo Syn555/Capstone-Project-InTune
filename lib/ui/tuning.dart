@@ -8,21 +8,14 @@ import 'package:capstone_project_intune/pitch_detector.dart';
 
 class Tuning extends StatefulWidget {
   const Tuning({Key? key, required this.title}) : super(key: key);
+
   final String title;
 
   @override
   State<Tuning> createState() => _Tuning();
 }
-
-class _Tuning extends State<Tuning> {
-  final _audioRecorder = FlutterAudioCapture();
-  final pitchDetectorDart = PitchDetector(44100, 2000);
-  final pitchupDart = PitchHandler(InstrumentType.guitar);
-
-  var note = "";
-  var notePicked = "";
-  var noteStatus= "";
-  var status = "Click on start";
+class Tuning extends StatelessWidget {
+  const Tuning({super.key});
 
   @override
   Widget build(BuildContext context) {
