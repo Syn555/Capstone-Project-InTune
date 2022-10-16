@@ -97,7 +97,6 @@ class _Tuning extends State<Tuning> {
                               child: const Text("F")))),
                 ],
               )),
-
           Expanded(
               child: Row(
                 children: [

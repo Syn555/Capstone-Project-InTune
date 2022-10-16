@@ -98,7 +98,6 @@ class _TuningReg extends State<TuningReg> {
                               child: const Text("F")))),
                 ],
               )),
-
           Expanded(
               child: Row(
                 children: [

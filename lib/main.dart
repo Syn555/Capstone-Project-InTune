@@ -127,17 +127,13 @@ class SideDrawerReg extends StatelessWidget {
           //Tuning
           ListTile(
             title: const Text('Tuning'),
-            onTap: () =>
-            {
+            onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const TuningReg(title: 'Tuning',);
               },),),},
-              /* Navigator.push(context, MaterialPageRoute(builder: (context) => const Tuning()),
-              )} */
           ),
           //Practice
           ListTile(
-            //leading: const Icon(Icons.lock),
             title: const Text('Practice'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -146,7 +142,6 @@ class SideDrawerReg extends StatelessWidget {
           ),
           //Composition
           ListTile(
-            //leading: const Icon(Icons.lock),
             title: const Text('Composition'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -155,7 +150,6 @@ class SideDrawerReg extends StatelessWidget {
           ),
           //Virtual Band
           ListTile(
-            //: const Icon(Icons.lock),
             title: const Text('Virtual Band'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
