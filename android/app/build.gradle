@@ -63,6 +63,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
 }
 
 flutter {
@@ -80,4 +81,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx' //Firebase Database
     implementation 'com.google.firebase:firebase-analytics' //Google Analytics
     implementation 'com.google.firebase:firebase-auth-ktx' //Firebase Authentication
+}
+
+android {
+    defaultConfig {
+        minSdkVersion 23
+    }
 }

@@ -1,3 +1,6 @@
+import 'package:capstone_project_intune/ui/tuning.dart';
+import 'package:capstone_project_intune/ui/tuningReg.dart';
+import 'package:capstone_project_intune/ui/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'InTune',
-      home: Tuning(),
+      home: Tuning(title: 'Tuning'),
       debugShowCheckedModeBanner: false, //setup this property
     );
   }
@@ -37,7 +40,7 @@ class SideDrawer extends StatelessWidget {
             height: 150,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blueGrey,
+                color: Colors.blue,
               ),
               child: Center(
                 child: Text(
@@ -55,7 +58,6 @@ class SideDrawer extends StatelessWidget {
             title: const Text('Login/Register'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //return const SignIn();
                 return const Authentication();
               },),),},
           ),
@@ -63,40 +65,25 @@ class SideDrawer extends StatelessWidget {
           ListTile(
             //leading: const Icon(Icons.home),
             title: const Text('Tuning'),
-            onTap: () => {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Tuning();
-              },),),},
+            onTap: () => {},
           ),
           //Practice
           ListTile(
-             leading: const Icon(Icons.lock),
+            leading: const Icon(Icons.lock),
             title: const Text('Practice'),
-            onTap: () => {
-              //Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //return const Practice();
-              //},),),
-            },
+            onTap: () => {},
           ),
           //Composition
           ListTile(
-             leading: const Icon(Icons.lock),
+            leading: const Icon(Icons.lock),
             title: const Text('Composition'),
-            onTap: () => {
-              //Navigator.push(context, MaterialPageRoute(builder: (context) {
-               // return const Composition();
-              //},),),
-            },
+            onTap: () => {},
           ),
           //Virtual Band
           ListTile(
             leading: const Icon(Icons.lock),
             title: const Text('Virtual Band'),
-            onTap: () => {
-              //Navigator.push(context, MaterialPageRoute(builder: (context) {
-               // return const VirtualBand();
-              //},),),
-              },
+            onTap: () => {},
           ),
         ],
       ),
@@ -117,7 +104,7 @@ class SideDrawerReg extends StatelessWidget {
             height: 150,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blueGrey,
+                color: Colors.blue,
               ),
               child: Center(
                 child: Text(
@@ -131,7 +118,6 @@ class SideDrawerReg extends StatelessWidget {
 
           //Login
           ListTile(
-            //leading: const Icon(Icons.account_circle),
             title: const Text('Profile'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -140,16 +126,14 @@ class SideDrawerReg extends StatelessWidget {
           ),
           //Tuning
           ListTile(
-            //leading: const Icon(Icons.home),
             title: const Text('Tuning'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const TuningReg();
+                return const TuningReg(title: 'Tuning',);
               },),),},
           ),
           //Practice
           ListTile(
-            //leading: const Icon(Icons.lock),
             title: const Text('Practice'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -158,7 +142,6 @@ class SideDrawerReg extends StatelessWidget {
           ),
           //Composition
           ListTile(
-            //leading: const Icon(Icons.lock),
             title: const Text('Composition'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -167,7 +150,6 @@ class SideDrawerReg extends StatelessWidget {
           ),
           //Virtual Band
           ListTile(
-            //: const Icon(Icons.lock),
             title: const Text('Virtual Band'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -175,41 +157,6 @@ class SideDrawerReg extends StatelessWidget {
               },),),},
           ),
         ],
-      ),
-    );
-  }
-}
-
-//Tuning Widget
-class Tuning extends StatelessWidget {
-  const Tuning({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const SideDrawer(),
-      appBar: AppBar(
-        title: const Text('Tuning'),
-      ),
-      body: const Center(
-        child: Text('Tuning'),
-      ),
-    );
-  }
-}
-
-class TuningReg extends Tuning {
-  const TuningReg({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const SideDrawerReg(),
-      appBar: AppBar(
-        title: const Text('Tuning'),
-      ),
-      body: const Center(
-        child: Text('Tuning'),
       ),
     );
   }
@@ -264,27 +211,6 @@ class VirtualBand extends StatelessWidget {
       ),
       body: const Center(
         child: Text('Virtual Band'),
-      ),
-    );
-  }
-}
-
-//Account Widget
-class Profile extends StatelessWidget {
-  const Profile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const SideDrawerReg(),
-      appBar: AppBar(
-        leading: BackButton(
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text("Profile"),
-      ),
-      body: const Center(
-        child: Text('Profile'),
       ),
     );
   }
