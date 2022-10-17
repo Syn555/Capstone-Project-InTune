@@ -188,6 +188,15 @@ class _Tuning extends State<Tuning> {
     });
   }
 
+  Future<void> _stopCaptureTuned() async {
+    await _audioRecorder.stop();
+
+    setState(() {
+      note = "";
+      status = "Tuned!!!!";
+    });
+  }
+
   void listener(dynamic obj) {
     //Gets the audio sample
     var buffer = Float64List.fromList(obj.cast<double>());
@@ -206,10 +215,13 @@ class _Tuning extends State<Tuning> {
       setState(() {
         if(status == "TuningStatus.tuned"){
           status = "Tuned!!!!".toUpperCase();
+          _stopCaptureTuned();
         }else if (status == "TuningStatus.toohigh" || status == "TuningStatus.waytoohigh"){
           status = "Too high, please tune lower";
         }else if( status == "TuningStatus.toolow" || status ==  "TuningStatus.waytoolow"){
           status = "Too low, please tune higher";
+        }else if (status =="TuningStatus.undefined"){
+          status= "Unknown Pitch. Please try again!";
         }
       });
     }
