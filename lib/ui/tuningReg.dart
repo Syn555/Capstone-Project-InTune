@@ -212,6 +212,8 @@ class _TuningReg extends State<TuningReg> {
           status = "Too high, please tune lower";
         }else if( status == "TuningStatus.toolow" || status ==  "TuningStatus.waytoolow"){
           status = "Too low, please tune higher";
+        }else if (status =="TuningStatus.undefined"){
+          status= "Unknown Pitch. Please try again!";
         }
       });
     }
