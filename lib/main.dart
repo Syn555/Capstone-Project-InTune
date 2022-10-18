@@ -1,3 +1,4 @@
+import 'package:capstone_project_intune/ui/intonation.dart';
 import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:capstone_project_intune/ui/tuningReg.dart';
 import 'package:capstone_project_intune/ui/profile.dart';
@@ -137,7 +138,7 @@ class SideDrawerReg extends StatelessWidget {
             title: const Text('Practice'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const Practice();
+              return const Intonation(title: 'Intonation Practice');
               },),),},
           ),
           //Composition
