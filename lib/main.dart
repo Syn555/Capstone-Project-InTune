@@ -4,7 +4,6 @@ import 'package:capstone_project_intune/ui/tuningReg.dart';
 import 'package:capstone_project_intune/ui/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'example.dart';
 import 'firebase_options.dart';
 import 'ui/authentication.dart';
 import 'package:tonic/tonic.dart';
@@ -29,7 +28,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'InTune',
-      home: Tuning(title: 'Tuning'),
+      //home: Tuning(title: 'Tuning'),
+      home: SheetMusicExample(),
       debugShowCheckedModeBanner: false, //setup this property
     );
   }

@@ -8,7 +8,7 @@ class PitchInfo {
   final PitchType type;
   final PitchTune tune;
 
-  PitchInfo({this.tune, this.type});
+  PitchInfo({required this.tune, required this.type});
 
   PitchInfo.parse(Pitch pitch)
       : type = null,

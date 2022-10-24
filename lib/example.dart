@@ -8,7 +8,7 @@ import 'util/scale_asset.dart';
 import 'util/scales.dart';
 
 void main() async{
-  runApp(const SheetMusicExample());
+  runApp(const MaterialApp(home: SheetMusicExample()));
 }
 
 class SheetMusicExample extends StatefulWidget {
