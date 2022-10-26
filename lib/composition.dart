@@ -4,6 +4,7 @@ import 'package:xml/xml.dart';
 import 'package:capstone_project_intune/musicXML/parser.dart';
 import 'package:capstone_project_intune/musicXML/data.dart';
 import 'package:capstone_project_intune/notes/music-line.dart';
+import 'package:capstone_project_intune/main.dart';
 
 Future<Score> loadXML() async {
   final rawFile = await rootBundle.loadString('hanon-no1-stripped.musicxml');
@@ -43,6 +44,10 @@ class _MyHomePageState extends State<MyHomePage> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      drawer: const SideDrawer(),
+      appBar: AppBar(
+        title: Text('Composition'),
+      ),
       body: Center(
         child: Container(
             alignment: Alignment.center,
