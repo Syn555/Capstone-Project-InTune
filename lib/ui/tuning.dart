@@ -28,10 +28,12 @@ class _Tuning extends State<Tuning> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       drawer: const SideDrawer(),
       appBar: AppBar(
         title: Text(widget.title),
       ),
+
       body: Center(
         child: Column(children: [
           Center(
@@ -57,6 +59,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "C",
                               onPressed: (){
                                 notePicked = "C".toString();
                               },
@@ -64,6 +67,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "C#",
                               onPressed: (){
                                 notePicked = "C#".toString();
                               },
@@ -71,6 +75,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "D",
                               onPressed: (){
                                 notePicked = "D".toString();
                               },
@@ -78,6 +83,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "D#",
                               onPressed: (){
                                 notePicked = "D#".toString();
                               },
@@ -85,6 +91,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "E#",
                               onPressed: (){
                                 notePicked = "E".toString();
                               },
@@ -92,6 +99,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "F",
                               onPressed: (){
                                 notePicked = "F".toString();
                               },
@@ -104,6 +112,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "F#",
                               onPressed: (){
                                 notePicked = "F#".toString();
                               },
@@ -111,6 +120,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "GC",
                               onPressed: (){
                                 notePicked = "G".toString();
                               },
@@ -118,6 +128,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "G#",
                               onPressed: (){
                                 notePicked = "G#".toString();
                               },
@@ -125,6 +136,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "A",
                               onPressed: (){
                                 notePicked = "A".toString();
                               },
@@ -132,6 +144,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "A#",
                               onPressed: (){
                                 notePicked = "A#".toString();
                               },
@@ -139,6 +152,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "B",
                               onPressed: (){
                                 notePicked = "B".toString();
                               },
@@ -151,6 +165,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "Start",
                               backgroundColor: Colors.green,
                               splashColor: Colors.blueGrey,
                               onPressed: _startCapture,
@@ -158,6 +173,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              heroTag: "Stop",
                               backgroundColor: Colors.red,
                               splashColor: Colors.blueGrey,
                               onPressed: _stopCapture,

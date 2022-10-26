@@ -1,10 +1,12 @@
 import 'package:capstone_project_intune/ui/tuning.dart';
+import 'package:capstone_project_intune/composition.dart';
 import 'package:capstone_project_intune/ui/tuningReg.dart';
 import 'package:capstone_project_intune/ui/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'ui/authentication.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -145,7 +147,7 @@ class SideDrawerReg extends StatelessWidget {
             title: const Text('Composition'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-               return const Composition();
+               return MyHomePage1();
               },),),},
           ),
           //Virtual Band
@@ -181,8 +183,10 @@ class Practice extends StatelessWidget {
   }
 }
 
+
+
 //Composition Widget
-class Composition extends StatelessWidget {
+/*class Composition extends StatelessWidget {
   const Composition({super.key});
 
   @override
@@ -197,7 +201,7 @@ class Composition extends StatelessWidget {
       ),
     );
   }
-}
+}*/
 
 //Virtual Band Widget
 class VirtualBand extends StatelessWidget {
