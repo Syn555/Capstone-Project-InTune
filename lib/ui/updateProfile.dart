@@ -231,5 +231,3 @@ class _UpdateProfile extends State<UpdateProfile> {
   }
   */
 }
-
-

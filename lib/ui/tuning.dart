@@ -221,7 +221,7 @@ class _Tuning extends State<Tuning> {
         }else if( status == "TuningStatus.toolow" || status ==  "TuningStatus.waytoolow"){
           status = "Too low, please tune higher";
         }else if (status =="TuningStatus.undefined"){
-          status= "Unknown Pitch. Please try again!";
+          status = "Unknown Pitch. Please try again!";
         }
       });
     }
