@@ -50,7 +50,7 @@ paintMeasure(Measure measure, DrawingContext drawC) {
 
     drawC.canvas.translate(alignmentOffset.right, 0);
 
-    // TODO: Spacing between columns, currently static, probably needs to be dynamic
+    //Spacing between columns, currently static, probably needs to be dynamic
     // to justify measures for the whole line
     if(column.length > 0) {
       drawC.canvas.translate(drawC.lineSpacing * 1, 0);
