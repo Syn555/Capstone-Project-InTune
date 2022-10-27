@@ -28,12 +28,10 @@ class _Tuning extends State<Tuning> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       drawer: const SideDrawer(),
       appBar: AppBar(
         title: Text(widget.title),
       ),
-
       body: Center(
         child: Column(children: [
           Center(
