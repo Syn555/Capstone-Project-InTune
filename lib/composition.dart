@@ -174,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //Updates the state with the result
       setState(() {
         if(status == "TuningStatus.tuned"){
-          note = "B";
+          note = "";
           //update("B");
 //testing to see if I an get the actual note printed
           print("Actual note: $note");
