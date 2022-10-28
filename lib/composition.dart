@@ -12,6 +12,7 @@ import 'package:capstone_project_intune/musicXML/data.dart';
 import 'package:capstone_project_intune/notes/music-line.dart';
 import 'package:capstone_project_intune/main.dart';
 
+
 Future<Score> loadXML() async {
   final rawFile = await rootBundle.loadString('hanon-no1-stripped.musicxml');
   final result = parseMusicXML(XmlDocument.parse(rawFile));
@@ -66,8 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Center(
             child: Container(
               alignment: Alignment.center,
-              //width: size.width - 40,
-              //height: size.height - 20,
+              width: size.width - 40,
+              height: size.height-500,
               child: FutureBuilder<Score>(
                   future: loadXML(),
                   builder: (context, snapshot) {
@@ -111,12 +112,28 @@ class _MyHomePageState extends State<MyHomePage> {
                               splashColor: Colors.blueGrey,
                               onPressed: _stopCapture,
                               child: const Text("Stop")))),
+                  Expanded(child: Text(
+                              status,
+                              style: const TextStyle(
+                              color: Colors.black87,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold),
+                              ))
                 ],
               ))
         ],
         )
       ),
     );
+  }
+
+  update(String note) async {
+    final rawFile = await rootBundle.loadString('hanon-no1-stripped.musicxml');
+    var parsedXML= XmlDocument.parse(rawFile);
+    final titles = parsedXML.findAllElements('step');
+    titles
+        .map((node) => node.text)
+        .forEach(print);
   }
 
 
@@ -128,6 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
       note = "";
       status = "Play something";
     });
+
   }
 
   Future<void> _stopCapture() async {
@@ -139,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void listener(dynamic obj) {
+  Future<void> listener(dynamic obj) async {
     //Gets the audio sample
     var buffer = Float64List.fromList(obj.cast<double>());
     final List<double> audioSample = buffer.toList();
@@ -156,21 +174,17 @@ class _MyHomePageState extends State<MyHomePage> {
       //Updates the state with the result
       setState(() {
         if(status == "TuningStatus.tuned"){
-          status = "Tuned!!!!".toUpperCase();
-          _stopCaptureTuned();
+          note = "B";
+          //update("B");
+//testing to see if I an get the actual note printed
+          print("Actual note: $note");
         }
-      });
+      }
+      );
+      await _audioRecorder.stop();
     }
   }
 
-  Future<void> _stopCaptureTuned() async {
-    await _audioRecorder.stop();
-
-    setState(() {
-      note = "";
-      //status = "Tuned!!!!";
-    });
-  }
 
   void onError(Object e) {
     print(e);
