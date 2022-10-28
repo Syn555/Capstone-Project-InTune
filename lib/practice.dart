@@ -21,11 +21,11 @@ Future<Score> loadXML() async {
 const double STAFF_HEIGHT = 36;
 
 
-class MyHomePage1 extends StatelessWidget {
+class Practice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Composition',
+      title: 'Intonation Practice',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -49,72 +49,74 @@ class _MyHomePageState extends State<MyHomePage> {
 
   var note = "";
   var notePicked = "";
-  var noteStatus= "";
+  var noteStatus = "";
   var status = "Click on start";
+
   @override
   Widget build(BuildContext context) {
-
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
 
     return Scaffold(
       drawer: const SideDrawer(),
       appBar: AppBar(
-        title: const Text('Composition'),
+        title: const Text('Intonation Practice'),
       ),
       body: Center(
-        child: Column(children: [
-          Center(
-            child: Container(
-              alignment: Alignment.center,
-              //width: size.width - 40,
-              //height: size.height - 20,
-              child: FutureBuilder<Score>(
-                  future: loadXML(),
-                  builder: (context, snapshot) {
-                    if(snapshot.hasData) {
-                      return MusicLine(
-                        options: MusicLineOptions(
-                          snapshot.data!,
-                          STAFF_HEIGHT,
-                          1,
-                        ),
-                      );
-                    } else if(snapshot.hasError) {
-                      return Text('Oh, this failed!\n${snapshot.error}');
-                    } else {
-                      return  const SizedBox(
-                        width: 60,
-                        height: 40,
-                        child: CircularProgressIndicator(),
-                      );
+          child: Column(children: [
+            Center(
+              child: Container(
+                alignment: Alignment.center,
+                //width: size.width - 40,
+                //height: size.height - 20,
+                child: FutureBuilder<Score>(
+                    future: loadXML(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return MusicLine(
+                          options: MusicLineOptions(
+                            snapshot.data!,
+                            STAFF_HEIGHT,
+                            1,
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Oh, this failed!\n${snapshot.error}');
+                      } else {
+                        return const SizedBox(
+                          width: 60,
+                          height: 40,
+                          child: CircularProgressIndicator(),
+                        );
+                      }
                     }
-                  }
+                ),
               ),
             ),
-          ),
-          Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                      child: Center(
-                          child: FloatingActionButton(
-                              heroTag: "Start",
-                              backgroundColor: Colors.green,
-                              splashColor: Colors.blueGrey,
-                              onPressed: _startCapture,
-                              child: const Text("Start")))),
-                  Expanded(
-                      child: Center(
-                          child: FloatingActionButton(
-                              heroTag: "Stop",
-                              backgroundColor: Colors.red,
-                              splashColor: Colors.blueGrey,
-                              onPressed: _stopCapture,
-                              child: const Text("Stop")))),
-                ],
-              ))
-        ],
-        )
+            Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Center(
+                            child: FloatingActionButton(
+                                heroTag: "Start",
+                                backgroundColor: Colors.green,
+                                splashColor: Colors.blueGrey,
+                                onPressed: _startCapture,
+                                child: const Text("Start")))),
+                    Expanded(
+                        child: Center(
+                            child: FloatingActionButton(
+                                heroTag: "Stop",
+                                backgroundColor: Colors.red,
+                                splashColor: Colors.blueGrey,
+                                onPressed: _stopCapture,
+                                child: const Text("Stop")))),
+                  ],
+                ))
+          ],
+          )
       ),
     );
   }
@@ -155,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       //Updates the state with the result
       setState(() {
-        if(status == "TuningStatus.tuned"){
+        if (status == "TuningStatus.tuned") {
           status = "Tuned!!!!".toUpperCase();
           _stopCaptureTuned();
         }

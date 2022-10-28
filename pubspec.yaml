@@ -69,7 +69,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   assets:
+    - hanon-no1.musicxml
     - hanon-no1-stripped.musicxml
+    - blank.musicxml
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
