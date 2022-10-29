@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   var note = "";
   var notePicked = "";
+
   var noteStatus= "";
   var status = "Click on start";
   @override
@@ -143,6 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
         sampleRate: 44100, bufferSize: 3000);
 
     setState(() {
+
       note = "";
       status = "Play something";
     });
@@ -153,6 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await _audioRecorder.stop();
 
     setState(() {
+
       note = "";
       status = "Click on start";
     });
@@ -168,30 +171,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
     //If there is a pitch - evaluate it
     if (result.pitched) {
-      //Uses the pitchupDart library to check a given pitch for a Guitar
-      final handledPitchResult = pitchupDart.handlePitch(result.pitch);
-      status = handledPitchResult.tuningStatus.toString();
-
-      var holder= handledPitchResult.note;
-      print("Actual pitchresult: $holder");
 
       List<String> notesPlayed= <String>[];
-      while(true){
-        notesPlayed.add(holder);
-        print(holder);
-      }
+        //Uses the pitchupDart library to check a given pitch for a Guitar
+        final handledPitchResult = pitchupDart.handlePitch(result.pitch);
+        status = handledPitchResult.tuningStatus.toString();
+
+        var holder= handledPitchResult.note;
 
       //Updates the state with the result
       setState(() {
         if(status == "TuningStatus.tuned"){
           note = "";
+          print("Actual pitchresult: $holder");
+          notesPlayed.add(holder);
+          print(holder);
           //update("B");
           //testing to see if I an get the actual note printed
           //print("Actual note: $result");
         }
       }
       );
-      await _audioRecorder.stop();
     }
   }
 
