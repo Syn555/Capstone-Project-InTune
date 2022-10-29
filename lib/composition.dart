@@ -6,6 +6,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
+import 'package:pitchupdart/pitch_result.dart';
 import 'package:xml/xml.dart';
 import 'package:capstone_project_intune/musicXML/parser.dart';
 import 'package:capstone_project_intune/musicXML/data.dart';
@@ -171,13 +172,22 @@ class _MyHomePageState extends State<MyHomePage> {
       final handledPitchResult = pitchupDart.handlePitch(result.pitch);
       status = handledPitchResult.tuningStatus.toString();
 
+      var holder= handledPitchResult.note;
+      print("Actual pitchresult: $holder");
+
+      List<String> notesPlayed= <String>[];
+      while(true){
+        notesPlayed.add(holder);
+        print(holder);
+      }
+
       //Updates the state with the result
       setState(() {
         if(status == "TuningStatus.tuned"){
           note = "";
           //update("B");
-//testing to see if I an get the actual note printed
-          print("Actual note: $note");
+          //testing to see if I an get the actual note printed
+          //print("Actual note: $result");
         }
       }
       );
