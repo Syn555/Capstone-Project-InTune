@@ -1,7 +1,12 @@
+import 'dart:io';
 import 'dart:typed_data';
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:capstone_project_intune/pitch_detector.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:pitchupdart/instrument_type.dart';
@@ -51,7 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   var note = "";
   var notePicked = "";
-
+  List<String> notesPlayed= [];
+  List<String> notesToBeAdded= [];
   var noteStatus= "";
   var status = "Click on start";
   @override
@@ -129,13 +135,42 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  update(String note) async {
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/testers.txt');
+  }
+
+
+  update(String n) async {
     final rawFile = await rootBundle.loadString('hanon-no1-stripped.musicxml');
     var parsedXML= XmlDocument.parse(rawFile);
-    final titles = parsedXML.findAllElements('step');
-    titles
-        .map((node) => node.text)
-        .forEach(print);
+    //final titles = parsedXML.findAllElements('note');
+    //print(noteFun());
+    //final file = await _localFile;
+
+    var newNote="<note> <pitch> <step>$n</step> <octave>5</octave> </pitch> <duration>1</duration> <voice>1</voice><type>eighth</type> <stem default-y=\"3\">up</stem><staff>1</staff> <beam number=\"1\">begin</beam></note>";
+    notesToBeAdded.add(newNote);
+    var ending= "</measure></part></score-partwise>";
+    for(var i=0; i < notesToBeAdded.length;i++) {
+      final filename= 'testers.txt';
+      var file= await File(filename).writeAsString(notesToBeAdded[i]);
+      print(file);
+    }
+    /*var files= File('text');
+    var sink= files.openWrite();
+    sink.write('testing');
+    sink.close();
+    files.openWrite(mode: FileMode.append, encoding: ascii);
+    */
+
+    //print(basic);
+    //print(notesToBeAdded);
   }
 
 
@@ -155,10 +190,11 @@ class _MyHomePageState extends State<MyHomePage> {
     await _audioRecorder.stop();
 
     setState(() {
-
       note = "";
       status = "Click on start";
+      notesPlayed.clear();
     });
+
   }
 
   Future<void> listener(dynamic obj) async {
@@ -171,8 +207,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     //If there is a pitch - evaluate it
     if (result.pitched) {
-
-      List<String> notesPlayed= <String>[];
         //Uses the pitchupDart library to check a given pitch for a Guitar
         final handledPitchResult = pitchupDart.handlePitch(result.pitch);
         status = handledPitchResult.tuningStatus.toString();
@@ -181,12 +215,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
       //Updates the state with the result
       setState(() {
-        if(status == "TuningStatus.tuned"){
+        if (status == "TuningStatus.tuned") {
           note = "";
           print("Actual pitchresult: $holder");
           notesPlayed.add(holder);
           print(holder);
-          //update("B");
+          print(notesPlayed);
+          update(holder);
           //testing to see if I an get the actual note printed
           //print("Actual note: $result");
         }
