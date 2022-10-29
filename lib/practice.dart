@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:capstone_project_intune/pitch_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -11,6 +12,8 @@ import 'package:capstone_project_intune/musicXML/parser.dart';
 import 'package:capstone_project_intune/musicXML/data.dart';
 import 'package:capstone_project_intune/notes/music-line.dart';
 import 'package:capstone_project_intune/main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<Score> loadXML() async {
   final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
@@ -51,6 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
   var notePicked = "";
   var noteStatus = "";
   var status = "Click on start";
+
+  var storageRef = storage.reference;
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +118,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 splashColor: Colors.blueGrey,
                                 onPressed: _stopCapture,
                                 child: const Text("Stop")))),
+                    Expanded(
+                        child: Center(
+                            child: FloatingActionButton(
+                                heroTag: "Upload",
+                                backgroundColor: Colors.grey,
+                                splashColor: Colors.white,
+                                onPressed: _pickFile,
+                                child: const Text("Upload")))),
                   ],
                 ))
           ],
@@ -139,6 +152,26 @@ class _MyHomePageState extends State<MyHomePage> {
       note = "";
       status = "Click on start";
     });
+  }
+
+  void _pickFile() async{
+
+    // opens storage to pick files and the picked file or files
+    // are assigned into result and if no file is chosen result is null.
+    // you can also toggle "allowMultiple" true or false depending on your need
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+
+    // if no file is picked
+    if (result == null) return;
+
+    // we will log the name, size and path of the
+    // first picked file (if multiple are selected)
+    print(result.files.first.name);
+    print(result.files.first.size);
+    print(result.files.first.path);
+
+    final storageRef = FirebaseStorage.instance.ref();
+
   }
 
   void listener(dynamic obj) {
