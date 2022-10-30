@@ -116,6 +116,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     Expanded(
                         child: Center(
                             child: FloatingActionButton(
+                                heroTag: "Cloud",
+                                backgroundColor: Colors.grey,
+                                splashColor: Colors.white,
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context => )))
+                                }
+                                child: const Text("Start")))),
+                    Expanded(
+                        child: Center(
+                            child: FloatingActionButton(
                                 heroTag: "Start",
                                 backgroundColor: Colors.green,
                                 splashColor: Colors.blueGrey,
