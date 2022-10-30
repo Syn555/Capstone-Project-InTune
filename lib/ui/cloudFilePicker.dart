@@ -66,7 +66,7 @@ class ListViewBuilder extends StatelessWidget {
           }
         }
    }
-
+/*
    Widget filesWidget(){
     var filesLists = getFilesFromStorage();
 
@@ -75,7 +75,7 @@ class ListViewBuilder extends StatelessWidget {
        builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) { return Center(child: CircularProgressIndicator()); }
           else { return Container( child: ListView.builder(
-              itemCount: filesLists.length,
+              itemCount: snapshot.data!,
               itemBuilder: (context, index)
               {
                 return Text('${filesLists[index].title}');
@@ -87,7 +87,7 @@ class ListViewBuilder extends StatelessWidget {
      );
 
    }
-
+*/
   @override
   Widget build(BuildContext context) {
 
@@ -100,7 +100,7 @@ class ListViewBuilder extends StatelessWidget {
             builder: (context, AsyncSnapshot snapshot) {
               if (!snapshot.hasData) { return Center(child: CircularProgressIndicator()); }
               else { return Container( child: ListView.builder(
-                  itemCount: filesLists.length,
+                  itemCount: snapshot.data!,
                   itemBuilder: (context, index)
                   {
                     return Text('${filesLists[index].title}');
