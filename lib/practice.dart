@@ -176,9 +176,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // Cannot save in root of storage bucket, must save in child URL
     final filesRef = storageRef.child("MusicXMLFiles");
 
-    // Get the PlatformFile that was chosen and its path (unnecessary? it was glitching)
+    // Get the PlatformFile that was chosen and its path and name(unnecessary? it was glitching)
     var fileFile = result.files.first;
     var filePath = fileFile.path;
+    var fileName = fileFile.name;
 
     // handle null safety of String? to String
     if (filePath == null)
@@ -189,7 +190,10 @@ class _MyHomePageState extends State<MyHomePage> {
     {
       // Create File to be stored and store file
       var fileForFirebase = File(filePath);
-      storageRef.putFile(fileForFirebase);
+
+      // final refVar = filesRef
+
+      filesRef.child(fileName).putFile(fileForFirebase);
     }
   }
 
