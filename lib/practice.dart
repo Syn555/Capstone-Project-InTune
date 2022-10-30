@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:capstone_project_intune/pitch_detector.dart';
@@ -14,6 +15,7 @@ import 'package:capstone_project_intune/notes/music-line.dart';
 import 'package:capstone_project_intune/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 Future<Score> loadXML() async {
   final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
@@ -55,7 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
   var noteStatus = "";
   var status = "Click on start";
 
-  var storageRef = storage.reference;
+  final storage = FirebaseStorage.instance;
+  final storageRef = FirebaseStorage.instance.ref();
+
+  // final filesRef = storageRef.child("MusicXMLFiles");
+
 
   @override
   Widget build(BuildContext context) {
@@ -170,8 +176,19 @@ class _MyHomePageState extends State<MyHomePage> {
     print(result.files.first.size);
     print(result.files.first.path);
 
-    final storageRef = FirebaseStorage.instance.ref();
+    final filesRef = storageRef.child("MusicXMLFiles");
+    var fileFile = result.files.first;
+    var filePath = fileFile.path;
 
+    if (filePath == null)
+    {
+        return;
+    }
+    else
+    {
+      var fileForFirebase = File(filePath);
+      storageRef.putFile(fileForFirebase);
+    }
   }
 
   void listener(dynamic obj) {
