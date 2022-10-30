@@ -12,13 +12,25 @@ import 'package:capstone_project_intune/musicXML/data.dart';
 import 'package:capstone_project_intune/notes/music-line.dart';
 import 'package:capstone_project_intune/main.dart';
 
+var selectFileName = 'hanon-no1.musicxml';
+var iterator = 0;
+Iterable<XmlElement> selectNotes = <XmlElement>[];
+
 Future<Score> loadXML() async {
   final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
   final result = parseMusicXML(XmlDocument.parse(rawFile));
+
+  selectNotes = XmlDocument.parse(rawFile).findAllElements('step');
   return result;
 }
 
-const double STAFF_HEIGHT = 36;
+String loadNote() {
+  var currentNote = selectNotes.elementAt(iterator);
+  iterator += 1;
+  return currentNote.toString();
+}
+
+const double STAFF_HEIGHT = 24;
 
 
 class Practice extends StatelessWidget {
@@ -48,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final pitchupDart = PitchHandler(InstrumentType.guitar);
 
   var note = "";
-  var notePicked = "";
+  var notePicked = "EMPTY";
   var noteStatus = "";
   var status = "Click on start";
 
@@ -64,59 +76,75 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('Intonation Practice'),
       ),
       body: Center(
-          child: Column(children: [
-            Center(
-              child: Container(
-                alignment: Alignment.center,
-                //width: size.width - 40,
-                //height: size.height - 20,
-                child: FutureBuilder<Score>(
-                    future: loadXML(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return MusicLine(
-                          options: MusicLineOptions(
-                            snapshot.data!,
-                            STAFF_HEIGHT,
-                            1,
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Oh, this failed!\n${snapshot.error}');
-                      } else {
-                        return const SizedBox(
-                          width: 60,
-                          height: 40,
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+        child: Column(children: [
+          Center(
+              child: Text(
+                status,
+                style: const TextStyle(
+                    color: Colors.black87,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold),
+              )
+          ),
+          Center(
+            child: Text(
+              notePicked,
+              style: const TextStyle(
+                color: Colors.blue,
+                fontSize: 25.0,
+                fontWeight: FontWeight.bold),
+              )),
+          Center(
+            child: FloatingActionButton(
+                heroTag: "Start",
+                backgroundColor: Colors.green,
+                splashColor: Colors.blueGrey,
+                onPressed: (){
+                  notePicked = loadNote();
+                  print(notePicked);
+                  _startCapture;
+                },
+                child: const Text("Start")
+            )),
+          Center(
+            child: FloatingActionButton(
+              heroTag: "Stop",
+              backgroundColor: Colors.red,
+              splashColor: Colors.blueGrey,
+              onPressed: _stopCapture,
+              child: const Text("Stop"))),
+          Center(
+            child: Container(
+              alignment: Alignment.center,
+              width: size.width - 30,
+              height: size.height - 10,
+              child: FutureBuilder<Score>(
+                  future: loadXML(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return SizedBox(
+                        child: MusicLine(
+                        options: MusicLineOptions(
+                          snapshot.data!,
+                          STAFF_HEIGHT,
+                          1,
+                        ),
+                      ));
+                    } else if (snapshot.hasError) {
+                      return Text('Oh, this failed!\n${snapshot.error}');
+                    } else {
+                      return const SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: CircularProgressIndicator(),
+                      );
                     }
-                ),
+                  }
               ),
             ),
-            Expanded(
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Center(
-                            child: FloatingActionButton(
-                                heroTag: "Start",
-                                backgroundColor: Colors.green,
-                                splashColor: Colors.blueGrey,
-                                onPressed: _startCapture,
-                                child: const Text("Start")))),
-                    Expanded(
-                        child: Center(
-                            child: FloatingActionButton(
-                                heroTag: "Stop",
-                                backgroundColor: Colors.red,
-                                splashColor: Colors.blueGrey,
-                                onPressed: _stopCapture,
-                                child: const Text("Stop")))),
-                  ],
-                ))
-          ],
-          )
+          ),
+        ],
+        )
       ),
     );
   }
@@ -127,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
         sampleRate: 44100, bufferSize: 3000);
 
     setState(() {
-      note = "";
+      note = loadNote();
       status = "Play something";
     });
   }
