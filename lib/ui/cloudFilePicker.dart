@@ -19,6 +19,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+
 class CloudFilePicker extends StatelessWidget {
   const CloudFilePicker({Key? key}) : super(key: key);
 // This widget is the root
@@ -40,7 +41,7 @@ class ListViewBuilder extends StatelessWidget {
   final auth = FirebaseAuth.instance; // Get instance of Firebase Auth
   final storageRef = FirebaseStorage.instance.ref(); // Get instance of Firebase Storage
 
-  Future<List> getFilesFromStorage() async
+  getFilesFromStorage() async
    {
       final user = auth.currentUser;
       var fileList = [];
@@ -65,27 +66,24 @@ class ListViewBuilder extends StatelessWidget {
    }
 
    Widget filesWidget(){
+    var filesLists = getFilesFromStorage();
+
      return FutureBuilder(
-       builder: (context, projectSnap) {
-         if (projectSnap.connectionState == ConnectionState.none &&
-             projectSnap.hasData == null) {
-           //print('project snapshot data is: ${projectSnap.data}');
-           return Container();
-         }
-         return ListView.builder(
-           itemCount: projectSnap.data.length,
-           itemBuilder: (context, index) {
-             ProjectModel project = projectSnap.data[index];
-             return Column(
-               children: <Widget>[
-                 // Widget to display the list of project
-               ],
-             );
-           },
-         );
-       },
-       future: getProjectDetails(),
+       future: getFilesFromStorage(),
+       builder: (context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) { return Center(child: CircularProgressIndicator()); }
+          else { return Container( child: ListView.builder(
+              itemCount: filesLists.length,
+              itemBuilder: (context, index)
+              {
+                return Text('${filesLists[index].title}');
+              }
+            )
+          );
+          }
+       }
      );
+
    }
 
   @override

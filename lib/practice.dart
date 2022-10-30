@@ -18,6 +18,7 @@ import 'package:capstone_project_intune/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:capstone_project_intune/ui/cloudFilePicker.dart';
 
 Future<Score> loadXML() async {
   final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
@@ -122,9 +123,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onPressed: () {
                                   Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context => )))
-                                }
-                                child: const Text("Start")))),
+                                      MaterialPageRoute(builder: (context) => CloudFilePicker()),
+                                  );
+                                },
+                                child: const Text("browse")))),
                     Expanded(
                         child: Center(
                             child: FloatingActionButton(
