@@ -197,6 +197,9 @@ class _MyHomePageState extends State<MyHomePage> {
       else
       {
         final userID = user.uid; // get user ID
+
+        // This uploads the file to Firebase Storage
+        // The path to file is MusicXMLFiles/userId/fileName
         filesRef.child(userID).child(fileName).putFile(fileForFirebase);
 
         // final fileURL = filesRef.child(fileName).fullPath;
