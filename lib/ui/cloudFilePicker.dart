@@ -89,34 +89,26 @@ class ListViewBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final user = auth.currentUser;
+    var filesLists = getFilesFromStorage();
 
-    var listResult = getFilesFromStorage();
-    var listResultListed = listResult.toList();
-
-    if (user == null) {
       return Scaffold(
         appBar: AppBar(title: const Text("No User Current")),
-        body: const Center(
-          child: Text('No User')
-        ),
-      );
-    }
-    else {
-      return Scaffold(
-        appBar: AppBar(title: const Text("ListView.builder")),
-        body: ListView.builder(
-            itemCount: listResult.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                  leading: const Icon(Icons.list),
-                  trailing: const Text(
-                    "GFG",
-                    style: TextStyle(color: Colors.green, fontSize: 15),
-                  ),
-                  title: Text("List item $index"));
-            }),
-      );
+        body: FutureBuilder(
+            future: getFilesFromStorage(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) { return Center(child: CircularProgressIndicator()); }
+              else { return Container( child: ListView.builder(
+                  itemCount: filesLists.length,
+                  itemBuilder: (context, index)
+                  {
+                    return Text('${filesLists[index].title}');
+                  }
+              )
+              );
+              }
+            }
+          )
+        );
     }
   }
-}
+
