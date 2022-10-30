@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'dart:typed_data';
 import 'dart:io';
 
@@ -21,40 +20,105 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class CloudFilePicker extends StatelessWidget {
+  const CloudFilePicker({Key? key}) : super(key: key);
+// This widget is the root
+// of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Choose File',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(),
-      debugShowCheckedModeBanner: false, //setup this property
-    );
+        title: "ListView.builder",
+        theme: ThemeData(primarySwatch: Colors.green),
+        debugShowCheckedModeBanner: false,
+        // home : new ListViewBuilder(),  NO Need To Use Unnecessary New Keyword
+        home: ListViewBuilder());
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class ListViewBuilder extends StatelessWidget {
+   ListViewBuilder({Key? key}) : super(key: key);
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+  final auth = FirebaseAuth.instance; // Get instance of Firebase Auth
+  final storageRef = FirebaseStorage.instance.ref(); // Get instance of Firebase Storage
 
-class _MyHomePageState extends State<MyHomePage> {
+  Future<List> getFilesFromStorage() async
+   {
+      final user = auth.currentUser;
+      var fileList = [];
+      var _value = Future<List>;
+
+      if (user == null){return fileList;}
+      else
+        {
+          final userID = user.uid; // Get UserID which is folder name
+
+          final fileRef = storageRef.child(userID); // get folder
+
+          var futureList = await fileRef.listAll(); // list all files under user
+
+          if (futureList.items.isEmpty){return fileList;}
+          else {
+            fileList = futureList.items;
+            // fileList.add(futureList);
+            return fileList;
+          }
+        }
+   }
+
+   Widget filesWidget(){
+     return FutureBuilder(
+       builder: (context, projectSnap) {
+         if (projectSnap.connectionState == ConnectionState.none &&
+             projectSnap.hasData == null) {
+           //print('project snapshot data is: ${projectSnap.data}');
+           return Container();
+         }
+         return ListView.builder(
+           itemCount: projectSnap.data.length,
+           itemBuilder: (context, index) {
+             ProjectModel project = projectSnap.data[index];
+             return Column(
+               children: <Widget>[
+                 // Widget to display the list of project
+               ],
+             );
+           },
+         );
+       },
+       future: getProjectDetails(),
+     );
+   }
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
 
-    return ListView(
-      padding: const EdgeInsets.all(8),
-      children: <Widget>[
-        ListTile( title: Text('')),
-        List
-      ],
+    final user = auth.currentUser;
 
-    )
+    var listResult = getFilesFromStorage();
+    var listResultListed = listResult.toList();
+
+    if (user == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text("No User Current")),
+        body: const Center(
+          child: Text('No User')
+        ),
+      );
+    }
+    else {
+      return Scaffold(
+        appBar: AppBar(title: const Text("ListView.builder")),
+        body: ListView.builder(
+            itemCount: listResult.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                  leading: const Icon(Icons.list),
+                  trailing: const Text(
+                    "GFG",
+                    style: TextStyle(color: Colors.green, fontSize: 15),
+                  ),
+                  title: Text("List item $index"));
+            }),
+      );
+    }
+  }
 }
