@@ -57,8 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
   var noteStatus = "";
   var status = "Click on start";
 
-  final storage = FirebaseStorage.instance;
-  final storageRef = FirebaseStorage.instance.ref();
+  final storage = FirebaseStorage.instance; // Create instance of Firebase Storage
+  final storageRef = FirebaseStorage.instance.ref(); // Create a reference of storage
 
   // final filesRef = storageRef.child("MusicXMLFiles");
 
@@ -163,29 +163,31 @@ class _MyHomePageState extends State<MyHomePage> {
   void _pickFile() async{
 
     // opens storage to pick files and the picked file or files
-    // are assigned into result and if no file is chosen result is null.
-    // you can also toggle "allowMultiple" true or false depending on your need
     final result = await FilePicker.platform.pickFiles(allowMultiple: false);
 
     // if no file is picked
     if (result == null) return;
 
-    // we will log the name, size and path of the
-    // first picked file (if multiple are selected)
-    print(result.files.first.name);
-    print(result.files.first.size);
-    print(result.files.first.path);
+    // print(result.files.first.name);
+    // print(result.files.first.size);
+    // print(result.files.first.path);
 
+    // Create reference to folder in which to save the Files
+    // Cannot save in root of storage bucket, must save in child URL
     final filesRef = storageRef.child("MusicXMLFiles");
+
+    // Get the PlatformFile that was chosen and its path (unnecessary? it was glitching)
     var fileFile = result.files.first;
     var filePath = fileFile.path;
 
+    // handle null safety of String? to String
     if (filePath == null)
     {
         return;
     }
     else
     {
+      // Create File to be stored and store file
       var fileForFirebase = File(filePath);
       storageRef.putFile(fileForFirebase);
     }
