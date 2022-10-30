@@ -18,6 +18,7 @@ import 'package:capstone_project_intune/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+// import 'com.google.firebase.storage.ktx.component1';
 
 
 class CloudFilePicker extends StatelessWidget {
@@ -45,20 +46,21 @@ class ListViewBuilder extends StatelessWidget {
    {
       final user = auth.currentUser;
       var fileList = [];
-      var _value = Future<List>;
+      // var _value = Future<List>;
 
       if (user == null){return fileList;}
       else
         {
           final userID = user.uid; // Get UserID which is folder name
-
           final fileRef = storageRef.child(userID); // get folder
-
           var futureList = await fileRef.listAll(); // list all files under user
 
           if (futureList.items.isEmpty){return fileList;}
           else {
-            fileList = futureList.items;
+            for (var item in futureList.items)
+              {
+                fileList.add(item);
+              }
             // fileList.add(futureList);
             return fileList;
           }
@@ -68,7 +70,7 @@ class ListViewBuilder extends StatelessWidget {
    Widget filesWidget(){
     var filesLists = getFilesFromStorage();
 
-     return FutureBuilder(
+     return FutureBuilder<List>(
        future: getFilesFromStorage(),
        builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) { return Center(child: CircularProgressIndicator()); }
