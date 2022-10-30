@@ -42,10 +42,10 @@ class ListViewBuilder extends StatelessWidget {
   final auth = FirebaseAuth.instance; // Get instance of Firebase Auth
   final storageRef = FirebaseStorage.instance.ref(); // Get instance of Firebase Storage
 
-  Future<List> getFilesFromStorage() async
+  Future<List<String>> getFilesFromStorage() async
    {
       final user = auth.currentUser;
-      var fileList = [];
+      var fileList = <String>[];
       // var _value = Future<List>;
 
       if (user == null){return fileList;}
@@ -59,7 +59,7 @@ class ListViewBuilder extends StatelessWidget {
           else {
             for (var item in futureList.items)
               {
-                fileList.add(item);
+                fileList.add(item.name);
               }
             // fileList.add(futureList);
             return fileList;
@@ -95,7 +95,7 @@ class ListViewBuilder extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(title: const Text("No User Current")),
-        body: FutureBuilder<List>(
+        body: FutureBuilder<List<String>>(
             future: getFilesFromStorage(),
             builder: (context, AsyncSnapshot snapshot) {
               if (!snapshot.hasData) { return Center(child: CircularProgressIndicator()); }
