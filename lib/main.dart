@@ -1,5 +1,8 @@
+import 'package:capstone_project_intune/UploadTest.dart';
+import 'package:capstone_project_intune/file_picker_demo.dart';
 import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:capstone_project_intune/composition.dart';
+import 'package:capstone_project_intune/practice.dart';
 import 'package:capstone_project_intune/ui/tuningReg.dart';
 import 'package:capstone_project_intune/ui/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -139,7 +142,7 @@ class SideDrawerReg extends StatelessWidget {
             title: const Text('Practice'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const Practice();
+              return Practice();
               },),),},
           ),
           //Composition
@@ -165,23 +168,23 @@ class SideDrawerReg extends StatelessWidget {
   }
 }
 
-//Practice Widget
-class Practice extends StatelessWidget {
-  const Practice({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const SideDrawerReg(),
-      appBar: AppBar(
-        title: const Text('Practice'),
-      ),
-      body: const Center(
-        child: Text('Practice'),
-      ),
-    );
-  }
-}
+// //Practice Widget
+// class Practice extends StatelessWidget {
+//   const Practice({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       drawer: const SideDrawerReg(),
+//       appBar: AppBar(
+//         title: const Text('Practice'),
+//       ),
+//       body: const Center(
+//         child: Text('Practice'),
+//       ),
+//     );
+//   }
+// }
 
 
 
