@@ -23,12 +23,13 @@ Future<Score> loadXML() async {
   selectNotes = XmlDocument.parse(rawFile).findAllElements('step');
   return result;
 }
-/*
+
 String loadNote() {
-  var currentNote = selectNotes.elementAt(iterator);
+  var notexml = selectNotes.elementAt(iterator);
   iterator += 1;
-  return currentNote.toString();
-} */
+  var currentNote = notexml.toString();
+  return currentNote.substring(6, 7);
+}
 
 const double STAFF_HEIGHT = 24;
 
@@ -58,12 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
   final pitchupDart = PitchHandler(InstrumentType.guitar);
-
-  String loadNote() {
-    var currentNote = selectNotes.elementAt(iterator);
-    iterator += 1;
-    return currentNote.toString();
-  }
 
   var note = "";
   var notePicked = "EMPTY";
@@ -106,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 backgroundColor: Colors.green,
                 splashColor: Colors.blueGrey,
                 onPressed: (){
+                  loadXML();
                   notePicked = loadNote().toString();
                   _startCapture;
                 },
@@ -118,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
               splashColor: Colors.blueGrey,
               onPressed: _stopCapture,
               child: const Text("Stop"))),
+          /*
           Center(
             child: Container(
               alignment: Alignment.center,
@@ -147,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
               ),
             ),
-          ),
+          ), */
         ],
         )
       ),
