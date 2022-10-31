@@ -19,12 +19,6 @@ import 'package:capstone_project_intune/notes/music-line.dart';
 import 'package:capstone_project_intune/main.dart';
 
 
-Future<Score> loadXML() async {
-  final rawFile = await rootBundle.loadString('hanon-no1-stripped.musicxml');
-  final result = parseMusicXML(XmlDocument.parse(rawFile));
-  return result;
-}
-
 const double STAFF_HEIGHT = 36;
 
 
@@ -50,12 +44,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  Future<Score> loadXML() async {
+    //final Directory directory = await getApplicationDocumentsDirectory();
+    final rawFile = everything.toString();
+    print(everything);
+    final document= XmlDocument.parse(rawFile);
+    final result = parseMusicXML(document);
+    return result;
+  }
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
   final pitchupDart = PitchHandler(InstrumentType.guitar);
 
   var note = "";
   var notePicked = "";
+  var everything;
   List<String> notesPlayed= [];
   List<String> notesToBeAdded= [];
   var noteStatus= "";
@@ -135,33 +139,27 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-
-    return directory.path;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/testers.txt');
-  }
-
-
-  update(String n) async {
-    final rawFile = await rootBundle.loadString('hanon-no1-stripped.musicxml');
-    var parsedXML= XmlDocument.parse(rawFile);
+  update(List<String> n) async {
     //final titles = parsedXML.findAllElements('note');
     //print(noteFun());
     //final file = await _localFile;
-
-    var newNote="<note> <pitch> <step>$n</step> <octave>5</octave> </pitch> <duration>1</duration> <voice>1</voice><type>eighth</type> <stem default-y=\"3\">up</stem><staff>1</staff> <beam number=\"1\">begin</beam></note>";
-    notesToBeAdded.add(newNote);
-    var ending= "</measure></part></score-partwise>";
-    for(var i=0; i < notesToBeAdded.length;i++) {
-      final filename= 'testers.txt';
-      var file= await File(filename).writeAsString(notesToBeAdded[i]);
-      print(file);
+    var notesAdded=n;
+    var start= '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE score-partwise PUBLIC-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise version="3.1"><part-list><score-part id="P1"><part-name>Piano</part-name><score-instrument id="P1-I1"><instrument-name>Piano</instrument-name></score-instrument></score-part></part-list><part id="P1"><measure number="1"><attributes><divisions>4</divisions><key><fifths>0</fifths></key><time><beats>2</beats><beat-type>4</beat-type></time><staves>1</staves><clef number="1"><sign>G</sign><line>2</line></clef></attributes>';
+    String newNote;
+    var ending= '\</measure></part></score-partwise>';
+    var allNotes="";
+    print(notesAdded);
+    for(var i=0; i < notesAdded.length;i++) {
+      newNote='<note> <pitch> <step>'+ notesAdded[i] +'\</step> <octave>5</octave> </pitch> <duration>1</duration> <voice>1</voice><type>eighth</type> <stem default-y="3">up</stem><staff>1</staff> <beam number="1">begin</beam></note>';
+      allNotes= allNotes+newNote;
     }
+    //print(allNotes);
+    //print(newNote);
+
+    everything= start+allNotes+ending;
+    //var file = _write(everything);
+    //print(everything);
+
     /*var files= File('text');
     var sink= files.openWrite();
     sink.write('testing');
@@ -169,17 +167,14 @@ class _MyHomePageState extends State<MyHomePage> {
     files.openWrite(mode: FileMode.append, encoding: ascii);
     */
 
-    //print(basic);
-    //print(notesToBeAdded);
   }
-
 
   Future<void> _startCapture() async {
     await _audioRecorder.start(listener, onError,
         sampleRate: 44100, bufferSize: 3000);
 
     setState(() {
-
+      notesPlayed.clear();
       note = "";
       status = "Play something";
     });
@@ -192,8 +187,8 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       note = "";
       status = "Click on start";
-      notesPlayed.clear();
     });
+    loadXML();
 
   }
 
@@ -210,7 +205,6 @@ class _MyHomePageState extends State<MyHomePage> {
         //Uses the pitchupDart library to check a given pitch for a Guitar
         final handledPitchResult = pitchupDart.handlePitch(result.pitch);
         status = handledPitchResult.tuningStatus.toString();
-
         var holder= handledPitchResult.note;
 
       //Updates the state with the result
@@ -219,11 +213,9 @@ class _MyHomePageState extends State<MyHomePage> {
           note = "";
           print("Actual pitchresult: $holder");
           notesPlayed.add(holder);
-          print(holder);
-          print(notesPlayed);
-          update(holder);
-          //testing to see if I an get the actual note printed
-          //print("Actual note: $result");
+          //print(holder);
+          //print(notesPlayed);
+          update(notesPlayed);
         }
       }
       );
