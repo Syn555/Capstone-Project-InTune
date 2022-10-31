@@ -126,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       MaterialPageRoute(builder: (context) => CloudFilePicker()),
                                   );
                                 },
-                                child: const Text("browse")))),
+                                child: const Text("Browse")))),
                     Expanded(
                         child: Center(
                             child: FloatingActionButton(

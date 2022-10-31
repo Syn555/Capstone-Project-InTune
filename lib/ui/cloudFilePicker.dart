@@ -94,7 +94,7 @@ class ListViewBuilder extends StatelessWidget {
     var filesLists = getFilesFromStorage();
 
       return Scaffold(
-        appBar: AppBar(title: const Text("No User Current")),
+        appBar: AppBar(title: const Text("Select File")),
         body: FutureBuilder<List<String>>(
             future: getFilesFromStorage(),
             builder: (context, future) {
@@ -106,7 +106,7 @@ class ListViewBuilder extends StatelessWidget {
                         itemCount: listOfFiles.length!,
                         itemBuilder: (context, index) {
                           return ListTile(
-                            title: Text(listOfFiles[index].toString()),
+                            title: Text(listOfFiles[index]),
                           );
                         }
                     );
