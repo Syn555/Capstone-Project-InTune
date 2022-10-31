@@ -17,18 +17,18 @@ var iterator = 0;
 Iterable<XmlElement> selectNotes = <XmlElement>[];
 
 Future<Score> loadXML() async {
-  final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
+  final rawFile = await rootBundle.loadString('testsimple.musicxml');
   final result = parseMusicXML(XmlDocument.parse(rawFile));
 
   selectNotes = XmlDocument.parse(rawFile).findAllElements('step');
   return result;
 }
-
+/*
 String loadNote() {
   var currentNote = selectNotes.elementAt(iterator);
   iterator += 1;
   return currentNote.toString();
-}
+} */
 
 const double STAFF_HEIGHT = 24;
 
@@ -58,6 +58,12 @@ class _MyHomePageState extends State<MyHomePage> {
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
   final pitchupDart = PitchHandler(InstrumentType.guitar);
+
+  String loadNote() {
+    var currentNote = selectNotes.elementAt(iterator);
+    iterator += 1;
+    return currentNote.toString();
+  }
 
   var note = "";
   var notePicked = "EMPTY";
@@ -100,8 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 backgroundColor: Colors.green,
                 splashColor: Colors.blueGrey,
                 onPressed: (){
-                  notePicked = loadNote();
-                  print(notePicked);
+                  notePicked = loadNote().toString();
                   _startCapture;
                 },
                 child: const Text("Start")
@@ -155,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
         sampleRate: 44100, bufferSize: 3000);
 
     setState(() {
-      note = loadNote();
+      note = "";
       status = "Play something";
     });
   }
@@ -185,9 +190,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
       //Updates the state with the result
       setState(() {
-        if (status == "TuningStatus.tuned") {
+        if(status == "TuningStatus.tuned"){
           status = "Tuned!!!!".toUpperCase();
           _stopCaptureTuned();
+        }else if (status == "TuningStatus.toohigh" || status == "TuningStatus.waytoohigh"){
+          status = "Too high, please tune lower";
+        }else if( status == "TuningStatus.toolow" || status ==  "TuningStatus.waytoolow"){
+          status = "Too low, please tune higher";
+        }else if (status =="TuningStatus.undefined"){
+          status= "Unknown Pitch. Please try again!";
         }
       });
     }
@@ -198,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       note = "";
-      //status = "Tuned!!!!";
+      status = "Tuned!!!!";
     });
   }
 

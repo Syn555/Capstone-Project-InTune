@@ -71,6 +71,7 @@ flutter:
   assets:
     - hanon-no1.musicxml
     - hanon-no1-stripped.musicxml
+    - testsimple.musicxml
     - blank.musicxml
 
   # The following line ensures that the Material Icons font is
