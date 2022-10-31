@@ -12,6 +12,8 @@ import 'package:capstone_project_intune/musicXML/data.dart';
 //import 'package:capstone_project_intune/notes/music-line.dart';
 import 'package:capstone_project_intune/main.dart';
 
+import 'notes/music-line.dart';
+
 var selectFileName = 'testsimple.musicxml';
 var iterator = 0;
 Iterable<XmlElement> selectNotes = <XmlElement>[];
@@ -24,8 +26,18 @@ Future<Score> loadXML() async {
   return result;
 }
 
+String firstNote() {
+  iterator = 0;
+  var notexml = selectNotes.elementAt(iterator);
+  var currentNote = notexml.toString();
+  return currentNote.substring(6, 7);
+}
+
 String loadNote() {
   var notexml = selectNotes.elementAt(iterator);
+  if (iterator == selectNotes.length) {
+    return "File Done";
+  }
   iterator += 1;
   var currentNote = notexml.toString();
   return currentNote.substring(6, 7);
@@ -41,7 +53,6 @@ class Practice extends StatefulWidget {
   @override
   State<Practice> createState() => _Practice();
 
-  /*
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -53,16 +64,16 @@ class Practice extends StatefulWidget {
       home: MyHomePage(),
       debugShowCheckedModeBanner: false, //setup this property
     );
-  } */
+  }
 }
 
-/*
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
-} */
+  _Practice createState() => _Practice();
+}
 
 //class _MyHomePageState extends State<MyHomePage> {
 class _Practice extends State<Practice> {
@@ -78,11 +89,11 @@ class _Practice extends State<Practice> {
   @override
   Widget build(BuildContext context) {
     loadXML();
-    /*
+
     final size = MediaQuery
         .of(context)
         .size;
-    */
+
     return Scaffold(
       drawer: const SideDrawer(),
       appBar: AppBar(
@@ -111,8 +122,8 @@ class _Practice extends State<Practice> {
           ),
           Center(
             child: Row( children: [
-              //Expanded(
-                /* child: */ Center(
+              Expanded(
+                // child: Center(
                   child: FloatingActionButton(
                     heroTag: "Load",
                     backgroundColor: Colors.blue,
@@ -123,10 +134,10 @@ class _Practice extends State<Practice> {
                     },
                     child: const Text("Load")
                   )
-                ),
-              //),
-              //Expanded(
-                /* child: */ Center(
+                //)
+              ),
+              Expanded(
+                // child: Center(
                   child: FloatingActionButton(
                     heroTag: "Start",
                     backgroundColor: Colors.green,
@@ -134,10 +145,10 @@ class _Practice extends State<Practice> {
                     onPressed: _startCapture,
                     child: const Text("Start")
                   )
-                ),
-              //),
-              //Expanded(
-                /* child: */ Center(
+                //),
+              ),
+              Expanded(
+                // child: Center(
                   child: FloatingActionButton(
                     heroTag: "Stop",
                     backgroundColor: Colors.red,
@@ -145,42 +156,45 @@ class _Practice extends State<Practice> {
                     onPressed: _stopCapture,
                     child: const Text("Stop")
                   )
-                )
-              //)
+                //)
+              )
             ])
+          ),
+        //])
+      //)
+          SizedBox(
+            child: Center(
+              /* alignment: Alignment.center,
+              width: size.width - 30,
+              height: size.height - 10, */
+              child: FutureBuilder<Score>(
+                future: loadXML(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return SizedBox(
+                      child: MusicLine(
+                        options: MusicLineOptions(
+                          snapshot.data!,
+                          staffHeight,
+                          1
+                        )
+                      )
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Oh, this failed!\n${snapshot.error}');
+                  } else {
+                    return const SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }
+              )
+            )
           )
         ])
       )
-      /* Center(
-        child: Container(
-          alignment: Alignment.center,
-          width: size.width - 30,
-          height: size.height - 10,
-          child: FutureBuilder<Score>(
-            future: loadXML(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return SizedBox(
-                  child: MusicLine(
-                  options: MusicLineOptions(
-                    snapshot.data!,
-                    staffHeight,
-                    1,
-                  ),
-                ));
-              } else if (snapshot.hasError) {
-                return Text('Oh, this failed!\n${snapshot.error}');
-              } else {
-                return const SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }
-          )
-        )
-      ) */
     );
   }
 
