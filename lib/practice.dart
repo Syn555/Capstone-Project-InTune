@@ -44,23 +44,17 @@ Future<Score> loadXML() async {
     // var localFile = File.createTempFile() // */
 
     final appDocDir = await getApplicationDocumentsDirectory();
-    final filePath = "${appDocDir.absolute}/MusicXMLFiles/${userID}/hanon-no1.musicxml";
+    final filePath = "${appDocDir.absolute}/hanon-no1.musicxml";
     final file = File(filePath);
 
     final downloadTask = hanonRef.writeToFile(file);
-    downloadTask.snapshotEvents.listen((taskSnapshot) {
-      switch (taskSnapshot.state) {
-        case TaskState.success:
-        // TODO: Handle this case.
-        final rawestFile = File.readAsString(downloadTask);
-          break;
-      }
+    final rawerFile = downloadTask.toString();
+
     // final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
-    // final result = parseMusicXML(XmlDocument.parse(rawFile));
-    print ("this works?");
+    storageResult = parseMusicXML(XmlDocument.parse(rawerFile));
+    // print ("this works?");
     return storageResult;
-      }
-    }
+  }
 }
 
 const double STAFF_HEIGHT = 36;
