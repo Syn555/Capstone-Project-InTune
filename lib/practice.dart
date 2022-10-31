@@ -8,6 +8,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
 import 'package:xml/xml.dart';
@@ -21,7 +22,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:capstone_project_intune/ui/cloudFilePicker.dart';
 
 Future<Score> loadXML() async {
-/* // DOWNLOAD FILE FROM FIREBASE STORAGE TO UPLOAD INTO loadXML()
+ // DOWNLOAD FILE FROM FIREBASE STORAGE TO UPLOAD INTO loadXML()
   final loadStorage = FirebaseStorage.instance; // Create instance of Firebase Storage
   final loadStorageRef = FirebaseStorage.instance.ref(); // Create a reference of storage
   final loadAuth = FirebaseAuth.instance; // Get instance of Firebase Auth
@@ -29,19 +30,37 @@ Future<Score> loadXML() async {
 
   final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
   final result = parseMusicXML(XmlDocument.parse(rawFile));
+  var storageResult = parseMusicXML(XmlDocument.parse(rawFile));
 
-  if (loadUser == null){return result;}
+  if (loadUser == null){
+    print("loadUser is null!!!");
+    return result;}
+
   else {
     final userID = loadUser.uid;
     final loadFileRef = loadStorageRef.child("MusicXMLFiles").child(userID);
     final hanonRef = loadFileRef.child("hanon-no1.musicxml");
 
-    var localFile = File.createTempFile() */
+    // var localFile = File.createTempFile() // */
 
-    final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
-    final result = parseMusicXML(XmlDocument.parse(rawFile));
-    return result;
-  // }
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final filePath = "${appDocDir.absolute}/MusicXMLFiles/${userID}/hanon-no1.musicxml";
+    final file = File(filePath);
+
+    final downloadTask = hanonRef.writeToFile(file);
+    downloadTask.snapshotEvents.listen((taskSnapshot) {
+      switch (taskSnapshot.state) {
+        case TaskState.success:
+        // TODO: Handle this case.
+        final rawestFile = File.readAsString(downloadTask);
+          break;
+      }
+    // final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
+    // final result = parseMusicXML(XmlDocument.parse(rawFile));
+    print ("this works?");
+    return storageResult;
+      }
+    }
 }
 
 const double STAFF_HEIGHT = 36;
