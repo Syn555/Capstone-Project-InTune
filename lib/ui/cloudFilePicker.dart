@@ -97,18 +97,24 @@ class ListViewBuilder extends StatelessWidget {
         appBar: AppBar(title: const Text("No User Current")),
         body: FutureBuilder<List<String>>(
             future: getFilesFromStorage(),
-            builder: (context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData) { return Center(child: CircularProgressIndicator()); }
-              else { return Container( child: ListView.builder(
-                  itemCount: snapshot.data!,
-                  itemBuilder: (context, index)
-                  {
-                    return ListTile(
-                    title: Text('${snapshot.data}'),
+            builder: (context, future) {
+              if (!future.hasData) { return Center(child: CircularProgressIndicator()); }
+              else {
+                  var listOfFiles = future.data;
+                  if (listOfFiles != null) {
+                    return ListView.builder(
+                        itemCount: listOfFiles.length!,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(listOfFiles[index].toString()),
+                          );
+                        }
                     );
                   }
-              )
-              );
+                  else
+                  {
+                    return Center(child: CircularProgressIndicator());
+                  }
               }
             }
           )
