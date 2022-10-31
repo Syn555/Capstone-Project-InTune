@@ -186,7 +186,7 @@ class _TuningReg extends State<TuningReg> {
 
     setState(() {
       note = "";
-      status = "Click on start";
+      status = "Click on start (tuningReg)";
     });
   }
 

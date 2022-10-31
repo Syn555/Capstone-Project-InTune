@@ -9,15 +9,15 @@ import 'package:pitchupdart/pitch_handler.dart';
 import 'package:xml/xml.dart';
 import 'package:capstone_project_intune/musicXML/parser.dart';
 import 'package:capstone_project_intune/musicXML/data.dart';
-import 'package:capstone_project_intune/notes/music-line.dart';
+//import 'package:capstone_project_intune/notes/music-line.dart';
 import 'package:capstone_project_intune/main.dart';
 
-var selectFileName = 'hanon-no1.musicxml';
+var selectFileName = 'testsimple.musicxml';
 var iterator = 0;
 Iterable<XmlElement> selectNotes = <XmlElement>[];
 
 Future<Score> loadXML() async {
-  final rawFile = await rootBundle.loadString('testsimple.musicxml');
+  final rawFile = await rootBundle.loadString(selectFileName);
   final result = parseMusicXML(XmlDocument.parse(rawFile));
 
   selectNotes = XmlDocument.parse(rawFile).findAllElements('step');
@@ -31,10 +31,17 @@ String loadNote() {
   return currentNote.substring(6, 7);
 }
 
-const double STAFF_HEIGHT = 24;
+const double staffHeight = 24;
 
+class Practice extends StatefulWidget {
+  const Practice({Key? key, required this.title}) : super(key: key);
 
-class Practice extends StatelessWidget {
+  final String title;
+
+  @override
+  State<Practice> createState() => _Practice();
+
+  /*
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,16 +53,19 @@ class Practice extends StatelessWidget {
       home: MyHomePage(),
       debugShowCheckedModeBanner: false, //setup this property
     );
-  }
+  } */
 }
+
+/*
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
-}
+} */
 
-class _MyHomePageState extends State<MyHomePage> {
+//class _MyHomePageState extends State<MyHomePage> {
+class _Practice extends State<Practice> {
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
   final pitchupDart = PitchHandler(InstrumentType.guitar);
@@ -67,10 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    loadXML();
+    /*
     final size = MediaQuery
         .of(context)
         .size;
-
+    */
     return Scaffold(
       drawer: const SideDrawer(),
       appBar: AppBar(
@@ -79,78 +91,98 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(children: [
           Center(
-              child: Text(
-                status,
-                style: const TextStyle(
-                    color: Colors.black87,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold),
-              )
-          ),
-          Center(
             child: Text(
               notePicked,
               style: const TextStyle(
                 color: Colors.blue,
-                fontSize: 25.0,
+                fontSize: 50.0,
                 fontWeight: FontWeight.bold),
-              )),
+              )
+          ),
+          //const Spacer(),
           Center(
-            child: FloatingActionButton(
-                heroTag: "Start",
-                backgroundColor: Colors.green,
-                splashColor: Colors.blueGrey,
-                onPressed: (){
-                  loadXML();
-                  notePicked = loadNote().toString();
-                  _startCapture;
-                },
-                child: const Text("Start")
-            )),
+            child: Text(
+              status,
+              style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold),
+            )
+          ),
           Center(
-            child: FloatingActionButton(
-              heroTag: "Stop",
-              backgroundColor: Colors.red,
-              splashColor: Colors.blueGrey,
-              onPressed: _stopCapture,
-              child: const Text("Stop"))),
-          /*
-          Center(
-            child: Container(
-              alignment: Alignment.center,
-              width: size.width - 30,
-              height: size.height - 10,
-              child: FutureBuilder<Score>(
-                  future: loadXML(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return SizedBox(
-                        child: MusicLine(
-                        options: MusicLineOptions(
-                          snapshot.data!,
-                          STAFF_HEIGHT,
-                          1,
-                        ),
-                      ));
-                    } else if (snapshot.hasError) {
-                      return Text('Oh, this failed!\n${snapshot.error}');
-                    } else {
-                      return const SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }
-              ),
-            ),
-          ), */
-        ],
+            child: Row( children: [
+              //Expanded(
+                /* child: */ Center(
+                  child: FloatingActionButton(
+                    heroTag: "Load",
+                    backgroundColor: Colors.blue,
+                    splashColor: Colors.blueGrey,
+                    onPressed: (){
+                      //loadxml();
+                      notePicked = loadNote().toString();
+                    },
+                    child: const Text("Load")
+                  )
+                ),
+              //),
+              //Expanded(
+                /* child: */ Center(
+                  child: FloatingActionButton(
+                    heroTag: "Start",
+                    backgroundColor: Colors.green,
+                    splashColor: Colors.blueGrey,
+                    onPressed: _startCapture,
+                    child: const Text("Start")
+                  )
+                ),
+              //),
+              //Expanded(
+                /* child: */ Center(
+                  child: FloatingActionButton(
+                    heroTag: "Stop",
+                    backgroundColor: Colors.red,
+                    splashColor: Colors.blueGrey,
+                    onPressed: _stopCapture,
+                    child: const Text("Stop")
+                  )
+                )
+              //)
+            ])
+          )
+        ])
+      )
+      /* Center(
+        child: Container(
+          alignment: Alignment.center,
+          width: size.width - 30,
+          height: size.height - 10,
+          child: FutureBuilder<Score>(
+            future: loadXML(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return SizedBox(
+                  child: MusicLine(
+                  options: MusicLineOptions(
+                    snapshot.data!,
+                    staffHeight,
+                    1,
+                  ),
+                ));
+              } else if (snapshot.hasError) {
+                return Text('Oh, this failed!\n${snapshot.error}');
+              } else {
+                return const SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }
+          )
         )
-      ),
+      ) */
     );
   }
-
 
   Future<void> _startCapture() async {
     await _audioRecorder.start(listener, onError,
@@ -171,6 +203,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  /* Future<void> _stopCaptureTuned() async {
+    await _audioRecorder.stop();
+
+    setState(() {
+      note = "";
+      status = "Tuned!!!";
+    });
+  } */
+
   void listener(dynamic obj) {
     //Gets the audio sample
     var buffer = Float64List.fromList(obj.cast<double>());
@@ -188,8 +229,8 @@ class _MyHomePageState extends State<MyHomePage> {
       //Updates the state with the result
       setState(() {
         if(status == "TuningStatus.tuned"){
-          status = "Tuned!!!!".toUpperCase();
-          _stopCaptureTuned();
+          status = "Tuned!!!".toUpperCase();
+          //_stopCaptureTuned();
         }else if (status == "TuningStatus.toohigh" || status == "TuningStatus.waytoohigh"){
           status = "Too high, please tune lower";
         }else if( status == "TuningStatus.toolow" || status ==  "TuningStatus.waytoolow"){
@@ -201,16 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<void> _stopCaptureTuned() async {
-    await _audioRecorder.stop();
-
-    setState(() {
-      note = "";
-      status = "Tuned!!!!";
-    });
-  }
-
   void onError(Object e) {
-    print(e);
+    //print(e);
   }
 }
