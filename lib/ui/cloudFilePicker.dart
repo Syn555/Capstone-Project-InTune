@@ -44,11 +44,11 @@ class ListViewBuilder extends StatelessWidget {
 
   Future<List<String>> getFilesFromStorage() async
    {
-      final user = auth.currentUser;
-      var fileList = <String>[];
+      final user = auth.currentUser; // Get User
+      var fileList = <String>[]; // Create List of File Names
       // var _value = Future<List>;
 
-      if (user == null){return fileList;}
+      if (user == null){return fileList;} // If No User, null safety
       else
         {
           final userID = user.uid; // Get UserID which is folder name
@@ -66,11 +66,11 @@ class ListViewBuilder extends StatelessWidget {
           else {
             for (var item in futureList.items)
               {
-                fileList.add(item.name); // Add
+                fileList.add(item.name); // Add file name to list of file names
                 print(item.name);
               }
             // fileList.add(futureList);
-            return fileList;
+            return fileList; // Return list of file names
           }
         }
    }
@@ -107,21 +107,21 @@ class ListViewBuilder extends StatelessWidget {
             future: getFilesFromStorage(),
             builder: (context, future) {
               if (!future.hasData) { return Center(child: CircularProgressIndicator()); }
-              else {
-                  var listOfFiles = future.data;
-                  if (listOfFiles != null) {
+              else { // call to DB has data
+                  var listOfFiles = future.data; // get list of files
+                  if (listOfFiles != null) { // has files
                     return ListView.builder(
                         itemCount: listOfFiles.length!,
                         itemBuilder: (context, index) {
                           return ListTile(
-                            title: Text(listOfFiles[index]),
+                            title: Text(listOfFiles[index]), // display file name
                           );
                         }
                     );
                   }
                   else
                   {
-                    return Center(child: const Text('No Files Found'));
+                    return Center(child: const Text('No Files Found')); // no files
                   }
               }
             }

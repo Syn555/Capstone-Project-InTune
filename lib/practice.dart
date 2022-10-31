@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 heroTag: "Cloud",
                                 backgroundColor: Colors.grey,
                                 splashColor: Colors.white,
-                                onPressed: () {
+                                onPressed: () { // Opens cloudFilePicker.dart
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) => CloudFilePicker()),
@@ -149,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 heroTag: "Upload",
                                 backgroundColor: Colors.grey,
                                 splashColor: Colors.white,
-                                onPressed: _pickFile,
+                                onPressed: _pickFile, // _pickFile method
                                 child: const Text("Upload")))),
                   ],
                 ))
