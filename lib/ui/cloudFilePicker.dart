@@ -52,14 +52,22 @@ class ListViewBuilder extends StatelessWidget {
       else
         {
           final userID = user.uid; // Get UserID which is folder name
-          final fileRef = storageRef.child(userID); // get folder
+          print("Current UserID is: ${user.uid}");
+
+          final fileRef = storageRef.child("MusicXMLFiles").child(userID); // get folder
+          print("fileRef is: ${fileRef.name}");
+
           var futureList = await fileRef.listAll(); // list all files under user
 
-          if (futureList.items.isEmpty){return fileList;}
+          if (futureList.items.isEmpty){
+            print("no files found!!!!!!!!!!!!!!!!!!!");
+            return fileList;
+          }
           else {
             for (var item in futureList.items)
               {
-                fileList.add(item.name);
+                fileList.add(item.name); // Add
+                print(item.name);
               }
             // fileList.add(futureList);
             return fileList;
@@ -113,7 +121,7 @@ class ListViewBuilder extends StatelessWidget {
                   }
                   else
                   {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: const Text('No Files Found'));
                   }
               }
             }
