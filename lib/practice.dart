@@ -43,7 +43,7 @@ String loadNote() {
   return currentNote.substring(6, 7);
 }
 
-const double staffHeight = 24;
+const double staffHeight = 36;
 
 class Practice extends StatefulWidget {
   const Practice({Key? key, required this.title}) : super(key: key);
@@ -90,9 +90,9 @@ class _Practice extends State<Practice> {
   Widget build(BuildContext context) {
     loadXML();
 
-    final size = MediaQuery
-        .of(context)
-        .size;
+    //final size = MediaQuery
+        //.of(context)
+        //.size;
 
     return Scaffold(
       drawer: const SideDrawer(),
@@ -101,6 +101,9 @@ class _Practice extends State<Practice> {
       ),
       body: Center(
         child: Column(children: [
+          const Spacer(
+            flex: 1
+          ),
           Center(
             child: Text(
               notePicked,
@@ -110,7 +113,9 @@ class _Practice extends State<Practice> {
                 fontWeight: FontWeight.bold),
               )
           ),
-          //const Spacer(),
+          const Spacer(
+            flex: 1
+          ),
           Center(
             child: Text(
               status,
@@ -119,6 +124,9 @@ class _Practice extends State<Practice> {
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold),
             )
+          ),
+          const Spacer(
+            flex: 1
           ),
           Center(
             child: Row( children: [
@@ -130,7 +138,7 @@ class _Practice extends State<Practice> {
                     splashColor: Colors.blueGrey,
                     onPressed: (){
                       //loadxml();
-                      notePicked = loadNote().toString();
+                      notePicked = firstNote().toString();
                     },
                     child: const Text("Load")
                   )
@@ -162,7 +170,11 @@ class _Practice extends State<Practice> {
           ),
         //])
       //)
-          SizedBox(
+          const Spacer(
+            flex: 1
+          ),
+
+          Expanded(
             child: Center(
               /* alignment: Alignment.center,
               width: size.width - 30,
@@ -192,6 +204,9 @@ class _Practice extends State<Practice> {
                 }
               )
             )
+          ),
+          const Spacer(
+            flex: 7
           )
         ])
       )
