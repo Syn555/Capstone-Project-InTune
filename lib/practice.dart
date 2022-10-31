@@ -25,19 +25,20 @@ Future<Score> loadXML() async {
   selectNotes = XmlDocument.parse(rawFile).findAllElements('step');
   return result;
 }
-
+/*
 String firstNote() {
   iterator = 0;
   var notexml = selectNotes.elementAt(iterator);
   var currentNote = notexml.toString();
   return currentNote.substring(6, 7);
-}
+} */
 
 String loadNote() {
-  var notexml = selectNotes.elementAt(iterator);
   if (iterator == selectNotes.length) {
+    iterator = 0;
     return "File Done";
   }
+  var notexml = selectNotes.elementAt(iterator);
   iterator += 1;
   var currentNote = notexml.toString();
   return currentNote.substring(6, 7);
@@ -138,7 +139,7 @@ class _Practice extends State<Practice> {
                     splashColor: Colors.blueGrey,
                     onPressed: (){
                       //loadxml();
-                      notePicked = firstNote().toString();
+                      notePicked = loadNote().toString();
                     },
                     child: const Text("Load")
                   )
