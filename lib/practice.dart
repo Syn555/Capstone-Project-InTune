@@ -21,9 +21,27 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:capstone_project_intune/ui/cloudFilePicker.dart';
 
 Future<Score> loadXML() async {
+/* // DOWNLOAD FILE FROM FIREBASE STORAGE TO UPLOAD INTO loadXML()
+  final loadStorage = FirebaseStorage.instance; // Create instance of Firebase Storage
+  final loadStorageRef = FirebaseStorage.instance.ref(); // Create a reference of storage
+  final loadAuth = FirebaseAuth.instance; // Get instance of Firebase Auth
+  final loadUser = loadAuth.currentUser; // Get User
+
   final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
   final result = parseMusicXML(XmlDocument.parse(rawFile));
-  return result;
+
+  if (loadUser == null){return result;}
+  else {
+    final userID = loadUser.uid;
+    final loadFileRef = loadStorageRef.child("MusicXMLFiles").child(userID);
+    final hanonRef = loadFileRef.child("hanon-no1.musicxml");
+
+    var localFile = File.createTempFile() */
+
+    final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
+    final result = parseMusicXML(XmlDocument.parse(rawFile));
+    return result;
+  // }
 }
 
 const double STAFF_HEIGHT = 36;
