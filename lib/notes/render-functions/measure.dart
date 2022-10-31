@@ -15,7 +15,7 @@ paintMeasure(Measure measure, DrawingContext drawC) {
   bool paintedBarline = false;
 
   final grid = createGridForMeasure(measure, drawC);
-  print('paint measure');
+  //print('paint measure');
 
   grid.forEachIndexed((columnIndex, column) {
     final measurements = column.whereType<PitchNote>().map((element) => calculateNoteWidth(drawC, element));
@@ -72,7 +72,7 @@ Rect calculateColumnAlignment(DrawingContext drawC, Iterable<PitchNoteRenderMeas
 }
 
 List<List<MeasureContent>> createGridForMeasure(Measure measure, DrawingContext drawC) {
-  print('prepare grid for measure');
+ // print('prepare grid for measure');
   final columnsOnFourFour = drawC.latestAttributes.divisions! * 4;
   final currentTimeFactor = drawC.latestAttributes.time!.beats / drawC.latestAttributes.time!.beatType;
   final columnsOnCurrentTime = columnsOnFourFour * currentTimeFactor;

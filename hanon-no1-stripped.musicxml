@@ -27,18 +27,9 @@
                 </clef>
             </attributes>
             <note>
-                <rest measure="yes" />
-                <duration>8</duration>
-                <voice>1</voice>
-                <staff>1</staff>
-            </note>
-            <backup>
-                <duration>8</duration>
-            </backup>
-            <note>
                  <pitch>
-                          <step>C</step>
-                          <octave>5</octave>
+                        <step>C</step>
+                        <octave>5</octave>
                         </pitch>
                         <duration>1</duration>
                         <voice>1</voice>
@@ -60,6 +51,18 @@
                                     <beam number="1">begin</beam>
                         </note>
 
+  <note>
+                             <pitch>
+                                      <step>D</step>
+                                      <octave>5</octave>
+                                    </pitch>
+                                    <duration>1</duration>
+                                    <voice>1</voice>
+                                    <type>eighth</type>
+                                    <stem default-y="3">up</stem>
+                                    <staff>1</staff>
+                                    <beam number="1">begin</beam>
+                        </note>
 
         </measure>
 

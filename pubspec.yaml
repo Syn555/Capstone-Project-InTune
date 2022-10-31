@@ -33,6 +33,7 @@ dependencies:
   flutter_audio_capture: ^1.1.0
   #pitchUp
   pitchupdart: ^0.0.2
+  path_provider: ^2.0.11
   #xml
   xml: ^5.3.0
   collection: ^1.15.0
@@ -76,6 +77,7 @@ flutter:
     - hanon-no1.musicxml
     - hanon-no1-stripped.musicxml
     - blank.musicxml
+    - testers.txt
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
