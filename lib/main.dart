@@ -1,5 +1,6 @@
 import 'package:capstone_project_intune/UploadTest.dart';
 import 'package:capstone_project_intune/file_picker_demo.dart';
+import 'package:capstone_project_intune/ui/live_band.dart';
 import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:capstone_project_intune/composition.dart';
 import 'package:capstone_project_intune/practice.dart';
@@ -158,7 +159,7 @@ class SideDrawerReg extends StatelessWidget {
             title: const Text('Virtual Band'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-               return const VirtualBand();
+               return live_band();
               },),),},
           ),
         ],
