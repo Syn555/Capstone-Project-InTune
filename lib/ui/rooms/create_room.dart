@@ -131,7 +131,7 @@ class _CreateRoomState extends State<CreateRoom> {
         userID = user.uid; // get User ID of current user
 
         // Create entry in rooms of named after roomId
-        final roomRef = database.ref("rooms/$roomId"); // rooms/${userID} ?
+        final roomRef = database.ref("rooms/$roomId"); // rooms/${roomID} ?
 
         // Write data into that entry
         await roomRef.set({

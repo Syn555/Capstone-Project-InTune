@@ -3,9 +3,14 @@ import 'package:capstone_project_intune/Helpers/utils.dart';
 import 'package:capstone_project_intune/ui/video_call.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class JoinRoom extends StatelessWidget {
   final TextEditingController roomTxtController = TextEditingController();
+
+  FirebaseDatabase database = FirebaseDatabase.instance; // Instance of DB
+  FirebaseAuth auth = FirebaseAuth.instance; // Instance of Auth
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,8 @@ class JoinRoom extends StatelessWidget {
               if (roomTxtController.text.isNotEmpty) {
                 bool isPermissionGranted =
                 await handlePermissionsForCall(context);
-                if (isPermissionGranted) {
+                if (isPermissionGranted) { // Start Call
+                  addUserToDatabase(roomTxtController.text); // add user to room in database
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -86,4 +92,32 @@ class JoinRoom extends StatelessWidget {
       ),
     );
   }
+
+  void addUserToDatabase(String roomID) async
+  {
+    // DatabaseReference db = database.ref(); // get reference to read and write
+    final user = auth.currentUser; // get current user
+    final userID;
+    final rID = roomID;
+
+    if (user == null)
+    {
+      print ("FirebaseAuth Error, create_room.dart, line 125: Mo current user");
+    }
+    else
+    {
+      userID = user.uid; // get User ID of current user
+
+      // Create entry in rooms of named after roomId
+      final roomRef = database.ref("rooms/$rID"); // rooms/${rID} ?
+
+      // Write data into that entry
+      await roomRef.update({
+        "user_$userID":{ // add field for user
+          "uid" : userID // save userID, might be redundant, probably is
+        },
+      }); // set
+    }
+  }
+
 }
