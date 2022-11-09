@@ -3,6 +3,8 @@ import 'package:capstone_project_intune/Helpers/utils.dart';
 import 'package:capstone_project_intune/ui/video_call.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CreateRoom extends StatefulWidget {
   @override
@@ -17,6 +19,10 @@ class _CreateRoomState extends State<CreateRoom> {
     super.initState();
   }
 
+  FirebaseDatabase database = FirebaseDatabase.instance; // Instance of DB
+  FirebaseAuth auth = FirebaseAuth.instance; // Instance of Auth
+  // DatabaseReference ref = database.instance.ref();
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -26,7 +32,7 @@ class _CreateRoomState extends State<CreateRoom> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Room ID : " + roomId,
+            "Room ID : $roomId",
             style: const TextStyle(
                 color: Colors.black87,
                 fontSize: 20.0,
@@ -69,7 +75,8 @@ class _CreateRoomState extends State<CreateRoom> {
                 onPressed: () async {
                   bool isPermissionGranted =
                   await handlePermissionsForCall(context);
-                  if (isPermissionGranted) {
+                  if (isPermissionGranted) { // START CALL
+                    addSessionAndUserToDatabase(roomId); // Add Room and User to Firebase Database
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -107,4 +114,38 @@ class _CreateRoomState extends State<CreateRoom> {
       ),
     );
   }
+
+  // Add Session and User into Database
+  void addSessionAndUserToDatabase(String roomID) async
+  {
+      // DatabaseReference db = database.ref(); // get reference to read and write
+      final user = auth.currentUser; // get current user
+      final userID;
+
+      if (user == null)
+      {
+        print ("FirebaseAuth Error, create_room.dart, line 125: Mo current user");
+      }
+      else
+      {
+        userID = user.uid; // get User ID of current user
+
+        // Create entry in rooms of named after roomId
+        final roomRef = database.ref("rooms/$roomId"); // rooms/${userID} ?
+
+        // Write data into that entry
+        await roomRef.set({
+          "user_$userID":{ // add field for user
+            "uid" : userID // save userID, might be redundant, probably is
+          },
+          "status":{
+            "recording" : false // Set recording boolean to not recording
+          }
+        }); // set
+      }
+  } // addSessionAndUserToDatabase
+
+
+
+
 }
