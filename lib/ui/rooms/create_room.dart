@@ -1,6 +1,7 @@
 //import 'package:capstone_project_intune/Helpers/text_styles.dart';
 import 'package:capstone_project_intune/Helpers/utils.dart';
 import 'package:capstone_project_intune/ui/video_call.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -19,7 +20,7 @@ class _CreateRoomState extends State<CreateRoom> {
     super.initState();
   }
 
-  FirebaseDatabase database = FirebaseDatabase.instance; // Instance of DB
+  FirebaseFirestore database = FirebaseFirestore.instance; // Instance of DB
   FirebaseAuth auth = FirebaseAuth.instance; // Instance of Auth
   // DatabaseReference ref = database.instance.ref();
 
@@ -116,7 +117,7 @@ class _CreateRoomState extends State<CreateRoom> {
   }
 
   // Add Session and User into Database
-  void addSessionAndUserToDatabase(String roomID) async
+  void addSessionAndUserToDatabase(String roomId) async
   {
       // DatabaseReference db = database.ref(); // get reference to read and write
       final user = auth.currentUser; // get current user
@@ -124,24 +125,16 @@ class _CreateRoomState extends State<CreateRoom> {
 
       if (user == null)
       {
-        print ("FirebaseAuth Error, create_room.dart, line 125: Mo current user");
+        print("FirebaseAuth Error, create_room.dart, line 125: Mo current user");
       }
       else
       {
         userID = user.uid; // get User ID of current user
 
         // Create entry in rooms of named after roomId
-        final roomRef = database.ref("rooms/$roomId"); // rooms/${roomID} ?
-
-        // Write data into that entry
-        await roomRef.set({
-          "user_$userID":{ // add field for user
-            "uid" : userID // save userID, might be redundant, probably is
-          },
-          "status":{
-            "recording" : false // Set recording boolean to not recording
-          }
-        }); // set
+        final docUser = FirebaseFirestore.instance.collection("rooms").doc("roomID");
+        await docUser.set({"records": false});
+        docUser.collection("users").doc(userID).set({"time": Timestamp.now()});
       }
   } // addSessionAndUserToDatabase
 
