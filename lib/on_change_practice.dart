@@ -1,5 +1,6 @@
 import 'package:capstone_project_intune/ui/rooms/create_room.dart';
 import 'package:capstone_project_intune/ui/rooms/join_room.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class _on_change_practiceState extends State<on_change_practice>
     super.initState();
   }
 
-  FirebaseDatabase database = FirebaseDatabase.instance; // Instance of DB
+  FirebaseFirestore database = FirebaseFirestore.instance; // Instance of DB
   FirebaseAuth auth = FirebaseAuth.instance; // Instance of Auth
 
   @override
@@ -111,17 +112,17 @@ class _on_change_practiceState extends State<on_change_practice>
       userID = user.uid; // get User ID of current user
 
       // Create entry in rooms of named after roomId
-      final roomRef = database.ref("rooms/$roomID"); // rooms/${roomID} ?
+      final roomRef = database.collection("rooms").doc(roomID);//ref("rooms/$roomID"); // rooms/${roomID} ?
 
       // Write data into that entry
-      await roomRef.set({
-        "user_$userID":{ // add field for user
-          "uid" : userID // save userID, might be redundant, probably is
-        },
-        "status":{
-          "recording" : false // Set recording boolean to not recording
-        }
-      }); // set
+      await roomRef.set({"status": false}); // set
+      final subCollection = roomRef.collection("users").doc(userID);
+      await subCollection.set({
+        "audio": "audioRef",
+        "timestamp": 0
+      });
+      // "user_$userID":{ // add field for user
+      //"uid" : userID // save userID, might be redundant, probably is
     }
   }
 
@@ -142,14 +143,15 @@ class _on_change_practiceState extends State<on_change_practice>
       userID = user.uid; // get User ID of current user
 
       // Create entry in rooms of named after roomId
-      final roomRef = database.ref("rooms/$rID"); // rooms/${rID} ?
+      //final roomRef = database.ref("rooms/$rID"); // rooms/${rID} ?
+      final roomRef = database.collection("rooms").doc(roomID);//ref("rooms/$roomID"); // rooms/${roomID} ?
 
       // Write data into that entry
-      await roomRef.update({
-        "user_$userID":{ // add field for user
-          "uid" : userID // save userID, might be redundant, probably is
-        },
-      }); // set
+      final subCollection = roomRef.collection("users").doc(userID);
+      await subCollection.set({
+        "audio": "audioRef1",
+        "timestamp": 1
+      });
     }
   }
 
@@ -206,13 +208,11 @@ class _on_change_practiceState extends State<on_change_practice>
       userID = user.uid; // get User ID of current user
 
       // Create ref entry point in rooms of named after roomId
-      final roomRef = database.ref("rooms/$roomID"); // rooms/${roomID} ?
+      final roomRef = database.collection("rooms").doc(roomID);
 
       // Write data into that entry
-      await roomRef.update({
-        "status":{
-          "recording" : true // Set recording boolean to not recording
-        }
+      await roomRef.set({
+        "status": true // Set recording boolean to not recording
       }); // update
     }
   }
@@ -234,13 +234,11 @@ class _on_change_practiceState extends State<on_change_practice>
       userID = user.uid; // get User ID of current user
 
       // Create ref entry point in rooms of named after roomId
-      final roomRef = database.ref("rooms/$roomID"); // rooms/${roomID} ?
+      final roomRef = database.collection("rooms").doc(roomID); // rooms/${roomID} ?
 
       // Write data into that entry
       await roomRef.update({
-        "status":{
-          "recording" : false // Set recording boolean to not recording
-        }
+        "status":false // Set recording boolean to not recording
       }); // update
     }
   }

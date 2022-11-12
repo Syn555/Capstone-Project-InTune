@@ -10,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'database.dart';
 import 'firebase_options.dart';
+import 'on_change_practice.dart';
 import 'ui/authentication.dart';
 
 
@@ -26,10 +27,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'InTune',
       //home: Tuning(title: 'Tuning'),
-      home: Database(),
+      home: on_change_practice(),
       debugShowCheckedModeBanner: false, //setup this property
     );
   }
