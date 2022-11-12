@@ -8,6 +8,7 @@ import 'package:capstone_project_intune/ui/tuningReg.dart';
 import 'package:capstone_project_intune/ui/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'database.dart';
 import 'firebase_options.dart';
 import 'ui/authentication.dart';
 
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'InTune',
-      home: Tuning(title: 'Tuning'),
+      //home: Tuning(title: 'Tuning'),
+      home: Database(),
       debugShowCheckedModeBanner: false, //setup this property
     );
   }

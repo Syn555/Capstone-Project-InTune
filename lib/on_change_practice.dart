@@ -173,14 +173,14 @@ class on_change_practice extends StatelessWidget
 
     await recorder.openRecorder();
   }
-
+/*
   @override
   void dispose() // ????? THIS IS WONKY WITH SUPER CLASSES OR SMTH IDK BROOOOO ?????????
   {
     recorder.closeRecorder();
     super.dispose();
   }
-
+*/
 
   // Changes boolean "recording" in database to on
   void switchOn() async
