@@ -3,31 +3,37 @@ import 'package:capstone_project_intune/ui/rooms/join_room.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-//import 'package:capstone_project_intune/Helpers/text_styles.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+// import 'package:capstone_project_intune/Helpers/text_styles.dart';
 import 'package:get/get.dart';
 import 'dart:typed_data';
 import 'dart:io';
 import 'package:capstone_project_intune/main.dart';
 import 'package:capstone_project_intune/Helpers/utils.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 
 class on_change_practice extends StatelessWidget
 {
 
+  final recorder = FlutterSoundRecorder();
+
   String roomID = "";
-  /*
+
   @override
   void initState() {
     roomID = generateRandomString(8);
-    super.initState();
-  } */
+
+    initRecorder();
+    // super.initState();
+  }
 
   FirebaseDatabase database = FirebaseDatabase.instance; // Instance of DB
   FirebaseAuth auth = FirebaseAuth.instance; // Instance of Auth
 
   @override
   Widget build(BuildContext context) {
-    roomID = generateRandomString(8);
+    // roomID = generateRandomString(8);
 
     return Scaffold(
       drawer: const SideDrawer(),
@@ -140,16 +146,30 @@ class on_change_practice extends StatelessWidget
   }
 
   // To be called in body of database listener
-  void startRecording()
+  void startRecording() async
   {
-
+    await recorder.startRecorder(toFile: roomID);
   }
 
   // To be called in body of database listener
-  void stopRecording()
+  void stopRecording() async
   {
-
+    await recorder.stopRecorder();
   }
+
+  // Initialize microphone
+  Future initRecorder() async
+  {
+    final status = await Permission.microphone.request();
+
+    if (status != PermissionStatus.granted)
+      {
+        throw 'Microphone Permission Not Granted';
+      }
+
+    await recorder.openRecorder();
+  }
+
 
   // Changes boolean "recording" in database to on
   void switchOn() async

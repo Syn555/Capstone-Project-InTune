@@ -57,6 +57,7 @@ dependencies:
   agora_rtc_engine: 1.0.15
   signal_strength_indicator:
   convex_bottom_bar:
+  flutter_sound: ^9.2.13
 dev_dependencies:
   flutter_test:
     sdk: flutter
