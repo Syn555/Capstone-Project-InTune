@@ -20,6 +20,7 @@ class on_change_practice extends StatelessWidget
 
   String roomID = "";
 
+  // FIGURE OUT SUPER CLASS BS
   @override
   void initState() {
     roomID = generateRandomString(8);
@@ -154,7 +155,10 @@ class on_change_practice extends StatelessWidget
   // To be called in body of database listener
   void stopRecording() async
   {
-    await recorder.stopRecorder();
+    final path = await recorder.stopRecorder();
+    final audioFile = File(path!);
+
+    print('Recorded Audio @ path: $audioFile');
   }
 
   // Initialize microphone
@@ -168,6 +172,13 @@ class on_change_practice extends StatelessWidget
       }
 
     await recorder.openRecorder();
+  }
+
+  @override
+  void dispose() // ????? THIS IS WONKY WITH SUPER CLASSES OR SMTH IDK BROOOOO ?????????
+  {
+    recorder.closeRecorder();
+    super.dispose();
   }
 
 
