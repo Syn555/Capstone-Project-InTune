@@ -12,8 +12,15 @@ import 'package:capstone_project_intune/main.dart';
 import 'package:capstone_project_intune/Helpers/utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+class on_change_practice extends StatefulWidget
+{
+  @override
+  _on_change_practiceState createState() =>  _on_change_practiceState();
+}
 
-class on_change_practice extends StatelessWidget
+
+
+class _on_change_practiceState extends State<on_change_practice>
 {
 
   final recorder = FlutterSoundRecorder();
@@ -26,7 +33,7 @@ class on_change_practice extends StatelessWidget
     roomID = generateRandomString(8);
 
     initRecorder();
-    // super.initState();
+    super.initState();
   }
 
   FirebaseDatabase database = FirebaseDatabase.instance; // Instance of DB
