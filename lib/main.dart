@@ -162,7 +162,7 @@ class SideDrawerReg extends StatelessWidget {
             title: const Text('Virtual Band'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-               return live_band();
+               return on_change_practice();
               },),),},
           ),
         ],

@@ -237,7 +237,7 @@ class _on_change_practiceState extends State<on_change_practice>
       final roomRef = database.collection("rooms").doc(roomID); // rooms/${roomID} ?
 
       // Write data into that entry
-      await roomRef.update({
+      await roomRef.set({
         "status":false // Set recording boolean to not recording
       }); // update
     }
