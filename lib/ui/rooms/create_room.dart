@@ -133,7 +133,7 @@ class _CreateRoomState extends State<CreateRoom> {
 
         // Create entry in rooms of named after roomId
         final docUser = FirebaseFirestore.instance.collection("rooms").doc("roomID");
-        await docUser.set({"records": false});
+        await docUser.set({"status": false});
         docUser.collection("users").doc(userID).set({"time": Timestamp.now()});
       }
   } // addSessionAndUserToDatabase

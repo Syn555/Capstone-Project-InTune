@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'InTune',
-      //home: Tuning(title: 'Tuning'),
-      home: Database(),
+      home: Tuning(title: 'Tuning'),
+      //home: Database(),
       debugShowCheckedModeBanner: false, //setup this property
     );
   }
