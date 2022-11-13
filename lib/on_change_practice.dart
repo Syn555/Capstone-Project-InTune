@@ -300,46 +300,27 @@ class _on_change_practiceState extends State<on_change_practice> {
   {
     // Step 1: Access Users in Room in Database
     final usersRef = database.collection("rooms").doc(roomID).collection("users"); // Access the collection of users within room
-    print(usersRef.path);
+    //print(usersRef.path);
 
     final snapshot = await usersRef.get();
     List<DocumentSnapshot> tempList = snapshot.docs;
 
     List<String> roomUsers = [];
+    List<String> paths = [];
 
     for (var value in tempList) {
       roomUsers.add(value.id);
     }
 
-    for (var name in roomUsers)
-      {
-        print("username: $name");
-      }
+    for (var name in roomUsers) {
+      String path = "${usersRef.path}/$name";
+          //print("username: $name");
+      paths.add(path);
 
-    // QuerySnapshot<Map<dynamic, dynamic>> snapshot = await usersRef.get(const GetOptions(source: Source.cache));
-    // final mapSnapshot = snapshot.data() as Map<dynamic, dynamic>;
-    /*
-    List<Map<dynamic, dynamic>> userList = tempList.map((DocumentSnapshot docSnapshot){
-      return docSnapshot.data();
-    }).toList();
-
-     */
-
-    /*
-    final snapshot = await usersRef.get().then(
-          (res) =>
-        {
-          res.forEach()
-          // print("Success: $res"),
-        },
-          onError: (e) => print("error with $e"),
-
-    );
-
-         */
-
-
+    }
+    print(paths.toString());
     // Step 2: Get file paths and handle (?)
+
     // Step 3: Download files
     // Step 4: Merge to Merged File
     // Step 5: Upload to Storage Somewhere
