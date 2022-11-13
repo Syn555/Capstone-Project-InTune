@@ -300,7 +300,12 @@ class _on_change_practiceState extends State<on_change_practice> {
   {
     // Step 1: Access Users in Room in Database
     final usersRef = database.collection("rooms").doc(roomID).collection("users"); // Access the collection of users within room
-    print(usersRef);
+    print(usersRef.path);
+
+    final snapshot = await usersRef.get().then(
+        (res) => print("Success: $res"),
+      onError: (e) => print("error with $e"),
+    );
 
 
     // Step 2: Get file paths and handle (?)
