@@ -173,6 +173,7 @@ class _on_change_practiceState extends State<on_change_practice>
   // To be called in body of database listener
   void startRecording() async
   {
+    switchOn();
     await recorder.startRecorder(toFile: roomID);
   }
 
@@ -197,15 +198,16 @@ class _on_change_practiceState extends State<on_change_practice>
       final fileURL = wayfaringRef.fullPath;
 
       // also make this shit a variable (doc)
-      final roomRef = database.collection("rooms").doc("RhhLSlPx");//ref("rooms/$roomID"); // rooms/${roomID}
+      final roomRef = database.collection("rooms").doc(roomID);//ref("rooms/$roomID"); // rooms/${roomID}
 
       final subCollection = roomRef.collection("users").doc(userID);
       await subCollection.update({"audio": fileURL,});
 
 
+
       // final fileURL = filesRef.child(fileName).fullPath;
     }
-
+    switchOff();
     // print('Recorded Audio @ path: $audioFile');
   }
 
