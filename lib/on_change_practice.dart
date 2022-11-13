@@ -302,10 +302,41 @@ class _on_change_practiceState extends State<on_change_practice> {
     final usersRef = database.collection("rooms").doc(roomID).collection("users"); // Access the collection of users within room
     print(usersRef.path);
 
+    final snapshot = await usersRef.get();
+    List<DocumentSnapshot> tempList = snapshot.docs;
+
+    List<String> roomUsers = [];
+
+    for (var value in tempList) {
+      roomUsers.add(value.id);
+    }
+
+    for (var name in roomUsers)
+      {
+        print("username: $name");
+      }
+
+    // QuerySnapshot<Map<dynamic, dynamic>> snapshot = await usersRef.get(const GetOptions(source: Source.cache));
+    // final mapSnapshot = snapshot.data() as Map<dynamic, dynamic>;
+    /*
+    List<Map<dynamic, dynamic>> userList = tempList.map((DocumentSnapshot docSnapshot){
+      return docSnapshot.data();
+    }).toList();
+
+     */
+
+    /*
     final snapshot = await usersRef.get().then(
-        (res) => print("Success: $res"),
-      onError: (e) => print("error with $e"),
+          (res) =>
+        {
+          res.forEach()
+          // print("Success: $res"),
+        },
+          onError: (e) => print("error with $e"),
+
     );
+
+         */
 
 
     // Step 2: Get file paths and handle (?)
