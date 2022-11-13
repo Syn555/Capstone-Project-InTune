@@ -1,54 +1,37 @@
-import 'package:capstone_project_intune/ui/rooms/create_room.dart';
-import 'package:capstone_project_intune/ui/rooms/join_room.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-// import 'package:capstone_project_intune/Helpers/text_styles.dart';
-import 'package:get/get.dart';
-import 'dart:typed_data';
-import 'dart:io';
 import 'package:capstone_project_intune/main.dart';
 import 'package:capstone_project_intune/Helpers/utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class on_change_practice extends StatefulWidget
-{
+class on_change_practice extends StatefulWidget {
+  const on_change_practice({super.key});
+
   @override
   _on_change_practiceState createState() =>  _on_change_practiceState();
 }
 
-
-
-class _on_change_practiceState extends State<on_change_practice>
-{
-
+class _on_change_practiceState extends State<on_change_practice> {
   final recorder = FlutterSoundRecorder();
-
   String roomID = "";
 
   // FIGURE OUT SUPER CLASS BS UPDATE: FIGURED IT OUT YAY
   @override
   void initState() {
-    roomID = generateRandomString(8);
-
     initRecorder();
     super.initState();
   }
 
   FirebaseFirestore database = FirebaseFirestore.instance; // Instance of DB
   FirebaseAuth auth = FirebaseAuth.instance; // Instance of Auth
-  final storage = FirebaseStorage.instance; // Create instance of Firebase Storage
   final storageRef = FirebaseStorage.instance.ref(); // Create a reference of storage
 
   final controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    // roomID = generateRandomString(8);
-
-
     return Scaffold(
       drawer: const SideDrawer(),
       appBar: AppBar(
@@ -65,6 +48,14 @@ class _on_change_practiceState extends State<on_change_practice>
               ),
             ),
             TextField(controller: controller),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            Text(
+              "Room ID: $roomID",
+              style: const TextStyle(
+                  fontSize: 20,
+                  letterSpacing: 2
+              ),
+            ),
             Expanded(
                 child: Row(
                   children: [
@@ -101,68 +92,55 @@ class _on_change_practiceState extends State<on_change_practice>
                                 onPressed: stopRecording,
                                 child: const Text("Stop")))),
                   ],
-                ))
-          ],
+                )
+            )],
           )
       ),
     );
-
   }
 
   // "Create" Room, add Room and User to DB
-  void createRoom() async
-  {
+  void createRoom() async {
     final user = auth.currentUser; // get current user
-    final userID;
 
-    // roomID = generateRandomString(8);
+    roomID = generateRandomString(8);
+    setState(() {
+      roomID = roomID;
+    });
 
-    if (user == null)
-    {
+    if (user == null) {
       print("FirebaseAuth Error, create_room.dart, line 125: Mo current user");
     }
-    else
-    {
-      userID = user.uid; // get User ID of current user
-
+    else {
       // Create entry in rooms of named after roomId
-      final roomRef = database.collection("rooms").doc(roomID);//ref("rooms/$roomID"); // rooms/${roomID} ?
+      final roomRef = database.collection("rooms").doc(roomID);
 
       // Write data into that entry
       await roomRef.set({"status": false}); // set
-      final subCollection = roomRef.collection("users").doc(userID);
+      final subCollection = roomRef.collection("users").doc(user.uid);
       await subCollection.set({
         "audio": "audioRef",
         "timestamp": 0
       });
-      // "user_$userID":{ // add field for user
-      //"uid" : userID // save userID, might be redundant, probably is
     }
   }
 
   // "Join" Room, add User to Room in DB
-  void joinRoom() async
-  {
-    // DatabaseReference db = database.ref(); // get reference to read and write
+  void joinRoom() async {
     final user = auth.currentUser; // get current user
-    final userID;
-    roomID = controller.text;
+    roomID = controller.text; //User inputs Room ID to join a room
 
-
-    if (user == null)
-    {
+    if (user == null) {
       print ("FirebaseAuth Error, create_room.dart, line 125: No current user");
     }
-    else
-    {
-      userID = user.uid; // get User ID of current user
-
+    else{
       // Create entry in rooms of named after roomId
-      //final roomRef = database.ref("rooms/$rID"); // rooms/${rID} ?
-      final roomRef = database.collection("rooms").doc(roomID);//ref("rooms/$roomID"); // rooms/${roomID} ?
+      final roomRef = database.collection("rooms").doc(roomID);
 
       // Write data into that entry
-      final subCollection = roomRef.collection("users").doc(userID);
+      final subCollection = roomRef.collection("users").doc(user.uid);
+
+      //TEMP placeholder
       await subCollection.set({
         "audio": "audioRef1",
         "timestamp": 1
@@ -171,56 +149,42 @@ class _on_change_practiceState extends State<on_change_practice>
   }
 
   // To be called in body of database listener
-  void startRecording() async
-  {
-    switchOn();
+  void startRecording() async {
+    switchOn(); //Set synced db field to true
     await recorder.startRecorder(toFile: roomID);
   }
 
   // To be called in body of database listener
   // Recording Functionality has been commented out
-  void stopRecording() async
-  {
+  void stopRecording() async {
     // final path = await recorder.stopRecorder();
     // final audioFile = File(path!);
     final user = auth.currentUser; // get current user
 
     if (user == null) { print("No User Currently"); } // null safety for user
-    else
-    {
-      final userID = user.uid; // get user ID
-
+    else {
       // This uploads the file to Firebase Storage
       // The path to file is MusicXMLFiles/userId/fileName
       // filesRef.child(userID).child(fileName).putFile(fileForFirebase);
       final filesRef = storageRef.child("audioFiles");
-      final wayfaringRef = filesRef.child("Wayfaring Stranger Cover.mp3"); // Make this shit a variable
-      final fileURL = wayfaringRef.fullPath;
+      final audioRef = filesRef.child("Wayfaring Stranger Cover.mp3"); // Make this shit a variable
+      final fileURL = audioRef.fullPath;
 
-      // also make this shit a variable (doc)
-      final roomRef = database.collection("rooms").doc(roomID);//ref("rooms/$roomID"); // rooms/${roomID}
+      final roomRef = database.collection("rooms").doc(roomID);
 
-      final subCollection = roomRef.collection("users").doc(userID);
+      final subCollection = roomRef.collection("users").doc(user.uid);
       await subCollection.update({"audio": fileURL,});
-
-
-
-      // final fileURL = filesRef.child(fileName).fullPath;
     }
     switchOff();
-    // print('Recorded Audio @ path: $audioFile');
   }
 
   // Initialize microphone
-  Future initRecorder() async
-  {
+  Future initRecorder() async {
     final status = await Permission.microphone.request();
-
     if (status != PermissionStatus.granted)
       {
         throw 'Microphone Permission Not Granted';
       }
-
     await recorder.openRecorder();
   }
 /*
@@ -233,52 +197,34 @@ class _on_change_practiceState extends State<on_change_practice>
 */
 
   // Changes boolean "recording" in database to on
-  void switchOn() async
-  {
+  void switchOn() async {
     final user = auth.currentUser; // get current user
 
-    // roomID = generateRandomString(8);
-
-    if (user == null)
-    {
+    if (user == null) {
       print("FirebaseAuth Error, create_room.dart, line 244: Mo current user");
     }
-    else
-    {
-      // get User ID of current user
-
+    else {
       // Create ref entry point in rooms of named after roomId
       final roomRef = database.collection("rooms").doc(roomID);
 
-      // Write data into that entry
-      await roomRef.update({
-        "status": true // Set recording boolean to not recording
-      }); // update
+      // Set recording boolean to recording
+      await roomRef.update({"status": true}); // update
     }
   }
 
   // Change boolean "recording" in database to off
-  void switchOff() async
-  {
+  void switchOff() async {
     final user = auth.currentUser; // get current user
 
-    // roomID = generateRandomString(8);
-
-    if (user == null)
-    {
+    if (user == null) {
       print("FirebaseAuth Error, create_room.dart, line 125: Mo current user");
     }
-    else
-    {
-// get User ID of current user
-
+    else {
       // Create ref entry point in rooms of named after roomId
       final roomRef = database.collection("rooms").doc(roomID); // rooms/${roomID} ?
 
-      // Write data into that entry
-      await roomRef.update({
-        "status":false // Set recording boolean to not recording
-      }); // update
+      // Set recording boolean to not recording
+      await roomRef.update({"status": false}); // update
     }
   }
 } // EOF
