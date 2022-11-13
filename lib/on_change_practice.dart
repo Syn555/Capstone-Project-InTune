@@ -45,7 +45,7 @@ class _on_change_practiceState extends State<on_change_practice> {
     return Scaffold(
       drawer: const SideDrawer(),
       appBar: AppBar(
-        title: const Text('Sync Testing'),
+        title: const Text('Virtual Band-ish'),
       ),
       body: Center(
           child: Column(children: [
@@ -311,7 +311,8 @@ class _on_change_practiceState extends State<on_change_practice> {
     List<DocumentSnapshot> tempList = snapshot.docs;
     List<String> roomUsers = [];
     List<String> paths = [];
-    List<Reference> audioRefList = [];
+    List<Reference> audioRefList = []; // Each file reference to be downloaded
+    List<String> localPaths = []; // ONCE DOWNLOADED, ADD EACH LOCAL FILE PATH TO THIS LIST
 
     // ffmpeg execution statement
     String ffmpegExec = "";
@@ -334,6 +335,8 @@ class _on_change_practiceState extends State<on_change_practice> {
     }
 
     // Testing to verify all storage references are correct
+
+    // in this, for each, download file and then get local storage path, add to localPaths
     for (var pathName in audioRefList)
     {
       print(pathName.fullPath);
