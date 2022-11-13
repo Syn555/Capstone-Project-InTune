@@ -209,6 +209,7 @@ class _on_change_practiceState extends State<on_change_practice> {
 
       // Set recording boolean to recording
       await roomRef.update({"status": true}); // update
+      onChange();
     }
   }
 
@@ -225,6 +226,15 @@ class _on_change_practiceState extends State<on_change_practice> {
 
       // Set recording boolean to not recording
       await roomRef.update({"status": false}); // update
+      onChange();
     }
+  }
+
+  void onChange() async{
+    final roomRef = database.collection("rooms").doc(roomID);
+    roomRef.snapshots().listen((event) =>
+      print("current data: ${event.data()}"),
+        onError: (error) => print("Listen failed: $error")
+    );
   }
 } // EOF
