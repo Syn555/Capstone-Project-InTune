@@ -30,6 +30,7 @@ class _on_change_practiceState extends State<on_change_practice> {
   final storageRef = FirebaseStorage.instance.ref(); // Create a reference of storage
 
   final controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +52,14 @@ class _on_change_practiceState extends State<on_change_practice> {
             const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             Text(
               "Room ID: $roomID",
+              style: const TextStyle(
+                  fontSize: 20,
+                  letterSpacing: 2
+              ),
+            ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            Text(
+              "Recording Status: $changeStatus",
               style: const TextStyle(
                   fontSize: 20,
                   letterSpacing: 2
@@ -122,6 +131,7 @@ class _on_change_practiceState extends State<on_change_practice> {
         "audio": "audioRef",
         "timestamp": 0
       });
+      onChange();
     }
   }
 
@@ -145,6 +155,7 @@ class _on_change_practiceState extends State<on_change_practice> {
         "audio": "audioRef1",
         "timestamp": 1
       });
+      onChange();
     }
   }
 
@@ -209,7 +220,6 @@ class _on_change_practiceState extends State<on_change_practice> {
 
       // Set recording boolean to recording
       await roomRef.update({"status": true}); // update
-      onChange();
     }
   }
 
@@ -226,7 +236,6 @@ class _on_change_practiceState extends State<on_change_practice> {
 
       // Set recording boolean to not recording
       await roomRef.update({"status": false}); // update
-      onChange();
     }
   }
 
