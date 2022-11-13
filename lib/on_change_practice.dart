@@ -57,14 +57,6 @@ class _on_change_practiceState extends State<on_change_practice> {
                   letterSpacing: 2
               ),
             ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-            Text(
-              "Recording Status: $changeStatus",
-              style: const TextStyle(
-                  fontSize: 20,
-                  letterSpacing: 2
-              ),
-            ),
             Expanded(
                 child: Row(
                   children: [
