@@ -199,10 +199,7 @@ class _on_change_practiceState extends State<on_change_practice>
       final roomRef = database.collection("rooms").doc("RhhLSlPx");//ref("rooms/$roomID"); // rooms/${roomID}
 
       final subCollection = roomRef.collection("users").doc(userID);
-      await subCollection.update({
-        "audio": fileURL,
-        "timestamp" : 3
-      });
+      await subCollection.update({"audio": fileURL,});
 
 
       // final fileURL = filesRef.child(fileName).fullPath;
@@ -236,7 +233,6 @@ class _on_change_practiceState extends State<on_change_practice>
   void switchOn() async
   {
     final user = auth.currentUser; // get current user
-    final userID;
 
     // roomID = generateRandomString(8);
 
@@ -246,13 +242,13 @@ class _on_change_practiceState extends State<on_change_practice>
     }
     else
     {
-      userID = user.uid; // get User ID of current user
+// get User ID of current user
 
       // Create ref entry point in rooms of named after roomId
       final roomRef = database.collection("rooms").doc(roomID);
 
       // Write data into that entry
-      await roomRef.set({
+      await roomRef.update({
         "status": true // Set recording boolean to not recording
       }); // update
     }
@@ -262,7 +258,6 @@ class _on_change_practiceState extends State<on_change_practice>
   void switchOff() async
   {
     final user = auth.currentUser; // get current user
-    final userID;
 
     // roomID = generateRandomString(8);
 
@@ -272,13 +267,13 @@ class _on_change_practiceState extends State<on_change_practice>
     }
     else
     {
-      userID = user.uid; // get User ID of current user
+// get User ID of current user
 
       // Create ref entry point in rooms of named after roomId
       final roomRef = database.collection("rooms").doc(roomID); // rooms/${roomID} ?
 
       // Write data into that entry
-      await roomRef.set({
+      await roomRef.update({
         "status":false // Set recording boolean to not recording
       }); // update
     }
