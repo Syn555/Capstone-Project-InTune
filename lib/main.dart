@@ -1,5 +1,6 @@
 import 'package:capstone_project_intune/UploadTest.dart';
 import 'package:capstone_project_intune/file_picker_demo.dart';
+import 'package:capstone_project_intune/on_change_practice.dart';
 import 'package:capstone_project_intune/ui/live_band.dart';
 import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:capstone_project_intune/composition.dart';
@@ -26,10 +27,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'InTune',
-      home: Tuning(title: 'Tuning'),
-      //home: Database(),
+      //  home: Tuning(title: 'Tuning'),
+      home: on_change_practice(),
       debugShowCheckedModeBanner: false, //setup this property
     );
   }

@@ -87,7 +87,7 @@ class _on_change_practiceState extends State<on_change_practice>
                                 heroTag: "Stop",
                                 backgroundColor: Colors.red,
                                 splashColor: Colors.blueGrey,
-                                onPressed: createRoom,
+                                onPressed: stopRecording,
                                 child: const Text("Stop")))),
                   ],
                 ))
@@ -101,6 +101,7 @@ class _on_change_practiceState extends State<on_change_practice>
   // "Create" Room, add Room and User to DB
   void createRoom() async
   {
+
     final user = auth.currentUser; // get current user
     final userID;
 
@@ -115,6 +116,7 @@ class _on_change_practiceState extends State<on_change_practice>
       userID = user.uid; // get User ID of current user
 
       // Create entry in rooms of named after roomId
+      /*
       final roomRef = database.ref("rooms/$roomID"); // rooms/${roomID} ?
 
       // Write data into that entry
@@ -126,6 +128,8 @@ class _on_change_practiceState extends State<on_change_practice>
           "recording" : false // Set recording boolean to not recording
         }
       }); // set
+
+       */
     }
   }
 
@@ -144,7 +148,7 @@ class _on_change_practiceState extends State<on_change_practice>
     else
     {
       userID = user.uid; // get User ID of current user
-
+  /*
       // Create entry in rooms of named after roomId
       final roomRef = database.ref("rooms/$rID"); // rooms/${rID} ?
 
@@ -154,6 +158,8 @@ class _on_change_practiceState extends State<on_change_practice>
           "uid" : userID // save userID, might be redundant, probably is
         },
       }); // set
+
+   */
     }
   }
 
@@ -235,7 +241,7 @@ class _on_change_practiceState extends State<on_change_practice>
     else
     {
       userID = user.uid; // get User ID of current user
-
+/*
       // Create ref entry point in rooms of named after roomId
       final roomRef = database.ref("rooms/$roomID"); // rooms/${roomID} ?
 
@@ -245,12 +251,15 @@ class _on_change_practiceState extends State<on_change_practice>
           "recording" : true // Set recording boolean to not recording
         }
       }); // update
+
+ */
     }
   }
 
   // Change boolean "recording" in database to off
   void switchOff() async
   {
+
     final user = auth.currentUser; // get current user
     final userID;
 
@@ -263,7 +272,7 @@ class _on_change_practiceState extends State<on_change_practice>
     else
     {
       userID = user.uid; // get User ID of current user
-
+/*
       // Create ref entry point in rooms of named after roomId
       final roomRef = database.ref("rooms/$roomID"); // rooms/${roomID} ?
 
@@ -273,6 +282,8 @@ class _on_change_practiceState extends State<on_change_practice>
           "recording" : false // Set recording boolean to not recording
         }
       }); // update
+
+ */
     }
   }
 } // EOF
