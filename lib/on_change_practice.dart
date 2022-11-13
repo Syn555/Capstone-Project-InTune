@@ -29,7 +29,7 @@ class _on_change_practiceState extends State<on_change_practice>
 
   String roomID = "";
 
-  // FIGURE OUT SUPER CLASS BS
+  // FIGURE OUT SUPER CLASS BS UPDATE: FIGURED IT OUT YAY
   @override
   void initState() {
     roomID = generateRandomString(8);
@@ -146,7 +146,7 @@ class _on_change_practiceState extends State<on_change_practice>
     // DatabaseReference db = database.ref(); // get reference to read and write
     final user = auth.currentUser; // get current user
     final userID;
-    final rID = controller.text;
+    roomID = controller.text;
 
 
     if (user == null)
@@ -159,7 +159,7 @@ class _on_change_practiceState extends State<on_change_practice>
 
       // Create entry in rooms of named after roomId
       //final roomRef = database.ref("rooms/$rID"); // rooms/${rID} ?
-      final roomRef = database.collection("rooms").doc(rID);//ref("rooms/$roomID"); // rooms/${roomID} ?
+      final roomRef = database.collection("rooms").doc(roomID);//ref("rooms/$roomID"); // rooms/${roomID} ?
 
       // Write data into that entry
       final subCollection = roomRef.collection("users").doc(userID);
