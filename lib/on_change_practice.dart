@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:capstone_project_intune/main.dart';
 import 'package:capstone_project_intune/Helpers/utils.dart';
@@ -23,6 +24,7 @@ class _on_change_practiceState extends State<on_change_practice> {
   String roomID = "";
   String pathToAudio = "";
 
+
   // FIGURE OUT SUPER CLASS BS UPDATE: FIGURED IT OUT YAY
   @override
   void initState() {
@@ -35,6 +37,8 @@ class _on_change_practiceState extends State<on_change_practice> {
   final storageRef = FirebaseStorage.instance.ref(); // Create a reference of storage
 
   final controller = TextEditingController();
+
+  FlutterFFmpeg _ffMpeg = FlutterFFmpeg();
 
   @override
   Widget build(BuildContext context) {
@@ -305,10 +309,12 @@ class _on_change_practiceState extends State<on_change_practice> {
 
     final snapshot = await usersRef.get();
     List<DocumentSnapshot> tempList = snapshot.docs;
-
     List<String> roomUsers = [];
     List<String> paths = [];
     List<Reference> audioRefList = [];
+
+    // ffmpeg execution statement
+    String ffmpegExec = "";
 
     for (var value in tempList) {
       roomUsers.add(value.id);
@@ -333,11 +339,6 @@ class _on_change_practiceState extends State<on_change_practice> {
       print(pathName.fullPath);
     }
 
-    for (var audioFile in audioRefList)
-    {
-
-    }
-
     // final userStorage = filesRef.child(roomUsers[0]);
     // userStorage.child("$roomID.mp4").putFile(audioFile);
 
@@ -347,6 +348,14 @@ class _on_change_practiceState extends State<on_change_practice> {
 
     // Step 3: Download files
     // Step 4: Merge to Merged File
+    for (var audioFile in audioRefList)
+    {
+      ffmpegExec += "-i $audioFile ";
+    }
+
+    ffmpegExec += "-c copy mixed_$roomID.mp4";
+
+    _ffMpeg.execute(ffmpegExec).then((return_code) => print("Return code $return_code"));
     // Step 5: Upload to Storage Somewhere
   }
 } // EOF
