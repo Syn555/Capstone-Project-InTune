@@ -77,7 +77,7 @@ class _on_change_practiceState extends State<on_change_practice> {
                                 heroTag: "Join",
                                 backgroundColor: Colors.blue,
                                 splashColor: Colors.white,
-                                onPressed: joinRoom, // _pickFile method
+                                onPressed: joinRoom,
                                 child: const Text("Join")))),
                     Expanded(
                         child: Center(
@@ -85,7 +85,8 @@ class _on_change_practiceState extends State<on_change_practice> {
                                 heroTag: "Start",
                                 backgroundColor: Colors.green,
                                 splashColor: Colors.blueGrey,
-                                onPressed: switchOn,
+                                // onPressed: switchOn,
+                                onPressed: startRecording, // switch back to switchOn after testing
                                 child: const Text("Start")))),
                     Expanded(
                         child: Center(
@@ -93,7 +94,8 @@ class _on_change_practiceState extends State<on_change_practice> {
                                 heroTag: "Stop",
                                 backgroundColor: Colors.red,
                                 splashColor: Colors.blueGrey,
-                                onPressed: switchOff,
+                                //onPressed: switchOff,
+                                onPressed: stopRecording, // switch back to switchOff after testing
                                 child: const Text("Stop")))),
                   ],
                 )
@@ -157,7 +159,9 @@ class _on_change_practiceState extends State<on_change_practice> {
   // To be called in body of database listener
   void startRecording() async {
     // switchOn(); //Set synced db field to true
-    await recorder.startRecorder(toFile: roomID, codec: Codec.aacMP4); // Starts recording to temporary file on device called the current roomID
+    // await recorder.startRecorder(toFile: roomID, codec: Codec.aacMP4); // Starts recording to temporary file on device called the current roomID
+    // await recorder.startRecorder(toFile: "tempAudio", codec: Codec.defaultCodec);
+    await recorder.startRecorder(toFile: "tempAudio.mp4", codec: Codec.defaultCodec);
   }
 
   // To be called in body of database listener
@@ -168,7 +172,8 @@ class _on_change_practiceState extends State<on_change_practice> {
     // Gets tempstorage/audioFile
     final tempDir = await getTemporaryDirectory();
     final tempPath = tempDir.path;
-    final audioPath = "$tempPath/$roomID";
+    // final audioPath = "$tempPath/$roomID";
+    final audioPath = "$tempPath/tempAudio";
     print("tempPath is: $tempPath");
     print("filePath is $audioPath");
 
