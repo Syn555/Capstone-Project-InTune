@@ -1,7 +1,9 @@
 import 'package:capstone_project_intune/ui/rooms/create_room.dart';
 import 'package:capstone_project_intune/ui/rooms/join_room.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 // import 'package:capstone_project_intune/Helpers/text_styles.dart';
@@ -36,8 +38,10 @@ class _on_change_practiceState extends State<on_change_practice>
     super.initState();
   }
 
-  FirebaseDatabase database = FirebaseDatabase.instance; // Instance of DB
+  FirebaseFirestore database = FirebaseFirestore.instance;// Instance of DB
   FirebaseAuth auth = FirebaseAuth.instance; // Instance of Auth
+  final storage = FirebaseStorage.instance; // Create instance of Firebase Storage
+  final storageRef = FirebaseStorage.instance.ref(); // Create a reference of storage
 
   @override
   Widget build(BuildContext context) {
@@ -162,10 +166,37 @@ class _on_change_practiceState extends State<on_change_practice>
   // To be called in body of database listener
   void stopRecording() async
   {
+    /*
     final path = await recorder.stopRecorder();
     final audioFile = File(path!);
+    */
+    final user = auth.currentUser; // get current user
 
-    print('Recorded Audio @ path: $audioFile');
+    if (user == null) { print("No User Currently"); } // null safety for user
+    else
+    {
+      final userID = user.uid; // get user ID
+
+      // This uploads the file to Firebase Storage
+      // The path to file is MusicXMLFiles/userId/fileName
+      // filesRef.child(userID).child(fileName).putFile(fileForFirebase);
+      final filesRef = storageRef.child("audioFiles");
+      final wayfaringRef = filesRef.child("Wayfaring Stranger Cover.mp3");
+      final fileURL = wayfaringRef.fullPath;
+
+      final roomRef = database.collection("rooms").doc("RhhLSlPx");//ref("rooms/$roomID"); // rooms/${roomID}
+
+      final subCollection = roomRef.collection("users").doc(userID);
+      await subCollection.update({
+        "audio": fileURL,
+        "timestamp": 2
+      });
+
+
+      // final fileURL = filesRef.child(fileName).fullPath;
+    }
+
+    // print('Recorded Audio @ path: $audioFile');
   }
 
   // Initialize microphone
