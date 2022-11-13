@@ -245,7 +245,7 @@ class _on_change_practiceState extends State<on_change_practice>
     }
     else
     {
-// get User ID of current user
+      // get User ID of current user
 
       // Create ref entry point in rooms of named after roomId
       final roomRef = database.collection("rooms").doc(roomID);
