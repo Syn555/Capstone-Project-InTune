@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _on_change_practiceState extends State<on_change_practice> {
   final storageRef = FirebaseStorage.instance.ref(); // Create a reference of storage
 
   final controller = TextEditingController();
-  final FlutterFFmpeg _ffMpeg = FlutterFFmpeg();
+  final FFmpegKit _ffMpeg = FFmpegKit();
 
   @override
   Widget build(BuildContext context) {
