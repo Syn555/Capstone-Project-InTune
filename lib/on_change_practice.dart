@@ -72,15 +72,15 @@ class _on_change_practiceState extends State<on_change_practice>
                         child: Center(
                             child: FloatingActionButton(
                                 heroTag: "Create",
-                                backgroundColor: Colors.red,
-                                splashColor: Colors.blueGrey,
+                                backgroundColor: Colors.blue,
+                                splashColor: Colors.white,
                                 onPressed: createRoom,
                                 child: const Text("Create")))),
                     Expanded(
                         child: Center(
                             child: FloatingActionButton(
                                 heroTag: "Join",
-                                backgroundColor: Colors.grey,
+                                backgroundColor: Colors.blue,
                                 splashColor: Colors.white,
                                 onPressed: joinRoom, // _pickFile method
                                 child: const Text("Join")))),
@@ -88,7 +88,7 @@ class _on_change_practiceState extends State<on_change_practice>
                         child: Center(
                             child: FloatingActionButton(
                                 heroTag: "Start",
-                                backgroundColor: Colors.red,
+                                backgroundColor: Colors.green,
                                 splashColor: Colors.blueGrey,
                                 onPressed: switchOn,
                                 child: const Text("Start")))),
