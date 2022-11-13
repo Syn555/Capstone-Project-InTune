@@ -2,6 +2,7 @@ import 'package:capstone_project_intune/UploadTest.dart';
 import 'package:capstone_project_intune/file_picker_demo.dart';
 import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:capstone_project_intune/composition.dart';
+import 'package:capstone_project_intune/virt_band.dart';
 import 'package:capstone_project_intune/practice.dart';
 import 'package:capstone_project_intune/ui/tuningReg.dart';
 import 'package:capstone_project_intune/ui/profile.dart';
@@ -158,7 +159,7 @@ class SideDrawerReg extends StatelessWidget {
             title: const Text('Virtual Band'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-               return const VirtualBand();
+               return VirtualBand();
               },),),},
           ),
         ],
@@ -207,19 +208,19 @@ class SideDrawerReg extends StatelessWidget {
 }*/
 
 //Virtual Band Widget
-class VirtualBand extends StatelessWidget {
-  const VirtualBand({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const SideDrawerReg(),
-      appBar: AppBar(
-        title: const Text('Virtual Band'),
-      ),
-      body: const Center(
-        child: Text('Virtual Band'),
-      ),
-    );
-  }
-}
+// class VirtualBand extends StatelessWidget {
+//   const VirtualBand({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       drawer: const SideDrawerReg(),
+//       appBar: AppBar(
+//         title: const Text('Virtual Band'),
+//       ),
+//       body: const Center(
+//         child: Text('Virtual Band'),
+//       ),
+//     );
+//   }
+// }
