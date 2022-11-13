@@ -270,8 +270,21 @@ class _on_change_practiceState extends State<on_change_practice> {
   // CALL START AND STOP RECORDING HERE
   void onChange() async{
     final roomRef = database.collection("rooms").doc(roomID);
-    roomRef.snapshots().listen((event) =>
-      print("current data: ${event.data()}"),
+    roomRef.snapshots().listen(
+            (event) => {
+                if(event.data() == true)
+                  {
+                    startRecording(),
+                    print ("Recording is Starting")
+                  }
+                else if (event.data() == false)
+                  {
+                    stopRecording(),
+                    print ("Recording is Ending")
+                  }
+
+                // print("current data: ${event.data()}")
+            },
         onError: (error) => print("Listen failed: $error")
     );
   }
