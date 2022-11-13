@@ -272,12 +272,12 @@ class _on_change_practiceState extends State<on_change_practice> {
     final roomRef = database.collection("rooms").doc(roomID);
     roomRef.snapshots().listen(
             (event) => {
-                if(event.data() == true)
+                if(event.data()?.values.first == true)
                   {
                     startRecording(),
                     print ("Recording is Starting")
                   }
-                else if (event.data() == false)
+                else if (event.data()?.values.first == false)
                   {
                     stopRecording(),
                     print ("Recording is Ending")
