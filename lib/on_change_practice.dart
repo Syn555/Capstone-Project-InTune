@@ -87,8 +87,8 @@ class _on_change_practiceState extends State<on_change_practice> {
                                 heroTag: "Start",
                                 backgroundColor: Colors.green,
                                 splashColor: Colors.blueGrey,
-                                // onPressed: switchOn,
-                                onPressed: startRecording, // switch back to switchOn after testing
+                                onPressed: switchOn,
+                                // onPressed: startRecording, // switch back to switchOn after testing
                                 child: const Text("Start")))),
                     Expanded(
                         child: Center(
@@ -96,8 +96,8 @@ class _on_change_practiceState extends State<on_change_practice> {
                                 heroTag: "Stop",
                                 backgroundColor: Colors.red,
                                 splashColor: Colors.blueGrey,
-                                //onPressed: switchOff,
-                                onPressed: stopRecording, // switch back to switchOff after testing
+                                onPressed: switchOff,
+                                // onPressed: stopRecording, // switch back to switchOff after testing
                                 child: const Text("Stop")))),
                   ],
                 )
