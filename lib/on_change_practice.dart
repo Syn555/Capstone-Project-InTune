@@ -164,6 +164,8 @@ class _on_change_practiceState extends State<on_change_practice> {
     // await recorder.startRecorder(toFile: roomID, codec: Codec.aacMP4); // Starts recording to temporary file on device called the current roomID
     // await recorder.startRecorder(toFile: "tempAudio", codec: Codec.defaultCodec);
     await recorder.startRecorder(toFile: "tempAudio.mp4", codec: Codec.defaultCodec);
+    // ***** REPLACE ABOVE LINE OF CODE WITH THIS WHEN TESTING IS COMPLETE *****
+    // await recorder.startRecorder(toFile: roomID, codec: Codec.defaultCodec);
   }
 
   // To be called in body of database listener
@@ -172,6 +174,7 @@ class _on_change_practiceState extends State<on_change_practice> {
     final path = await recorder.stopRecorder(); // Returns URL of recorded audio? Can this be used instead of following code? to find out
     print("recorded audio URL is: $path");
 
+    /*
     // Gets tempstorage/audioFile
     final tempDir = await getTemporaryDirectory();
     final tempPath = tempDir.path;
@@ -179,6 +182,8 @@ class _on_change_practiceState extends State<on_change_practice> {
     final audioPath = "$tempPath/tempAudio.mp4";
     print("tempPath is: $tempPath");
     print("filePath is $audioPath");
+
+     */
 
     final audioFile = File(path!);
 
@@ -192,16 +197,14 @@ class _on_change_practiceState extends State<on_change_practice> {
       // This uploads the file to Firebase Storage
       // The path to file is audioFiles/userId/fileName
       // filesRef.child(userID).child(fileName).putFile(fileForFirebase);
-      final filesRef = storageRef.child("audioFiles");
+      final filesRef = storageRef.child("AudioFiles");
       final userStorage = filesRef.child(userID);
       userStorage.child("tempAudio.mp4").putFile(audioFile);
 
 
       /*
-      final audioRef = filesRef.child("$roomID.mp4"); // Make this shit a variable
+      final audioRef = userStorage.child("$roomID.mp4"); // Make this shit a variable
       final fileURL = audioRef.fullPath;
-
-
 
       final roomRef = database.collection("rooms").doc(roomID);
 
