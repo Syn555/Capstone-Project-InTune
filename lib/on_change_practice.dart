@@ -348,6 +348,7 @@ class _on_change_practiceState extends State<on_change_practice> {
 
     // Step 3: Download files
     // Step 4: Merge to Merged File
+    /*
     for (var audioFile in audioRefList)
     {
       ffmpegExec += "-i $audioFile ";
@@ -356,6 +357,10 @@ class _on_change_practiceState extends State<on_change_practice> {
     ffmpegExec += "-c copy mixed_$roomID.mp4";
 
     _ffMpeg.execute(ffmpegExec).then((return_code) => print("Return code $return_code"));
+    */
+
     // Step 5: Upload to Storage Somewhere
+     // ffmpegExec = "-i "
+    //  _ffMpeg.execute()
   }
 } // EOF
