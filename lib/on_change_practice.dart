@@ -193,9 +193,10 @@ class _on_change_practiceState extends State<on_change_practice>
       // The path to file is MusicXMLFiles/userId/fileName
       // filesRef.child(userID).child(fileName).putFile(fileForFirebase);
       final filesRef = storageRef.child("audioFiles");
-      final wayfaringRef = filesRef.child("Wayfaring Stranger Cover.mp3");
+      final wayfaringRef = filesRef.child("Wayfaring Stranger Cover.mp3"); // Make this shit a variable
       final fileURL = wayfaringRef.fullPath;
 
+      // also make this shit a variable (doc)
       final roomRef = database.collection("rooms").doc("RhhLSlPx");//ref("rooms/$roomID"); // rooms/${roomID}
 
       final subCollection = roomRef.collection("users").doc(userID);
