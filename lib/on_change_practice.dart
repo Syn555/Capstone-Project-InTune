@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:capstone_project_intune/main.dart';
 import 'package:capstone_project_intune/Helpers/utils.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class on_change_practice extends StatefulWidget {
@@ -16,7 +17,9 @@ class on_change_practice extends StatefulWidget {
 
 class _on_change_practiceState extends State<on_change_practice> {
   final recorder = FlutterSoundRecorder();
+  // FlutterSoundRecorder _recorderSession;
   String roomID = "";
+  String pathToAudio = "";
 
   // FIGURE OUT SUPER CLASS BS UPDATE: FIGURED IT OUT YAY
   @override
@@ -154,13 +157,20 @@ class _on_change_practiceState extends State<on_change_practice> {
   // To be called in body of database listener
   void startRecording() async {
     // switchOn(); //Set synced db field to true
-    await recorder.startRecorder(toFile: roomID);
+    await recorder.startRecorder(toFile: roomID, codec: Codec.aacMP4); // Starts recording to temporary file on device called the current roomID
   }
 
   // To be called in body of database listener
   // Recording Functionality has been commented out
   void stopRecording() async {
-    // final path = await recorder.stopRecorder();
+    final path = await recorder.stopRecorder();
+
+    final tempDir = await getTemporaryDirectory();
+    final tempPath = tempDir.path;
+    final audioPath = "$tempPath/$roomID";
+    print("tempPath is: $tempPath");
+    print("filePath is $audioPath");
+
     // final audioFile = File(path!);
     final user = auth.currentUser; // get current user
 
@@ -170,7 +180,7 @@ class _on_change_practiceState extends State<on_change_practice> {
       // The path to file is MusicXMLFiles/userId/fileName
       // filesRef.child(userID).child(fileName).putFile(fileForFirebase);
       final filesRef = storageRef.child("audioFiles");
-      final audioRef = filesRef.child("Wayfaring Stranger Cover.mp3"); // Make this shit a variable
+      final audioRef = filesRef.child("$roomID.mp4"); // Make this shit a variable
       final fileURL = audioRef.fullPath;
 
       final roomRef = database.collection("rooms").doc(roomID);
@@ -183,6 +193,7 @@ class _on_change_practiceState extends State<on_change_practice> {
 
   // Initialize microphone
   Future initRecorder() async {
+    // pathToAudio = '/sdcard/Download/$roomID.wav'; // path that audio will be saved in
     final status = await Permission.microphone.request();
     if (status != PermissionStatus.granted)
       {
@@ -190,14 +201,14 @@ class _on_change_practiceState extends State<on_change_practice> {
       }
     await recorder.openRecorder();
   }
-/*
+
   @override
-  void dispose() // ????? THIS IS WONKY WITH SUPER CLASSES OR SMTH IDK BROOOOO ?????????
+  void dispose()
   {
     recorder.closeRecorder();
     super.dispose();
   }
-*/
+
 
   // Changes boolean "recording" in database to on
   void switchOn() async {
@@ -231,6 +242,7 @@ class _on_change_practiceState extends State<on_change_practice> {
     }
   }
 
+  // CALL START AND STOP RECORDING HERE
   void onChange() async{
     final roomRef = database.collection("rooms").doc(roomID);
     roomRef.snapshots().listen((event) =>
