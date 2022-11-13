@@ -99,6 +99,14 @@ class _on_change_practiceState extends State<on_change_practice> {
                                 onPressed: switchOff,
                                 // onPressed: stopRecording, // switch back to switchOff after testing
                                 child: const Text("Stop")))),
+                    Expanded(
+                        child: Center(
+                            child: FloatingActionButton(
+                                heroTag: "Merge",
+                                backgroundColor: Colors.red,
+                                splashColor: Colors.blueGrey,
+                                onPressed: mergeAudios,
+                                child: const Text("Merge")))),
                   ],
                 )
             )],
@@ -234,7 +242,6 @@ class _on_change_practiceState extends State<on_change_practice> {
     super.dispose();
   }
 
-
   // Changes boolean "recording" in database to on
   void switchOn() async {
     final user = auth.currentUser; // get current user
@@ -287,5 +294,18 @@ class _on_change_practiceState extends State<on_change_practice> {
             },
         onError: (error) => print("Listen failed: $error")
     );
+  }
+
+  void mergeAudios() async
+  {
+    // Step 1: Access Users in Room in Database
+    final usersRef = database.collection("rooms").doc(roomID).collection("users"); // Access the collection of users within room
+    print(usersRef);
+
+
+    // Step 2: Get file paths and handle (?)
+    // Step 3: Download files
+    // Step 4: Merge to Merged File
+    // Step 5: Upload to Storage Somewhere
   }
 } // EOF
