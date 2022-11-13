@@ -163,8 +163,9 @@ class _on_change_practiceState extends State<on_change_practice> {
   // To be called in body of database listener
   // Recording Functionality has been commented out
   void stopRecording() async {
-    final path = await recorder.stopRecorder();
-
+    final path = await recorder.stopRecorder(); // Returns URL of recorded audio? Can this be used instead of following code? to find out
+    print("recorded audio URL is: $path");
+    // Gets tempstorage/audioFile
     final tempDir = await getTemporaryDirectory();
     final tempPath = tempDir.path;
     final audioPath = "$tempPath/$roomID";
