@@ -316,11 +316,17 @@ class _on_change_practiceState extends State<on_change_practice> {
       String path = "${usersRef.path}/$name";
           //print("username: $name");
       paths.add(path);
-
     }
-    print(paths.toString());
+    //print(.toString());
     // Step 2: Get file paths and handle (?)
 
+    final filesRef = storageRef.child("AudioFiles");
+    final userStorage = filesRef.child(roomUsers[0]);
+    //userStorage.child("$roomID.mp4").putFile(audioFile);
+
+    final audioRef = userStorage.child("$roomID.mp4"); // Make this shit a variable
+    final fileURL = audioRef.fullPath;
+    print(fileURL);
     // Step 3: Download files
     // Step 4: Merge to Merged File
     // Step 5: Upload to Storage Somewhere
