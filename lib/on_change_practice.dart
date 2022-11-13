@@ -163,7 +163,7 @@ class _on_change_practiceState extends State<on_change_practice> {
     // switchOn(); //Set synced db field to true
     // await recorder.startRecorder(toFile: roomID, codec: Codec.aacMP4); // Starts recording to temporary file on device called the current roomID
     // await recorder.startRecorder(toFile: "tempAudio", codec: Codec.defaultCodec);
-    await recorder.startRecorder(toFile: "tempAudio.mp4", codec: Codec.defaultCodec);
+    await recorder.startRecorder(toFile: "$roomID.mp4", codec: Codec.defaultCodec);
     // ***** REPLACE ABOVE LINE OF CODE WITH THIS WHEN TESTING IS COMPLETE *****
     // await recorder.startRecorder(toFile: roomID, codec: Codec.defaultCodec);
   }
@@ -199,11 +199,11 @@ class _on_change_practiceState extends State<on_change_practice> {
       // filesRef.child(userID).child(fileName).putFile(fileForFirebase);
       final filesRef = storageRef.child("AudioFiles");
       final userStorage = filesRef.child(userID);
-      userStorage.child("tempAudio.mp4").putFile(audioFile);
+      userStorage.child("$roomID.mp4").putFile(audioFile);
 
 
-      /*
-      final audioRef = userStorage.child("$roomID.wav"); // Make this shit a variable
+
+      final audioRef = userStorage.child("$roomID.mp4"); // Make this shit a variable
       final fileURL = audioRef.fullPath;
 
       final roomRef = database.collection("rooms").doc(roomID);
@@ -211,7 +211,7 @@ class _on_change_practiceState extends State<on_change_practice> {
       final subCollection = roomRef.collection("users").doc(user.uid);
       await subCollection.update({"audio": fileURL,});
 
-       */
+
     }
     // switchOff();
   }
