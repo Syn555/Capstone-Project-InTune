@@ -98,7 +98,7 @@ class _on_change_practiceState extends State<on_change_practice>
                                 heroTag: "Stop",
                                 backgroundColor: Colors.red,
                                 splashColor: Colors.blueGrey,
-                                onPressed: createRoom,
+                                onPressed: stopRecording,
                                 child: const Text("Stop")))),
                   ],
                 ))
@@ -200,7 +200,8 @@ class _on_change_practiceState extends State<on_change_practice>
 
       final subCollection = roomRef.collection("users").doc(userID);
       await subCollection.update({
-        "audio": fileURL
+        "audio": fileURL,
+        "timestamp" : 3
       });
 
 
