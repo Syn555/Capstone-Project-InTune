@@ -301,12 +301,14 @@ class _on_change_practiceState extends State<on_change_practice> {
     // Step 1: Access Users in Room in Database
     final usersRef = database.collection("rooms").doc(roomID).collection("users"); // Access the collection of users within room
     //print(usersRef.path);
+    final filesRef = storageRef.child("AudioFiles");
 
     final snapshot = await usersRef.get();
     List<DocumentSnapshot> tempList = snapshot.docs;
 
     List<String> roomUsers = [];
     List<String> paths = [];
+    List<Reference> audioRefList = [];
 
     for (var value in tempList) {
       roomUsers.add(value.id);
@@ -320,13 +322,23 @@ class _on_change_practiceState extends State<on_change_practice> {
     //print(.toString());
     // Step 2: Get file paths and handle (?)
 
-    final filesRef = storageRef.child("AudioFiles");
-    final userStorage = filesRef.child(roomUsers[0]);
-    //userStorage.child("$roomID.mp4").putFile(audioFile);
+    for (var name in roomUsers)
+    {
+        audioRefList.add(filesRef.child(name).child("${name}_$roomID"));
+    }
 
-    final audioRef = userStorage.child("$roomID.mp4"); // Make this shit a variable
-    final fileURL = audioRef.fullPath;
-    print(fileURL);
+    for (var pathName in audioRefList)
+    {
+      print(pathName.fullPath);
+    }
+
+    // final userStorage = filesRef.child(roomUsers[0]);
+    // userStorage.child("$roomID.mp4").putFile(audioFile);
+
+    // final audioRef = userStorage.child("$roomID.mp4"); // Make this shit a variable
+    // final fileURL = audioRef.fullPath;
+    // print(fileURL);
+
     // Step 3: Download files
     // Step 4: Merge to Merged File
     // Step 5: Upload to Storage Somewhere
