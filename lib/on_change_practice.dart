@@ -39,10 +39,11 @@ class _on_change_practiceState extends State<on_change_practice>
 
   FirebaseFirestore database = FirebaseFirestore.instance; // Instance of DB
   FirebaseAuth auth = FirebaseAuth.instance; // Instance of Auth
-
+  final controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // roomID = generateRandomString(8);
+
 
     return Scaffold(
       drawer: const SideDrawer(),
@@ -51,6 +52,15 @@ class _on_change_practiceState extends State<on_change_practice>
       ),
       body: Center(
           child: Column(children: [
+            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            const Text(
+              "Enter Room ID to Join:",
+              style: TextStyle(
+                fontSize: 20,
+                letterSpacing: 2
+              ),
+            ),
+            TextField(controller: controller),
             Expanded(
                 child: Row(
                   children: [
@@ -132,11 +142,12 @@ class _on_change_practiceState extends State<on_change_practice>
     // DatabaseReference db = database.ref(); // get reference to read and write
     final user = auth.currentUser; // get current user
     final userID;
-    final rID = roomID;
+    final rID = controller.text;
+
 
     if (user == null)
     {
-      print ("FirebaseAuth Error, create_room.dart, line 125: Mo current user");
+      print ("FirebaseAuth Error, create_room.dart, line 125: No current user");
     }
     else
     {
@@ -144,7 +155,7 @@ class _on_change_practiceState extends State<on_change_practice>
 
       // Create entry in rooms of named after roomId
       //final roomRef = database.ref("rooms/$rID"); // rooms/${rID} ?
-      final roomRef = database.collection("rooms").doc(roomID);//ref("rooms/$roomID"); // rooms/${roomID} ?
+      final roomRef = database.collection("rooms").doc(rID);//ref("rooms/$roomID"); // rooms/${roomID} ?
 
       // Write data into that entry
       final subCollection = roomRef.collection("users").doc(userID);
