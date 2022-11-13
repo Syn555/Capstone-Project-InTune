@@ -58,6 +58,7 @@ dependencies:
   signal_strength_indicator:
   convex_bottom_bar:
   flutter_sound: ^9.2.13
+  flutter_ffmpeg: ^0.4.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
