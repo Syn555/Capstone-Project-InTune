@@ -163,7 +163,7 @@ class _on_change_practiceState extends State<on_change_practice> {
     // switchOn(); //Set synced db field to true
     // await recorder.startRecorder(toFile: roomID, codec: Codec.aacMP4); // Starts recording to temporary file on device called the current roomID
     // await recorder.startRecorder(toFile: "tempAudio", codec: Codec.defaultCodec);
-    await recorder.startRecorder(toFile: "tempAudio.wav", codec: Codec.defaultCodec);
+    await recorder.startRecorder(toFile: "tempAudio.mp4", codec: Codec.defaultCodec);
     // ***** REPLACE ABOVE LINE OF CODE WITH THIS WHEN TESTING IS COMPLETE *****
     // await recorder.startRecorder(toFile: roomID, codec: Codec.defaultCodec);
   }
@@ -199,7 +199,7 @@ class _on_change_practiceState extends State<on_change_practice> {
       // filesRef.child(userID).child(fileName).putFile(fileForFirebase);
       final filesRef = storageRef.child("AudioFiles");
       final userStorage = filesRef.child(userID);
-      userStorage.child("tempAudio.wav").putFile(audioFile);
+      userStorage.child("tempAudio.mp4").putFile(audioFile);
 
 
       /*
