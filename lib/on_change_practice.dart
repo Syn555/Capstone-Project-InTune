@@ -241,7 +241,7 @@ class _on_change_practiceState extends State<on_change_practice>
 
     if (user == null)
     {
-      print("FirebaseAuth Error, create_room.dart, line 125: Mo current user");
+      print("FirebaseAuth Error, create_room.dart, line 244: Mo current user");
     }
     else
     {
