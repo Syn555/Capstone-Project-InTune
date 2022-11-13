@@ -327,9 +327,15 @@ class _on_change_practiceState extends State<on_change_practice> {
         audioRefList.add(filesRef.child(name).child("${name}_$roomID.mp4"));
     }
 
+    // Testing to verify all storage references are correct
     for (var pathName in audioRefList)
     {
       print(pathName.fullPath);
+    }
+
+    for (var audioFile in audioRefList)
+    {
+
     }
 
     // final userStorage = filesRef.child(roomUsers[0]);
