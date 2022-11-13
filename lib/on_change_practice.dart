@@ -90,7 +90,7 @@ class _on_change_practiceState extends State<on_change_practice> {
                                 heroTag: "Stop",
                                 backgroundColor: Colors.red,
                                 splashColor: Colors.blueGrey,
-                                onPressed: stopRecording,
+                                onPressed: switchOff,
                                 child: const Text("Stop")))),
                   ],
                 )
@@ -153,7 +153,7 @@ class _on_change_practiceState extends State<on_change_practice> {
 
   // To be called in body of database listener
   void startRecording() async {
-    switchOn(); //Set synced db field to true
+    // switchOn(); //Set synced db field to true
     await recorder.startRecorder(toFile: roomID);
   }
 
@@ -178,7 +178,7 @@ class _on_change_practiceState extends State<on_change_practice> {
       final subCollection = roomRef.collection("users").doc(user.uid);
       await subCollection.update({"audio": fileURL,});
     }
-    switchOff();
+    // switchOff();
   }
 
   // Initialize microphone
