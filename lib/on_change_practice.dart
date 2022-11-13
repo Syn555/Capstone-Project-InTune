@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -169,30 +171,44 @@ class _on_change_practiceState extends State<on_change_practice> {
   void stopRecording() async {
     final path = await recorder.stopRecorder(); // Returns URL of recorded audio? Can this be used instead of following code? to find out
     print("recorded audio URL is: $path");
+
     // Gets tempstorage/audioFile
     final tempDir = await getTemporaryDirectory();
     final tempPath = tempDir.path;
     // final audioPath = "$tempPath/$roomID";
-    final audioPath = "$tempPath/tempAudio";
+    final audioPath = "$tempPath/tempAudio.mp4";
     print("tempPath is: $tempPath");
     print("filePath is $audioPath");
+
+    final audioFile = File(path!);
 
     // final audioFile = File(path!);
     final user = auth.currentUser; // get current user
 
     if (user == null) { print("No User Currently"); } // null safety for user
     else {
+      final userID = user.uid;
+
       // This uploads the file to Firebase Storage
-      // The path to file is MusicXMLFiles/userId/fileName
+      // The path to file is audioFiles/userId/fileName
       // filesRef.child(userID).child(fileName).putFile(fileForFirebase);
       final filesRef = storageRef.child("audioFiles");
+      final userStorage = filesRef.child(userID);
+      userStorage.child("tempAudio.mp4").putFile(audioFile);
+
+
+      /*
       final audioRef = filesRef.child("$roomID.mp4"); // Make this shit a variable
       final fileURL = audioRef.fullPath;
+
+
 
       final roomRef = database.collection("rooms").doc(roomID);
 
       final subCollection = roomRef.collection("users").doc(user.uid);
       await subCollection.update({"audio": fileURL,});
+
+       */
     }
     // switchOff();
   }
