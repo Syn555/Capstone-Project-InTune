@@ -207,11 +207,11 @@ class _on_change_practiceState extends State<on_change_practice> {
       // filesRef.child(userID).child(fileName).putFile(fileForFirebase);
       final filesRef = storageRef.child("AudioFiles");
       final userStorage = filesRef.child(userID);
-      userStorage.child("$roomID.mp4").putFile(audioFile);
+      userStorage.child("{$userID}_$roomID.mp4").putFile(audioFile);
 
 
 
-      final audioRef = userStorage.child("$roomID.mp4"); // Make this shit a variable
+      final audioRef = userStorage.child("{$userID}_$roomID.mp4"); // Make this shit a variable
       final fileURL = audioRef.fullPath;
 
       final roomRef = database.collection("rooms").doc(roomID);
@@ -300,26 +300,30 @@ class _on_change_practiceState extends State<on_change_practice> {
   {
     // Step 1: Access Users in Room in Database
     final usersRef = database.collection("rooms").doc(roomID).collection("users"); // Access the collection of users within room
-    //print(usersRef.path);
+    print(usersRef.path); // prints path of room
 
-    final snapshot = await usersRef.get();
-    List<DocumentSnapshot> tempList = snapshot.docs;
+    final snapshot = await usersRef.get(); // get QuerySnapshot of every user, each of which is its own DocumentSnapshot
+    List<DocumentSnapshot> tempList = snapshot.docs; // Put every DocumentSnapshot into a List of DocumentSnapshots
 
-    List<String> roomUsers = [];
+    List<String> roomUsers = []; // Create empty list of names
     List<String> paths = [];
 
+    // add every DocumentSnapshot ID, being the Auth ID, into the list of names
     for (var value in tempList) {
       roomUsers.add(value.id);
     }
 
-    for (var name in roomUsers) {
-      String path = "${usersRef.path}/$name";
-          //print("username: $name");
+    // Print all the usernames for testing
+    for (var name in roomUsers)
+    {
+      String path = "${usersRef.path}/$name"
+      // print("username: $name");
       paths.add(path);
-
     }
-    print(paths.toString());
-    // Step 2: Get file paths and handle (?)
+
+    // Step 2: Get file paths and Download (?)
+    final audioRef = storageRef.child("AudioFiles");
+
 
     // Step 3: Download files
     // Step 4: Merge to Merged File
