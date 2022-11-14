@@ -306,10 +306,12 @@ class _on_change_practiceState extends State<on_change_practice> {
     final usersRef = database.collection("rooms").doc(roomID).collection("users"); // Access the collection of users within room
     //print(usersRef.path);
     final filesRef = storageRef.child("AudioFiles");
+    final user = auth.currentUser; // get current user
+
 
     final snapshot = await usersRef.get();
     List<DocumentSnapshot> tempList = snapshot.docs;
-    List<String> roomUsers = [];
+    List<String> roomUsers = []; // Names of Users
     List<String> paths = [];
     List<Reference> audioRefList = []; // Each file reference to be downloaded
     List<String> localPaths = []; // ONCE DOWNLOADED, ADD EACH LOCAL FILE PATH TO THIS LIST
@@ -337,12 +339,20 @@ class _on_change_practiceState extends State<on_change_practice> {
     final appDocDir = await getApplicationDocumentsDirectory();
     print("Application Documents Directory: ${appDocDir.toString()}");
 
+    String filePath = "";
 
 
     // in this, for each, download file and then get local storage path, add to localPaths
     for (var pathName in audioRefList)
     {
-      print(pathName.fullPath);
+        for (var userName in roomUsers) {
+          filePath = "${appDocDir.absolute}/audio/${userName}_$roomID.mp4";
+          print(pathName.fullPath);
+          localPaths.add(filePath);
+
+          final localFile = File(filePath);
+          final downloadTask = pathName.writeToFile(localFile);
+        }
     }
 
     // final userStorage = filesRef.child(roomUsers[0]);
