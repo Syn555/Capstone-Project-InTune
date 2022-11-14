@@ -367,7 +367,7 @@ class _on_change_practiceState extends State<on_change_practice> {
       print("file $name: exists.");
     }
 
-    ffmpegExec += "-filter_complex amerge=inputs=2 /storage/emulated/0/Download/mixed_$roomID.mp4";
+    ffmpegExec += "-filter_complex amix=inputs=2:duration=first:dropout_transition=3 /storage/emulated/0/Download/mixed_$roomID.mp4";
 
     print("ffmpeg command is: $ffmpegExec");
 
