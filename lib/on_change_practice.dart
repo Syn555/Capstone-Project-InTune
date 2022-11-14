@@ -334,7 +334,10 @@ class _on_change_practiceState extends State<on_change_practice> {
         audioRefList.add(filesRef.child(name).child("${name}_$roomID.mp4"));
     }
 
-    // Testing to verify all storage references are correct
+    final appDocDir = await getApplicationDocumentsDirectory();
+    print("Application Documents Directory: ${appDocDir.toString()}");
+
+
 
     // in this, for each, download file and then get local storage path, add to localPaths
     for (var pathName in audioRefList)
