@@ -151,6 +151,17 @@ class CallState extends State<video_call>{
             padding: const EdgeInsets.all(12.0),
           ),
           RawMaterialButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Icon(
+              Icons.call_end,
+              size: 35.0,
+            ),
+            shape: const CircleBorder(),
+            elevation: 2.0,
+            fillColor: Colors.redAccent,
+            padding: const EdgeInsets.all(15.0),
+          ),
+          RawMaterialButton(
             onPressed: (){
               _engine.switchCamera();
             },
