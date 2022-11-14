@@ -346,7 +346,7 @@ class _on_change_practiceState extends State<on_change_practice> {
     for (var pathName in audioRefList)
     {
         for (var userName in roomUsers) {
-          filePath = "${appDocDir.absolute}/audio/${userName}_$roomID.mp4";
+          filePath = "${appDocDir.absolute}/${userName}_$roomID.mp4";
           print(filePath);
           localPaths.add(filePath);
 
