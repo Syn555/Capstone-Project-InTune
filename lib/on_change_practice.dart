@@ -319,18 +319,13 @@ class _on_change_practiceState extends State<on_change_practice> {
       roomUsers.add(value.id);
     }
 
-    for (var name in roomUsers) {
-      String path = "${usersRef.path}/$name";
-          //print("username: $name");
-      paths.add(path);
-    }
-    //print(.toString());
     // Step 2: Get file paths and handle (?)
 
     String ffmpegExec = "";
     for (var name in roomUsers)
     {
         audioRefList.add(filesRef.child(name).child("${name}_$roomID.mp4"));
+        print("audioRefList added a reference");
     }
 
     // final appDocDir = await getApplicationDocumentsDirectory().path;
@@ -342,52 +337,19 @@ class _on_change_practiceState extends State<on_change_practice> {
     // in this, for each, download file and then get local storage path, add to localPaths
     if (await Permission.manageExternalStorage.request().isGranted) {
       for (var pathName in audioRefList) {
-        for (var userName in roomUsers) {
-          filePath = '${downloadDir}/${userName}_$roomID.mp4';
-          print(filePath);
+        // for (var userName in roomUsers) {
+          String fileUserName = pathName.name;
+          filePath = '${downloadDir}/$fileUserName';
+          print("localPaths adding: $filePath");
           localPaths.add(filePath);
 
           final localFile = File(filePath);
           final downloadTask = pathName.writeToFile(localFile);
-        }
+        // }
       }
     }
 
     processAudio(localPaths);
-
-    // final userStorage = filesRef.child(roomUsers[0]);
-    // userStorage.child("$roomID.mp4").putFile(audioFile);
-
-    // final audioRef = userStorage.child("$roomID.mp4"); // Make this shit a variable
-    // final fileURL = audioRef.fullPath;
-    // print(fileURL);
-
-    // Step 3: Download files
-    // Step 4: Merge to Merged File
-    /*
-    for (var name in localPaths)
-    {
-      ffmpegExec += "-i $name ";
-
-      File testFile = File(name);
-      while(!testFile.existsSync())
-        {
-          print("file doesn't exist");
-        }
-        print("file exists.");
-    }
-
-    ffmpegExec += "-filter_complex amix=inputs=2:duration=longest /storage/emulated/0/Download/mixed_$roomID.mp4";
-
-    print("ffmpeg command is: $ffmpegExec");
-    */
-    /*
-      _ffMpeg.execute(ffmpegExec).then((return_code) =>
-          print("Return code $return_code"));
-    */
-    // Step 5: Upload to Storage Somewhere
-     // ffmpegExec = "-i "
-    //  _ffMpeg.execute()
   }
 
   void processAudio(List<String> paths)
@@ -396,6 +358,13 @@ class _on_change_practiceState extends State<on_change_practice> {
     for(var name in paths)
     {
       ffmpegExec += "-i $name ";
+
+      File testFile = File(name);
+      while(!testFile.existsSync())
+      {
+        print("file $name: doesn't exist");
+      }
+      print("file $name: exists.");
     }
 
     ffmpegExec += "-filter_complex amerge=inputs=2 /storage/emulated/0/Download/mixed_$roomID.mp4";
