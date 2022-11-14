@@ -337,7 +337,7 @@ class _on_change_practiceState extends State<on_change_practice> {
     }
 
     // final appDocDir = await getApplicationDocumentsDirectory().path;
-    final downloadDir = "/storage/emulated/0/Download/";
+    final downloadDir = "/storage/emulated/0/Download";
     print("Application Documents Directory: ${downloadDir}");
 
     String filePath = "";
@@ -356,6 +356,7 @@ class _on_change_practiceState extends State<on_change_practice> {
         }
       }
     }
+
     // final userStorage = filesRef.child(roomUsers[0]);
     // userStorage.child("$roomID.mp4").putFile(audioFile);
 
@@ -365,19 +366,45 @@ class _on_change_practiceState extends State<on_change_practice> {
 
     // Step 3: Download files
     // Step 4: Merge to Merged File
-    /*
-    for (var audioFile in audioRefList)
+
+    for (var name in localPaths)
     {
-      ffmpegExec += "-i $audioFile ";
+      ffmpegExec += "-i $name ";
+
+      File testFile = File(name);
+      while(!testFile.existsSync())
+        {
+          print("file doesn't exist");
+        }
+        print("file exists.");
     }
 
-    ffmpegExec += "-c copy mixed_$roomID.mp4";
+    ffmpegExec += "-filter_complex amix=inputs=2:duration=longest /storage/emulated/0/Download/mixed_$roomID.mp4";
 
-    _ffMpeg.execute(ffmpegExec).then((return_code) => print("Return code $return_code"));
+    print("ffmpeg command is: $ffmpegExec");
+
+    processAudio(localPaths);
+    /*
+      _ffMpeg.execute(ffmpegExec).then((return_code) =>
+          print("Return code $return_code"));
     */
-
     // Step 5: Upload to Storage Somewhere
      // ffmpegExec = "-i "
     //  _ffMpeg.execute()
+  }
+
+  void processAudio(List<String> paths)
+  {
+    String ffmpegExec = "";
+    for(var name in paths)
+    {
+      ffmpegExec += "-i $name ";
+    }
+
+    ffmpegExec += "-filter_complex amerge=inputs=2 /storage/emulated/0/Download/mixed_$roomID.mp4";
+
+    print("ffmpeg command is: $ffmpegExec");
+
+      _ffMpeg.execute(ffmpegExec).then((return_code) => print("Return code $return_code"));
   }
 } // EOF
