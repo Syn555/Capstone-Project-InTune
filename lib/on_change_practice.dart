@@ -336,8 +336,9 @@ class _on_change_practiceState extends State<on_change_practice> {
         audioRefList.add(filesRef.child(name).child("${name}_$roomID.mp4"));
     }
 
-    final appDocDir = await getApplicationDocumentsDirectory();
-    print("Application Documents Directory: ${appDocDir.toString()}");
+    // final appDocDir = await getApplicationDocumentsDirectory().path;
+    final downloadDir = "/storage/emulated/0/Download/";
+    print("Application Documents Directory: ${downloadDir}");
 
     String filePath = "";
 
@@ -346,7 +347,7 @@ class _on_change_practiceState extends State<on_change_practice> {
     if (await Permission.manageExternalStorage.request().isGranted) {
       for (var pathName in audioRefList) {
         for (var userName in roomUsers) {
-          filePath = "${appDocDir.absolute}/${userName}_$roomID.mp4";
+          filePath = '${downloadDir}/${userName}_$roomID.mp4';
           print(filePath);
           localPaths.add(filePath);
 
