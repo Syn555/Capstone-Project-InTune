@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -17,9 +18,51 @@ import 'package:capstone_project_intune/musicXML/parser.dart';
 import 'package:capstone_project_intune/musicXML/data.dart';
 import 'package:capstone_project_intune/notes/music-line.dart';
 import 'package:capstone_project_intune/main.dart';
-
+import 'package:open_file/open_file.dart';
+import 'package:file_picker/file_picker.dart';
 
 const double STAFF_HEIGHT = 36;
+
+// class CounterStorage {
+//   Future<String> get _localPath async {
+//     final directory = await getApplicationDocumentsDirectory();
+//
+//     return directory.path;
+//   }
+//
+//   Future<File> get _localFile async {
+//     final path = await _localPath;
+//     return File('$path/counter.txt');
+//   }
+//
+//   Future<int> readCounter() async {
+//     try {
+//       final file = await _localFile;
+//
+//       // Read the file
+//       final contents = await file.readAsString();
+//
+//       return int.parse(contents);
+//     } catch (e) {
+//       // If encountering an error, return 0
+//       return 0;
+//     }
+//   }
+//
+//   Future<File> writeCounter(int counter) async {
+//     final file = await _localFile;
+//
+//     // Write the file
+//     return file.writeAsString('$counter');
+//   }
+// }
+
+//read and write
+Future<void> writeToFile(ByteData data, String path) {
+  final buffer = data.buffer;
+  return new File(path).writeAsBytes(
+      buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+}
 
 
 class MyHomePage1 extends StatelessWidget {
@@ -31,28 +74,60 @@ class MyHomePage1 extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
       debugShowCheckedModeBanner: false, //setup this property
     );
   }
 }
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
+
+  //final CounterStorage storage;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var _openResult = 'Unknown';
+  Future<void> openFile() async {
+    //read and write
+    const filename = 'test.xml';
+    var bytes = await rootBundle.load("blank.musicxml");
+    String? dir = (await getApplicationDocumentsDirectory()).path;
+    writeToFile(bytes,'$dir/$filename');
+
+    //String? filePath = r'/storage/emulated/0/update.apk';
+    //FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    // if (result != null) {
+    //   dir = result.files.single.path;
+    // } else {
+    //   // User canceled the picker
+    // }
+
+    final _result = await OpenFile.open('$dir/$filename');
+    print(_result.message);
+
+    setState(() {
+      _openResult = "type=${_result.type}  message=${_result.message}";
+    });
+
+  }
+
 
   Future<Score> loadXML() async {
     //final Directory directory = await getApplicationDocumentsDirectory();
-    final rawFile = everything.toString();
-    print(everything);
-    final document= XmlDocument.parse(rawFile);
-    final result = parseMusicXML(document);
+    // final rawFile = everything.toString();
+    // //print(everything);
+    // final document= XmlDocument.parse(rawFile);
+    // final result = parseMusicXML(document);
+    // return result;
+    final rawFile = await rootBundle.loadString('blank.musicxml');
+    final result = parseMusicXML(XmlDocument.parse(rawFile));
     return result;
   }
+
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
   final pitchupDart = PitchHandler(InstrumentType.guitar);
@@ -64,6 +139,27 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> notesToBeAdded= [];
   var noteStatus= "";
   var status = "Click on start";
+
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   widget.storage.readCounter().then((value) {
+  //     setState(() {
+  //       everything = value;
+  //     });
+  //   });
+  // }
+  //
+  // Future<File> _writeCounter() {
+  //
+  //
+  //   // Write the variable as a string to the file.
+  //   return widget.storage.writeCounter(everything);
+  // }
+
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -139,7 +235,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  update(List<String> n) async {
+
+
+
+  Future<String> update(List<String> n) async {
     //final titles = parsedXML.findAllElements('note');
     //print(noteFun());
     //final file = await _localFile;
@@ -148,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String newNote;
     var ending= '\</measure></part></score-partwise>';
     var allNotes="";
-    print(notesAdded);
+    //print(notesAdded);
     for(var i=0; i < notesAdded.length;i++) {
       newNote='<note> <pitch> <step>'+ notesAdded[i] +'\</step> <octave>5</octave> </pitch> <duration>1</duration> <voice>1</voice><type>eighth</type> <stem default-y="3">up</stem><staff>1</staff> <beam number="1">begin</beam></note>';
       allNotes= allNotes+newNote;
@@ -157,6 +256,16 @@ class _MyHomePageState extends State<MyHomePage> {
     //print(newNote);
 
     everything= start+allNotes+ending;
+
+
+    // //read and write
+    // final filename = 'test.pdf';
+    // var bytes = await rootBundle.load("blank.musicxml");
+    // String dir = (await getApplicationDocumentsDirectory()).path;
+    // writeToFile(bytes,'$dir/$filename');
+    //
+    // OpenFile.open('$dir/$filename');
+    return everything;
     //var file = _write(everything);
     //print(everything);
 
@@ -167,7 +276,11 @@ class _MyHomePageState extends State<MyHomePage> {
     files.openWrite(mode: FileMode.append, encoding: ascii);
     */
 
+
+
   }
+
+
 
   Future<void> _startCapture() async {
     await _audioRecorder.start(listener, onError,
@@ -185,10 +298,14 @@ class _MyHomePageState extends State<MyHomePage> {
     await _audioRecorder.stop();
 
     setState(() {
+      update(notesToBeAdded);
       note = "";
       status = "Click on start";
     });
-    loadXML();
+    //loadXML();
+    openFile();
+
+
 
   }
 
@@ -208,17 +325,16 @@ class _MyHomePageState extends State<MyHomePage> {
         var holder= handledPitchResult.note;
 
       //Updates the state with the result
-      setState(() {
-        if (status == "TuningStatus.tuned") {
-          note = "";
-          print("Actual pitchresult: $holder");
-          notesPlayed.add(holder);
-          //print(holder);
-          //print(notesPlayed);
-          update(notesPlayed);
-        }
-      }
-      );
+      //   if (status == "TuningStatus.tuned") {
+      //     note = "";
+      //     print("Actual pitchresult: $holder");
+      //     notesPlayed.add(holder);
+      //     //print(holder);
+      //     //print(notesPlayed);
+      //     update(notesPlayed);
+      //   }
+      //}
+      //);
     }
   }
 
@@ -227,3 +343,4 @@ class _MyHomePageState extends State<MyHomePage> {
     print(e);
   }
 }
+

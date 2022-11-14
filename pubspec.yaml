@@ -58,6 +58,7 @@ dependencies:
   signal_strength_indicator:
   convex_bottom_bar:
   flutter_sound: ^9.2.13
+  open_file: ^3.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
