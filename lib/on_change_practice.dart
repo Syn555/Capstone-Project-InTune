@@ -343,8 +343,8 @@ class _on_change_practiceState extends State<on_change_practice> {
 
 
     // in this, for each, download file and then get local storage path, add to localPaths
-    for (var pathName in audioRefList)
-    {
+    if (await Permission.manageExternalStorage.request().isGranted) {
+      for (var pathName in audioRefList) {
         for (var userName in roomUsers) {
           filePath = "${appDocDir.absolute}/${userName}_$roomID.mp4";
           print(filePath);
@@ -353,8 +353,8 @@ class _on_change_practiceState extends State<on_change_practice> {
           final localFile = File(filePath);
           final downloadTask = pathName.writeToFile(localFile);
         }
+      }
     }
-
     // final userStorage = filesRef.child(roomUsers[0]);
     // userStorage.child("$roomID.mp4").putFile(audioFile);
 
