@@ -308,16 +308,12 @@ class _on_change_practiceState extends State<on_change_practice> {
     final filesRef = storageRef.child("AudioFiles");
     final user = auth.currentUser; // get current user
 
-
     final snapshot = await usersRef.get();
     List<DocumentSnapshot> tempList = snapshot.docs;
     List<String> roomUsers = []; // Names of Users
     List<String> paths = [];
     List<Reference> audioRefList = []; // Each file reference to be downloaded
     List<String> localPaths = []; // ONCE DOWNLOADED, ADD EACH LOCAL FILE PATH TO THIS LIST
-
-    // ffmpeg execution statement
-    String ffmpegExec = "";
 
     for (var value in tempList) {
       roomUsers.add(value.id);
@@ -331,6 +327,7 @@ class _on_change_practiceState extends State<on_change_practice> {
     //print(.toString());
     // Step 2: Get file paths and handle (?)
 
+    String ffmpegExec = "";
     for (var name in roomUsers)
     {
         audioRefList.add(filesRef.child(name).child("${name}_$roomID.mp4"));
@@ -341,7 +338,6 @@ class _on_change_practiceState extends State<on_change_practice> {
     print("Application Documents Directory: ${downloadDir}");
 
     String filePath = "";
-
 
     // in this, for each, download file and then get local storage path, add to localPaths
     if (await Permission.manageExternalStorage.request().isGranted) {
@@ -357,6 +353,8 @@ class _on_change_practiceState extends State<on_change_practice> {
       }
     }
 
+    processAudio(localPaths);
+
     // final userStorage = filesRef.child(roomUsers[0]);
     // userStorage.child("$roomID.mp4").putFile(audioFile);
 
@@ -366,7 +364,7 @@ class _on_change_practiceState extends State<on_change_practice> {
 
     // Step 3: Download files
     // Step 4: Merge to Merged File
-
+    /*
     for (var name in localPaths)
     {
       ffmpegExec += "-i $name ";
@@ -382,8 +380,7 @@ class _on_change_practiceState extends State<on_change_practice> {
     ffmpegExec += "-filter_complex amix=inputs=2:duration=longest /storage/emulated/0/Download/mixed_$roomID.mp4";
 
     print("ffmpeg command is: $ffmpegExec");
-
-    processAudio(localPaths);
+    */
     /*
       _ffMpeg.execute(ffmpegExec).then((return_code) =>
           print("Return code $return_code"));
