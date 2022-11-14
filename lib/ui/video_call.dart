@@ -1,4 +1,5 @@
 import 'dart:async';
+//import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:capstone_project_intune/Helpers/agora_controls.dart';
 import 'package:capstone_project_intune/Helpers/utils.dart';
 import 'package:capstone_project_intune/ui/live_band.dart';
@@ -125,7 +126,7 @@ class CallState extends State<video_call>{
   }
 
   Widget _toolbar(){
-    //if (widget.role == ClientRole.Audience) return const SizedBox();
+    if (widget.role == ClientRole.Audience) return const SizedBox();
     return Container(
       alignment: Alignment.bottomCenter,
       padding: const EdgeInsets.symmetric(vertical:48),

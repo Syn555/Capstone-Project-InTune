@@ -54,7 +54,7 @@ dependencies:
   permission_handler:
   cloud_firestore: ^3.5.1
   firebase_storage: ^10.3.11
-  agora_rtc_engine:
+  agora_rtc_engine: ^5.1.1
   signal_strength_indicator:
   convex_bottom_bar:
 dev_dependencies:

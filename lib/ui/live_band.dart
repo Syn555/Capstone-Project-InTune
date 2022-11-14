@@ -65,7 +65,7 @@ class BandState extends State<live_band>{
                     _role = value;
                   });
                 },
-                value: ClientRole.Broadcaster,
+                value: ClientRole.Audience,
                 groupValue: _role,
               ),
               ElevatedButton(
