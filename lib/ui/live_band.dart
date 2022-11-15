@@ -94,7 +94,7 @@ class BandState extends State<live_band>{
         context,
           MaterialPageRoute(
           builder: (context) => video_call(
-            channelName: _channelController.text,
+            channelName: _channelController.text, role: _role,
           ),
         ),
       );
