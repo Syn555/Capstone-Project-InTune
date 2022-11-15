@@ -16,7 +16,7 @@ How to use:
 # LINK TO PRE-RELEASE
 https://github.com/Capstone-Projects-2022-Fall/capstone-project-intune/releases/tag/v3.0
 
-# Testing document is called "InTuine Acceptance QA Testing doc.xlsx"
+# Testing document is called "InTune Acceptance QA Testing doc.xlsx"
 
 # Intonation Practice 
 Users must be logged in to access
