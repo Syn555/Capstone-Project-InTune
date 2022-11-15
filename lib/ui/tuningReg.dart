@@ -1,14 +1,16 @@
 import 'dart:typed_data';
 import 'package:capstone_project_intune/main.dart';
+import 'package:capstone_project_intune/ui/tuner_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
 import 'package:capstone_project_intune/pitch_detector.dart';
 
+var freq = 0.0;
+
 class TuningReg extends StatefulWidget {
   const TuningReg({Key? key, required this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -39,10 +41,19 @@ class _TuningReg extends State<TuningReg> {
                 notePicked,
                 style: const TextStyle(
                     color: Colors.blue,
-                    fontSize: 50.0,
+                    fontSize: 25.0,
                     fontWeight: FontWeight.bold),
               )),
-          const Spacer(),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
+          TunerView(frequency: freq),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            /* child: Text(
+                freq.toStringAsFixed(1),
+                style: const TextStyle(
+                  fontSize: 30.0
+                )
+            )*/
+          ),
           Center(
               child: Text(
                 status,
@@ -203,6 +214,7 @@ class _TuningReg extends State<TuningReg> {
       //Uses the pitchupDart library to check a given pitch for a Guitar
       final handledPitchResult = pitchupDart.handlePitch(result.pitch);
       status = handledPitchResult.tuningStatus.toString();
+      freq = handledPitchResult.diffFrequency;
 
       //Updates the state with the result
       setState(() {

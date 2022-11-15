@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:capstone_project_intune/main.dart';
 import 'package:capstone_project_intune/Helpers/utils.dart';
@@ -23,6 +24,7 @@ class _on_change_practiceState extends State<on_change_practice> {
   String roomID = "";
   String pathToAudio = "";
 
+
   // FIGURE OUT SUPER CLASS BS UPDATE: FIGURED IT OUT YAY
   @override
   void initState() {
@@ -36,12 +38,14 @@ class _on_change_practiceState extends State<on_change_practice> {
 
   final controller = TextEditingController();
 
+  FlutterFFmpeg _ffMpeg = FlutterFFmpeg();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const SideDrawer(),
       appBar: AppBar(
-        title: const Text('Sync Testing'),
+        title: const Text('Virtual Band-ish'),
       ),
       body: Center(
           child: Column(children: [
@@ -302,51 +306,71 @@ class _on_change_practiceState extends State<on_change_practice> {
     final usersRef = database.collection("rooms").doc(roomID).collection("users"); // Access the collection of users within room
     //print(usersRef.path);
     final filesRef = storageRef.child("AudioFiles");
+    final user = auth.currentUser; // get current user
 
     final snapshot = await usersRef.get();
     List<DocumentSnapshot> tempList = snapshot.docs;
-
-    List<String> roomUsers = [];
+    List<String> roomUsers = []; // Names of Users
     List<String> paths = [];
-    List<Reference> audioRefList = [];
+    List<Reference> audioRefList = []; // Each file reference to be downloaded
+    List<String> localPaths = []; // ONCE DOWNLOADED, ADD EACH LOCAL FILE PATH TO THIS LIST
 
     for (var value in tempList) {
       roomUsers.add(value.id);
     }
 
-    for (var name in roomUsers) {
-      String path = "${usersRef.path}/$name";
-          //print("username: $name");
-      paths.add(path);
-    }
-    //print(.toString());
     // Step 2: Get file paths and handle (?)
 
+    String ffmpegExec = "";
     for (var name in roomUsers)
     {
         audioRefList.add(filesRef.child(name).child("${name}_$roomID.mp4"));
+        print("audioRefList added a reference");
     }
 
-    // Testing to verify all storage references are correct
-    for (var pathName in audioRefList)
+    // final appDocDir = await getApplicationDocumentsDirectory().path;
+    final downloadDir = "/storage/emulated/0/Download";
+    print("Application Documents Directory: ${downloadDir}");
+
+    String filePath = "";
+
+    // in this, for each, download file and then get local storage path, add to localPaths
+    if (await Permission.manageExternalStorage.request().isGranted) {
+      for (var pathName in audioRefList) {
+        // for (var userName in roomUsers) {
+          String fileUserName = pathName.name;
+          filePath = '${downloadDir}/$fileUserName';
+          print("localPaths adding: $filePath");
+          localPaths.add(filePath);
+
+          final localFile = File(filePath);
+          final downloadTask = pathName.writeToFile(localFile);
+        // }
+      }
+    }
+
+    processAudio(localPaths);
+  }
+
+  void processAudio(List<String> paths)
+  {
+    String ffmpegExec = "";
+    for(var name in paths)
     {
-      print(pathName.fullPath);
+      ffmpegExec += "-i $name ";
+
+      File testFile = File(name);
+      while(!testFile.existsSync())
+      {
+        print("file $name: doesn't exist");
+      }
+      print("file $name: exists.");
     }
 
-    for (var audioFile in audioRefList)
-    {
+    ffmpegExec += "-filter_complex amix=inputs=2:duration=first:dropout_transition=3 /storage/emulated/0/Download/mixed_$roomID.mp4";
 
-    }
+    print("ffmpeg command is: $ffmpegExec");
 
-    // final userStorage = filesRef.child(roomUsers[0]);
-    // userStorage.child("$roomID.mp4").putFile(audioFile);
-
-    // final audioRef = userStorage.child("$roomID.mp4"); // Make this shit a variable
-    // final fileURL = audioRef.fullPath;
-    // print(fileURL);
-
-    // Step 3: Download files
-    // Step 4: Merge to Merged File
-    // Step 5: Upload to Storage Somewhere
+      _ffMpeg.execute(ffmpegExec).then((return_code) => print("Return code $return_code"));
   }
 } // EOF
