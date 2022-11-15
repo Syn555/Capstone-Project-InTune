@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'InTune',
       home: Tuning(title: 'Tuning'),
-      // home: on_change_practice(),
+
+      //home: on_change_practice(),
       debugShowCheckedModeBanner: false, //setup this property
     );
   }

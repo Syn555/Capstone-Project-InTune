@@ -59,14 +59,14 @@ class _MusicLineState extends State<MusicLine> {
         children: <Widget>[
           Positioned(
             child: CustomPaint(
-              size: Size(newWidth, newHeight),
+              size: Size(newWidth, 500), //height hard coded to avoid infinite constraint error
               painter: BackgroundPainter(
                   widget.options, staffsSpacing),
             ),
           ),
           Positioned(
             child: CustomPaint(
-              size: Size(newWidth, newHeight),
+              size: Size(newWidth, 500), //height hard coded to avoid infinite constraint error
               painter: ForegroundPainter(
                   widget.options, staffsSpacing),
             ),
