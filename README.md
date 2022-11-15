@@ -13,6 +13,11 @@ How to use:
 4. 'TUNED!!!' InTune will tell you when you're note is tuned correctly
 5. Select another note to tune, and press start...
 
+# LINK TO PRE-RELEASE
+https://github.com/Capstone-Projects-2022-Fall/capstone-project-intune/releases/tag/v3.0
+
+# Testing document is called "InTuine Acceptance QA Testing doc.xlsx"
+
 # Intonation Practice 
 Users must be logged in to access
 
