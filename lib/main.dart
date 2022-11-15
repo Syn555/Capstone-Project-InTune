@@ -1,5 +1,6 @@
 import 'package:capstone_project_intune/UploadTest.dart';
 import 'package:capstone_project_intune/file_picker_demo.dart';
+import 'package:capstone_project_intune/ui/live_band.dart';
 import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:capstone_project_intune/composition.dart';
 import 'package:capstone_project_intune/practice.dart';
@@ -7,7 +8,9 @@ import 'package:capstone_project_intune/ui/tuningReg.dart';
 import 'package:capstone_project_intune/ui/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'database.dart';
 import 'firebase_options.dart';
+import 'on_change_practice.dart';
 import 'ui/authentication.dart';
 
 
@@ -24,9 +27,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'InTune',
       home: Tuning(title: 'Tuning'),
+
+      //home: on_change_practice(),
       debugShowCheckedModeBanner: false, //setup this property
     );
   }
@@ -158,7 +163,7 @@ class SideDrawerReg extends StatelessWidget {
             title: const Text('Virtual Band'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-               return const VirtualBand();
+               return on_change_practice();
               },),),},
           ),
         ],

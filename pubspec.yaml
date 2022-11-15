@@ -29,6 +29,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  get:
+  flutter_share: ^2.0.0
   #audio capture
   flutter_audio_capture: ^1.1.0
   #pitchUp
@@ -52,6 +54,13 @@ dependencies:
   permission_handler: ^9.2.0
   cloud_firestore: ^3.5.1
   firebase_storage: ^10.3.11
+  agora_rtc_engine: 1.0.15
+  signal_strength_indicator:
+  convex_bottom_bar:
+  flutter_sound: ^9.2.13
+  open_file: ^3.2.1
+  flutter_ffmpeg: ^0.4.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -8,6 +8,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
 import 'package:xml/xml.dart';
@@ -19,6 +20,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:capstone_project_intune/ui/cloudFilePicker.dart';
+
+
+//read and write
+Future<void> writeToFile(ByteData data, String path) {
+  final buffer = data.buffer;
+  return new File(path).writeAsBytes(
+      buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+}
 
 Future<Score> loadXML() async {
 /* // DOWNLOAD FILE FROM FIREBASE STORAGE TO UPLOAD INTO loadXML()
@@ -41,6 +50,9 @@ Future<Score> loadXML() async {
     final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
     final result = parseMusicXML(XmlDocument.parse(rawFile));
     return result;
+
+
+
   // }
 }
 
@@ -103,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Center(
               child: Container(
                 alignment: Alignment.center,
-                //width: size.width - 40,
+
                 //height: size.height - 20,
                 child: FutureBuilder<Score>(
                     future: loadXML(),
@@ -178,6 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
+
   Future<void> _startCapture() async {
     await _audioRecorder.start(listener, onError,
         sampleRate: 44100, bufferSize: 3000);
@@ -185,7 +198,11 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       note = "";
       status = "Play something";
+
     });
+
+
+
   }
 
   Future<void> _stopCapture() async {
