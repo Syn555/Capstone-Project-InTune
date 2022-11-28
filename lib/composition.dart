@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:async';
-import 'dart:convert';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -11,16 +11,13 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
-import 'package:pitchupdart/pitch_result.dart';
 import 'package:xml/xml.dart';
 import 'package:capstone_project_intune/musicXML/parser.dart';
 import 'package:capstone_project_intune/musicXML/data.dart';
 import 'package:capstone_project_intune/notes/music-line.dart';
 import 'package:capstone_project_intune/main.dart';
 
-
 const double STAFF_HEIGHT = 36;
-
 
 class MyHomePage1 extends StatelessWidget {
   @override
@@ -47,10 +44,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<Score> loadXML() async {
     //final Directory directory = await getApplicationDocumentsDirectory();
-    final rawFile = everything.toString();
+    /*final rawFile = everything.toString();
     print(everything);
     final document= XmlDocument.parse(rawFile);
     final result = parseMusicXML(document);
+*/
+    final rawFile = await mountainImagesRef.getDownloadURL();
+    final result = parseMusicXML(XmlDocument.parse(rawFile));
+
     return result;
   }
   final _audioRecorder = FlutterAudioCapture();
@@ -64,11 +65,12 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> notesToBeAdded= [];
   var noteStatus= "";
   var status = "Click on start";
+  late final myFile;
+  late final myFilePath;
+  late final mountainImagesRef;
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
-
     return Scaffold(
       drawer: const SideDrawer(),
       appBar: AppBar(
@@ -146,7 +148,6 @@ class _MyHomePageState extends State<MyHomePage> {
     var notesAdded=n;
     var start= '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE score-partwise PUBLIC-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise version="3.1"><part-list><score-part id="P1"><part-name>Piano</part-name><score-instrument id="P1-I1"><instrument-name>Piano</instrument-name></score-instrument></score-part></part-list><part id="P1"><measure number="1"><attributes><divisions>4</divisions><key><fifths>0</fifths></key><time><beats>2</beats><beat-type>4</beat-type></time><staves>1</staves><clef number="1"><sign>G</sign><line>2</line></clef></attributes>';
     String newNote;
-    var ending= '\</measure></part></score-partwise>';
     var allNotes="";
     print(notesAdded);
     for(var i=0; i < notesAdded.length;i++) {
@@ -156,21 +157,44 @@ class _MyHomePageState extends State<MyHomePage> {
     //print(allNotes);
     //print(newNote);
 
-    everything= start+allNotes+ending;
+    everything= start+allNotes;
+    var ending= '\</measure></part></score-partwise>';
+
+    everything = everything +ending;
+    print(everything);
     //var file = _write(everything);
     //print(everything);
-
-    /*var files= File('text');
+/*
+    var files= File('capstone-project-intune/assets/hanon-no1-stripped.musicxml');
     var sink= files.openWrite();
     sink.write('testing');
     sink.close();
     files.openWrite(mode: FileMode.append, encoding: ascii);
-    */
+*/
+
+
+
+    //Get this App Document Directory
+    final Directory _appDocDir = await getApplicationDocumentsDirectory();
+    //App Document Directory + folder name
+    final Directory _appDocDirFolder =  Directory('${_appDocDir.path}/assets');
+
+    if(await _appDocDirFolder.exists()){ //if folder already exists return path
+      myFile= File('${_appDocDirFolder.path}/test');
+      myFilePath='${_appDocDirFolder.path}/test';
+      myFile.writeAsString(everything);
+      final contents= await myFile.readAsString();
+      return print(contents);
+    }else{//if folder not exists create folder and then return its path
+      final Directory _appDocDirNewFolder=await _appDocDirFolder.create(recursive: true);
+      myFilePath=_appDocDirNewFolder.path;
+      return _appDocDirNewFolder.path;
+    }
 
   }
 
   Future<void> _startCapture() async {
-    await _audioRecorder.start(listener, onError,
+   await _audioRecorder.start(listener, onError,
         sampleRate: 44100, bufferSize: 3000);
 
     setState(() {
@@ -183,6 +207,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _stopCapture() async {
     await _audioRecorder.stop();
+
+
+    // Create a storage reference from our app
+    final storageRef = FirebaseStorage.instance.ref();
+// Create a reference to 'images/mountains.jpg'
+    final mountainImagesRef = storageRef.child(myFilePath);
+
+    try {
+      await mountainImagesRef.putFile(myFilePath);
+      print("Upload Complete!");
+    } on FirebaseException catch (e) {
+      print("Upload Not Complete");
+    }
 
     setState(() {
       note = "";
