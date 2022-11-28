@@ -60,6 +60,8 @@ dependencies:
   flutter_sound: ^9.2.13
   open_file: ^3.2.1
   flutter_ffmpeg: ^0.4.2
+  external_path: ^1.0.3
+  document_file_save_plus: ^1.0.9
 
 dev_dependencies:
   flutter_test:

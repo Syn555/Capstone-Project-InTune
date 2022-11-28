@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:capstone_project_intune/ui/tuning.dart';
+import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -20,6 +21,7 @@ import 'package:capstone_project_intune/notes/music-line.dart';
 import 'package:capstone_project_intune/main.dart';
 import 'package:open_file/open_file.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:document_file_save_plus/document_file_save_plus.dart';
 
 const double STAFF_HEIGHT = 36;
 
@@ -90,13 +92,44 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var _openResult = 'Unknown';
+  List<String> _exPath = [];
+
+  // Get storage directory paths
+  // Like internal and external (SD card) storage path
+  Future<void> getPath() async {
+    List<String> paths;
+    // getExternalStorageDirectories() will return list containing internal storage directory path
+    // And external storage (SD card) directory path (if exists)
+    paths = await ExternalPath.getExternalStorageDirectories();
+
+    setState(() {
+      _exPath = paths; // [/storage/emulated/0, /storage/B3AE-4D28]
+    });
+  }
+
+  // To get public storage directory path like Downloads, Picture, Movie etc.
+  // Use below code
+  Future<void> getPublicDirectoryPath() async {
+    String path;
+
+    path = await ExternalPath.getExternalStoragePublicDirectory(
+        ExternalPath.DIRECTORY_DOWNLOADS);
+
+    setState(() {
+      print(path); // /storage/emulated/0/Download
+    });
+  }
+
   Future<void> openFile() async {
     //read and write
     const filename = 'test.xml';
+
     var bytes = await rootBundle.load("blank.musicxml");
     String? dir = (await getApplicationDocumentsDirectory()).path;
-    writeToFile(bytes,'$dir/$filename');
 
+    writeToFile(bytes, '$dir/$filename');
+
+    //DocumentFileSave.saveFile(bytes,filename, 'xml');
     //String? filePath = r'/storage/emulated/0/update.apk';
     //FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -108,6 +141,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final _result = await OpenFile.open('$dir/$filename');
     print(_result.message);
+
+    //loadXMLexternal();
+
+
+    final index = notesToBeAdded.length-1; // remove the 6th line
+
+
+    // f.readAsLines().then((List<String> lines) {
+    //   for(var index=lines.length-4; index<lines.length;index++) {
+    //     lines.removeAt(index);
+    //     final newTextData = lines.join('\n');
+    //     f.writeAsString(newTextData);
+    //   }// update the file with the new data
+    // });
 
     setState(() {
       _openResult = "type=${_result.type}  message=${_result.message}";
@@ -125,6 +172,22 @@ class _MyHomePageState extends State<MyHomePage> {
     // return result;
     final rawFile = await rootBundle.loadString('blank.musicxml');
     final result = parseMusicXML(XmlDocument.parse(rawFile));
+    return result;
+  }
+
+  Future<Score> loadXMLexternal() async {
+
+    String? dir = (await getApplicationDocumentsDirectory()).path;
+    //final Directory directory = await getApplicationDocumentsDirectory();
+    //final rawFile = await OpenFile.open('$dir/test.xml');
+    final file = File('$dir/test.xml');
+    //update(notesToBeAdded);
+    // //print(everything);
+    final document= XmlDocument.parse(file.readAsStringSync());
+    final result = parseMusicXML(document);
+    // return result;
+    // final rawFile = await rootBundle.loadString('blank.musicxml');
+    // final result = parseMusicXML(XmlDocument.parse(rawFile));
     return result;
   }
 
@@ -202,6 +265,31 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Expanded(
+            child: FutureBuilder<Score>(
+                future: loadXMLexternal(),
+                builder: (context, snapshot) {
+                  if(snapshot.hasData) {
+                    return MusicLine(
+                      options: MusicLineOptions(
+                        snapshot.data!,
+                        STAFF_HEIGHT,
+                        1,
+                      ),
+                    );
+                  } else if(snapshot.hasError) {
+                    return Text('Oh, this failed!\n${snapshot.error}');
+                  } else {
+                    return  const SizedBox(
+                      width: 60,
+                      height: 40,
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }
+            ),
+
+          ),
+          Expanded(
               child: Row(
                 children: [
                   Expanded(
@@ -238,24 +326,84 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-  Future<String> update(List<String> n) async {
+  Future<void> update(List<String> n) async {
     //final titles = parsedXML.findAllElements('note');
     //print(noteFun());
-    //final file = await _localFile;
-    var notesAdded=n;
+    //await _stopCapture();
+    String? dir = (await getApplicationDocumentsDirectory()).path;
+    //final Directory directory = await getApplicationDocumentsDirectory();
+    //final rawFile = await OpenFile.open('$dir/test.xml');
+    final file = File('$dir/test.xml');
+    XmlDocument xml = XmlDocument.parse('''<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE score-partwise PUBLIC
+    "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+    <score-partwise version="3.1">
+    <part-list>
+    <score-part id="P1">
+    <part-name>Piano</part-name>
+    <score-instrument id="P1-I1">
+    <instrument-name>Piano</instrument-name>
+    </score-instrument>
+    </score-part>
+    </part-list>
+    <part id="P1">
+    <measure number="1">
+    <attributes>
+    <divisions>4</divisions>
+    <key>
+    <fifths>0</fifths>
+    </key>
+    <time>
+    <beats>4</beats>
+    <beat-type>4</beat-type>
+    </time>
+    <staves>1</staves>
+    <clef number="1">
+    <sign>G</sign>
+    <line>2</line>
+    </clef>
+    </attributes>
+    <note>
+
+    <duration>8</duration>
+    <voice>1</voice>
+    <staff>1</staff>
+    </note>
+    <backup>
+    <duration>8</duration>
+    </backup>''');
+    //var notesAdded=n;
     var start= '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE score-partwise PUBLIC-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise version="3.1"><part-list><score-part id="P1"><part-name>Piano</part-name><score-instrument id="P1-I1"><instrument-name>Piano</instrument-name></score-instrument></score-part></part-list><part id="P1"><measure number="1"><attributes><divisions>4</divisions><key><fifths>0</fifths></key><time><beats>2</beats><beat-type>4</beat-type></time><staves>1</staves><clef number="1"><sign>G</sign><line>2</line></clef></attributes>';
     String newNote;
     var ending= '\</measure></part></score-partwise>';
     var allNotes="";
     //print(notesAdded);
-    for(var i=0; i < notesAdded.length;i++) {
-      newNote='<note> <pitch> <step>'+ notesAdded[i] +'\</step> <octave>5</octave> </pitch> <duration>1</duration> <voice>1</voice><type>eighth</type> <stem default-y="3">up</stem><staff>1</staff> <beam number="1">begin</beam></note>';
-      allNotes= allNotes+newNote;
+
+    //final index = lines.length-1; // remove the 6th line
+
+    // File f = new File('test.txt');
+     file.readAsLines().then((List<String> lines) {
+      for(var index=lines.length-4; index<lines.length;index++) {
+        lines.removeAt(index);
+        //final newTextData = lines.join('\n');
+       // file.writeAsString(newTextData);
+      }// update the file with the new data
+    });
+
+    for(var i=0; i < n.length;i++) {
+      note = n[i];
+      XmlDocument newNote= XmlDocument.append('<note> <pitch> <step> $note </step> <octave>5</octave> </pitch> <duration>1</duration> <voice>1</voice><type>eighth</type> <stem default-y="3">up</stem><staff>1</staff> <beam number="1">begin</beam></note>');
+      //xml= xml+newNote;
+      // await xml.writeAsString(
+      //   newNote,
+      // mode: FileMode.append,
+      // flush: true,
+      // );
+
     }
     //print(allNotes);
     //print(newNote);
 
-    everything= start+allNotes+ending;
+    //everything= start+allNotes+ending;
 
 
     // //read and write
@@ -265,7 +413,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // writeToFile(bytes,'$dir/$filename');
     //
     // OpenFile.open('$dir/$filename');
-    return everything;
+    //return file;
     //var file = _write(everything);
     //print(everything);
 
@@ -298,12 +446,14 @@ class _MyHomePageState extends State<MyHomePage> {
     await _audioRecorder.stop();
 
     setState(() {
-      update(notesToBeAdded);
+      //update(notesPlayed);
       note = "";
       status = "Click on start";
     });
     //loadXML();
-    openFile();
+    //openFile();
+    update(notesToBeAdded);
+    loadXMLexternal();
 
 
 
