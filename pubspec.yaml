@@ -39,6 +39,7 @@ dependencies:
   #xml
   xml: ^5.3.0
   collection: ^1.15.0
+  js: any
   #for piano
 
   flutter:

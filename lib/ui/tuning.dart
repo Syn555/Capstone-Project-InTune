@@ -1,18 +1,19 @@
 //import 'dart:html';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:capstone_project_intune/main.dart';
+import 'package:capstone_project_intune/ui/tuner_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
 import 'package:capstone_project_intune/pitch_detector.dart';
 import 'package:flutter/services.dart';
-
 import 'package:audioplayers/audioplayers.dart';
+var freq = 0.0;
 
 class Tuning extends StatefulWidget {
   const Tuning({Key? key, required this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -32,9 +33,13 @@ class _Tuning extends State<Tuning> {
   _readTone(String tone) async {
     final player=AudioPlayer();
     player.play(AssetSource('notes/$tone.mp3'));
+    setState(() {
+      pianoTone=tone;
+    });
   }
 
   var note = "";
+  var pianoTone="";
   var notePicked = "";
   var noteStatus= "";
   var status = "Click on start";
@@ -90,13 +95,16 @@ class _Tuning extends State<Tuning> {
         child: Column(children: [
           Center(
               child: Text(
-                notePicked,
+                pianoTone,
                 style: const TextStyle(
                     color: Colors.red,
                     fontSize: 50.0,
                     fontWeight: FontWeight.bold),
               )),
-          const Spacer(),
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
+        TunerView(frequency: freq),
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        ),
           Center(
               child: Text(
                 status,
