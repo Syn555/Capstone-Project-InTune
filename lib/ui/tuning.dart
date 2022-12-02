@@ -10,7 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:audioplayers/audioplayers.dart';
 var freq = 0.0;
 
-var freq = 0.0;
 
 class Tuning extends StatefulWidget {
   const Tuning({Key? key, required this.title}) : super(key: key);
