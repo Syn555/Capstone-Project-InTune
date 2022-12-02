@@ -1,11 +1,14 @@
 import 'dart:typed_data';
 import 'package:capstone_project_intune/main.dart';
+import 'package:capstone_project_intune/ui/tuner_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
 import 'package:capstone_project_intune/pitch_detector.dart';
 import 'package:capstone_project_intune/ui/tuner_view.dart';
+
+var freq = 0.0;
 
 var freq = 0.0;
 
@@ -215,7 +218,6 @@ class _TuningReg extends State<TuningReg> {
       final handledPitchResult = pitchupDart.handlePitch(result.pitch);
       status = handledPitchResult.tuningStatus.toString();
       freq = handledPitchResult.diffFrequency;
-
 
       //Updates the state with the result
       setState(() {

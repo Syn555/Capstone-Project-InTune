@@ -17,7 +17,7 @@
                     <fifths>0</fifths>
                 </key>
                 <time>
-                    <beats>2</beats>
+                    <beats>4</beats>
                     <beat-type>4</beat-type>
                 </time>
                 <staves>1</staves>
@@ -27,7 +27,7 @@
                 </clef>
             </attributes>
             <note>
-                <rest measure="yes" />
+
                 <duration>8</duration>
                 <voice>1</voice>
                 <staff>1</staff>
@@ -35,30 +35,7 @@
             <backup>
                 <duration>8</duration>
             </backup>
-            <note>
-                 <pitch>
-                          <step></step>
-                          <octave></octave>
-                        </pitch>
-                        <duration>1</duration>
-                        <voice>1</voice>
-                        <type>eighth</type>
-                        <stem default-y="3">up</stem>
-                        <staff>1</staff>
-                        <beam number="1">begin</beam>
-            </note>
-             <note>
-                             <pitch>
-                                      <step></step>
-                                      <octave></octave>
-                                    </pitch>
-                                    <duration>1</duration>
-                                    <voice>1</voice>
-                                    <type>eighth</type>
-                                    <stem default-y="3">up</stem>
-                                    <staff>1</staff>
-                                    <beam number="1">begin</beam>
-                        </note>
+
 
 
         </measure>
