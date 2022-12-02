@@ -54,8 +54,7 @@ dependencies:
   permission_handler: ^9.2.0
   cloud_firestore: ^3.5.1
   firebase_storage: ^10.3.11
-  agora_rtc_engine: 1.0.15
-  signal_strength_indicator:
+  agora_rtc_engine: ^5.1.1
   convex_bottom_bar:
   flutter_sound: ^9.2.13
   open_file: ^3.2.1
