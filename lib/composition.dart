@@ -5,9 +5,10 @@ import 'dart:async';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:capstone_project_intune/pitch_detector.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show Clipboard, ClipboardData, rootBundle;
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
@@ -63,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var note = "";
   var notePicked = "";
   var everything;
+  var holder=""; //holds the notes for comp
   List<String> notesPlayed= [];
   List<String> notesToBeAdded= [];
   var noteStatus= "";
@@ -81,7 +83,14 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(children: [
           Center(
-            child: Container(
+        child: Text(
+            holder,
+      style: const TextStyle(
+          color: Colors.red,
+          fontSize: 50.0,
+          fontWeight: FontWeight.bold),
+    )
+            /*child: Container(
               alignment: Alignment.center,
               width: size.width - 40,
               height: size.height-500,
@@ -107,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                   }
               ),
-            ),
+            ),*/
           ),
           Expanded(
               child: Row(
@@ -175,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
 */
 
 
-
+/*
     //Get this App Document Directory
     final Directory _appDocDir = await getApplicationDocumentsDirectory();
     //App Document Directory + folder name
@@ -191,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final Directory _appDocDirNewFolder=await _appDocDirFolder.create(recursive: true);
       myFilePath=_appDocDirNewFolder.path;
       return _appDocDirNewFolder.path;
-    }
+    }*/
 
   }
 
@@ -204,14 +213,18 @@ class _MyHomePageState extends State<MyHomePage> {
       note = "";
       status = "Play something";
     });
-
   }
 
   Future<void> _stopCapture() async {
     await _audioRecorder.stop();
 
+    //testing
+    //notesToBeAdded= ['A','B','C'] ABC;
 
-    // Create a storage reference from our app
+    //add data to clipboard
+    await Clipboard.setData(ClipboardData(text:notesPlayed.join()));
+
+    /*Create a storage reference from our app
     final storageRef = FirebaseStorage.instance.ref();
 // Create a reference to 'images/mountains.jpg'
     final mountainImagesRef = storageRef.child(myFilePath);
@@ -221,13 +234,22 @@ class _MyHomePageState extends State<MyHomePage> {
       print("Upload Complete!");
     } on FirebaseException catch (e) {
       print("Upload Not Complete");
+    }*/
+
+    //open browser for music comp
+    var url = Uri.parse('https://editor.drawthedots.com/');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode:LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
     }
 
     setState(() {
       note = "";
       status = "Click on start";
     });
-    loadXML();
+
+    //loadXML();
 
   }
 
@@ -244,22 +266,37 @@ class _MyHomePageState extends State<MyHomePage> {
         //Uses the pitchupDart library to check a given pitch for a Guitar
         final handledPitchResult = pitchupDart.handlePitch(result.pitch);
         status = handledPitchResult.tuningStatus.toString();
-        var holder= handledPitchResult.note;
+        holder= handledPitchResult.note;
 
-      //Updates the state with the result
-      setState(() {
-        if (status == "TuningStatus.tuned") {
-          note = "";
-          print("Actual pitchresult: $holder");
-          notesPlayed.add(holder);
-          //print(holder);
-          //print(notesPlayed);
-          update(notesPlayed);
+        //for abc notation
+        if(holder=="C#") {
+          holder= "C^";
+        }else if(holder=="D#"){
+          holder= "D^";
+        }else if(holder=="F#"){
+            holder= "F^";
+        }else if(holder=="G#"){
+            holder= "G^";
+        } else if(holder=="A#"){
+          holder= "A^";
+        } else if(holder=="B#"){
+          holder= "B^";
+        }else{
+            holder= handledPitchResult.note;
         }
-      }
-      );
+
+          //Updates the state with the result
+          setState(() {
+            // if (status == "TuningStatus.tuned")
+            note = "";
+            print("Actual pitchresult: $holder");
+            //take all notes and add it to the notesPlayed List
+            notesPlayed.add(holder);
+            //print(holder);
+          }
+          );
+        }
     }
-  }
 
 
   void onError(Object e) {

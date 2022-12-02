@@ -1,5 +1,3 @@
-//import 'dart:html';
-import 'dart:math';
 import 'dart:typed_data';
 import 'package:capstone_project_intune/main.dart';
 import 'package:capstone_project_intune/ui/tuner_view.dart';
@@ -351,6 +349,7 @@ Future<void> _startCapture() async {
       //Uses the pitchupDart library to check a given pitch for a Guitar
       final handledPitchResult = pitchupDart.handlePitch(result.pitch);
       status = handledPitchResult.tuningStatus.toString();
+      freq = handledPitchResult.diffFrequency;
 
       //Updates the state with the result
       setState(() {
