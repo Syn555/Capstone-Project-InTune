@@ -1,12 +1,7 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:async';
 
-
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:capstone_project_intune/pitch_detector.dart';
@@ -17,7 +12,7 @@ import 'package:pitchupdart/pitch_handler.dart';
 import 'package:xml/xml.dart';
 import 'package:capstone_project_intune/musicXML/parser.dart';
 import 'package:capstone_project_intune/musicXML/data.dart';
-import 'package:capstone_project_intune/notes/music-line.dart';
+
 import 'package:capstone_project_intune/main.dart';
 
 const double STAFF_HEIGHT = 36;
@@ -48,31 +43,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _openResult = 'Unknown';
-  Future<void> openFile() async {
-    //read and write
-    const filename = 'test.xml';
-    var bytes = await rootBundle.load("blank.musicxml");
-    String? dir = (await getApplicationDocumentsDirectory()).path;
-    writeToFile(bytes,'$dir/$filename');
-
-    //String? filePath = r'/storage/emulated/0/update.apk';
-    //FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    // if (result != null) {
-    //   dir = result.files.single.path;
-    // } else {
-    //   // User canceled the picker
-    // }
-
-    final _result = await OpenFile.open('$dir/$filename');
-    print(_result.message);
-
-    setState(() {
-      _openResult = "type=${_result.type}  message=${_result.message}";
-    });
-
-  }
 
 
   Future<Score> loadXML() async {
@@ -189,63 +159,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-  Future<String> update(List<String> n) async {
-    //final titles = parsedXML.findAllElements('note');
-    //print(noteFun());
-    //final file = await _localFile;
-    var notesAdded=n;
-    var start= '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE score-partwise PUBLIC-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise version="3.1"><part-list><score-part id="P1"><part-name>Piano</part-name><score-instrument id="P1-I1"><instrument-name>Piano</instrument-name></score-instrument></score-part></part-list><part id="P1"><measure number="1"><attributes><divisions>4</divisions><key><fifths>0</fifths></key><time><beats>2</beats><beat-type>4</beat-type></time><staves>1</staves><clef number="1"><sign>G</sign><line>2</line></clef></attributes>';
-    String newNote;
-    var allNotes="";
-    //print(notesAdded);
-    for(var i=0; i < notesAdded.length;i++) {
-      newNote='<note> <pitch> <step>'+ notesAdded[i] +'\</step> <octave>5</octave> </pitch> <duration>1</duration> <voice>1</voice><type>eighth</type> <stem default-y="3">up</stem><staff>1</staff> <beam number="1">begin</beam></note>';
-      allNotes= allNotes+newNote;
-    }
-    //print(allNotes);
-    //print(newNote);
-
-
-    everything= start+allNotes;
-    var ending= '\</measure></part></score-partwise>';
-
-    everything = everything +ending;
-    print(everything);
-
-    //var file = _write(everything);
-    //print(everything);
-/*
-    var files= File('capstone-project-intune/assets/hanon-no1-stripped.musicxml');
-    var sink= files.openWrite();
-    sink.write('testing');
-    sink.close();
-    files.openWrite(mode: FileMode.append, encoding: ascii);
-*/
-
-
-/*
-    //Get this App Document Directory
-    final Directory _appDocDir = await getApplicationDocumentsDirectory();
-    //App Document Directory + folder name
-    final Directory _appDocDirFolder =  Directory('${_appDocDir.path}/assets');
-
-    if(await _appDocDirFolder.exists()){ //if folder already exists return path
-      myFile= File('${_appDocDirFolder.path}/test');
-      myFilePath='${_appDocDirFolder.path}/test';
-      myFile.writeAsString(everything);
-      final contents= await myFile.readAsString();
-      return print(contents);
-    }else{//if folder not exists create folder and then return its path
-      final Directory _appDocDirNewFolder=await _appDocDirFolder.create(recursive: true);
-      myFilePath=_appDocDirNewFolder.path;
-      return _appDocDirNewFolder.path;
-    }*/
-
-
-
-  }
-
-
 
   Future<void> _startCapture() async {
    await _audioRecorder.start(listener, onError,
@@ -288,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     setState(() {
-      update(notesToBeAdded);
+      //update(notesToBeAdded);
       note = "";
       status = "Click on start";
     });
