@@ -7,8 +7,6 @@ import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
 import 'package:capstone_project_intune/pitch_detector.dart';
 
-var freq = 0.0;
-
 class TuningReg extends StatefulWidget {
   const TuningReg({Key? key, required this.title}) : super(key: key);
   final String title;
