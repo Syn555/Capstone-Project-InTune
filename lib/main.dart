@@ -139,7 +139,7 @@ class SideDrawerReg extends StatelessWidget {
             title: const Text('Tuning'),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Tuning(title: 'Tuning',);
+                return const TuningReg(title: 'Tuning',);
               },),),},
           ),
           //Practice
