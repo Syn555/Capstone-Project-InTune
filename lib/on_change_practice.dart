@@ -102,6 +102,14 @@ class _on_change_practiceState extends State<on_change_practice> {
                     Expanded(
                         child: Center(
                             child: FloatingActionButton(
+                                heroTag: "Call",
+                                backgroundColor: Colors.black,
+                                splashColor: Colors.white,
+                                onPressed: joinCall,
+                                child: const Text("Call")))),
+                    Expanded(
+                        child: Center(
+                            child: FloatingActionButton(
                                 heroTag: "Start",
                                 backgroundColor: Colors.green,
                                 splashColor: Colors.blueGrey,
@@ -161,7 +169,7 @@ class _on_change_practiceState extends State<on_change_practice> {
   }
 
   // "Join" Room, add User to Room in DB
-  Future<void> joinRoom() async {
+  void joinRoom() async {
     final user = auth.currentUser; // get current user
     roomID = controller.text; //User inputs Room ID to join a room
 
@@ -182,6 +190,9 @@ class _on_change_practiceState extends State<on_change_practice> {
       });
       onChange();
     }
+  }
+
+  Future<void> joinCall() async {
     setState(() {
       controller.text.isNotEmpty
           ? _validateError = true
@@ -200,6 +211,7 @@ class _on_change_practiceState extends State<on_change_practice> {
       );
     }
   }
+
   Future<void> _handleCameraAndMic(Permission permission) async {
     final status = await permission.request();
     log(status.toString());
