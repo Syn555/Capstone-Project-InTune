@@ -33,7 +33,7 @@ Future<void> writeToFile(ByteData data, String path) {
 const double STAFF_HEIGHT = 36;
 
 
-class Practice extends StatelessWidget {
+class read_file_pls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -71,47 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   // final filesRef = storageRef.child("MusicXMLFiles");
-  Future<Score> loadXML() async {
-    // DOWNLOAD FILE FROM FIREBASE STORAGE TO UPLOAD INTO loadXML()
-
-    // Step 1: Access Users in Room in Database
-    // final usersRef = storage.collection("rooms").doc(roomID).collection("users"); // Access the collection of users within room
-    //print(usersRef.path);
-    final filesRef = storageRef.child("MusicXMLFiles");
-    final user = auth.currentUser; // get current user
-    var userid;
-    // final filePath = "";
-    var result;
-
-    File file;
-
-    final downloadDir = "/storage/emulated/0/Download";
-    print("Application Documents Directory: ${downloadDir}");
-
-    final filePath;
-
-    if (user != null) {
-      // in this, for each, download file and then get local storage path, add to localPaths
-      if (await Permission.manageExternalStorage
-          .request()
-          .isGranted) {
-
-        userid = user.uid;
-
-        filePath = downloadDir + 'hanon-no1.musicxml';
-        print("Path to file in downloads folder is: ${downloadDir}");
-
-        file = new File(filePath);
-        final xmlString  = await file.readAsString();
-        result = parseMusicXML(XmlDocument.parse(xmlString));
-        return result;
-      }
-    }
-    final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
-    result = parseMusicXML(XmlDocument.parse(rawFile));
-    print ("this failed");
-    return result;
-  }
 
 
   @override
@@ -167,8 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 splashColor: Colors.white,
                                 onPressed: () { // Opens cloudFilePicker.dart
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => CloudFilePicker()),
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CloudFilePicker()),
                                   );
                                 },
                                 child: const Text("Browse")))),
@@ -306,5 +265,52 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void onError(Object e) {
     print(e);
+  }
+
+  Future<Score> loadXML() async {
+    // DOWNLOAD FILE FROM FIREBASE STORAGE TO UPLOAD INTO loadXML()
+
+    // Step 1: Access Users in Room in Database
+    // final usersRef = storage.collection("rooms").doc(roomID).collection("users"); // Access the collection of users within room
+    //print(usersRef.path);
+    final filesRef = storageRef.child("MusicXMLFiles");
+    final user = auth.currentUser; // get current user
+    var userid;
+    // final filePath = "";
+    var result;
+
+    File file;
+
+    final downloadDir = "/storage/emulated/0/Download";
+    print("Application Documents Directory: ${downloadDir}");
+
+   final filePath;
+
+    if (user != null) {
+      // in this, for each, download file and then get local storage path, add to localPaths
+      if (await Permission.manageExternalStorage
+          .request()
+          .isGranted) {
+
+        userid = user.uid;
+
+        filePath = downloadDir + 'hanon-no1.musicxml';
+        print("Path to file in downloads folder is: ${downloadDir}");
+
+        file = new File(filePath);
+        final xmlString  = await file.readAsString();
+        result = parseMusicXML(XmlDocument.parse(xmlString));
+          return result;
+      }
+    }
+    final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
+    result = parseMusicXML(XmlDocument.parse(rawFile));
+    print ("this failed");
+    return result;
+
+
+    // final rawFile = await rootBundle.loadString('hanon-no1.musicxml');
+
+    // }
   }
 }
