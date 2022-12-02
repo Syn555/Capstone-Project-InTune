@@ -6,9 +6,6 @@ import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
 import 'package:capstone_project_intune/pitch_detector.dart';
-import 'package:capstone_project_intune/ui/tuner_view.dart';
-
-var freq = 0.0;
 
 var freq = 0.0;
 
