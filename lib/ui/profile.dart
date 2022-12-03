@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone_project_intune/ui/updateProfile.dart';
 
+// comment to restore main
+
 class Profile extends StatefulWidget{
   const Profile({super.key});
 
