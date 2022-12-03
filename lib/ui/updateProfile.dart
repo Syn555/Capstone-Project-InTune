@@ -6,10 +6,10 @@ class UpdateProfile extends StatefulWidget{
   const UpdateProfile({super.key});
 
   @override
-  _UpdateProfile createState() => _UpdateProfile();
+  Update createState() => Update();
 }
 
-class _UpdateProfile extends State<UpdateProfile> {
+class Update extends State<UpdateProfile> {
   bool showPassword = true;
 
   final user = FirebaseAuth.instance.currentUser;
