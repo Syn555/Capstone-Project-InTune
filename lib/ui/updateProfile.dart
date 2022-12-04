@@ -14,10 +14,8 @@ class Update extends State<UpdateProfile> {
 
   final user = FirebaseAuth.instance.currentUser;
 
-  //final _username = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
-  var username = "";
   var email = "";
   var password = "";
 
@@ -40,47 +38,6 @@ class Update extends State<UpdateProfile> {
 
         child: ListView(
          children: <Widget> [
-           /*
-           //Change Username
-           const SizedBox(height: 35,),
-           Padding(
-             padding: const EdgeInsets.symmetric(vertical: 20),
-             child:
-             Text(
-               "Current Username: ${displayUsername()}",
-               style: const TextStyle(
-                   fontSize: 25,
-                   letterSpacing: 2
-               ),
-             ),
-           ),
-           buildTextField("New Username", false, _username),
-           ElevatedButton(
-             onPressed: () {
-               if (_username.text != "") {
-                 //user?.updatePassword(password);
-                 setState(() {
-                   username = _username.text;
-                 });
-                 //print(_username.text);
-               }
-             },
-             style: ElevatedButton.styleFrom(
-                 foregroundColor: Colors.blue,
-                 padding: const EdgeInsets.symmetric(horizontal: 50),
-                 shape: RoundedRectangleBorder(
-                     borderRadius: BorderRadius.circular(20))
-             ),
-             child: const Text(
-               "Change Username",
-               style: TextStyle(
-                   fontSize: 14,
-                   letterSpacing: 2,
-                   color: Colors.white
-               ),
-             )
-         ),
-          */
            //Change Email
             const SizedBox(height: 35,),
             Padding(
@@ -94,7 +51,7 @@ class Update extends State<UpdateProfile> {
                  ),
                ),
              ),
-            buildTextField("New Email", false, _email),
+            buildTextField("New Email", false, _email, "emailField"),
             ElevatedButton(
                onPressed: () {
                  if (_email.text != "") {
@@ -128,7 +85,7 @@ class Update extends State<UpdateProfile> {
                padding: EdgeInsets.symmetric(vertical: 20),
                child: null
            ),
-            buildTextField("New Password", true, _password),
+            buildTextField("New Password", true, _password, "passField"),
             ElevatedButton(
                onPressed: () {
                  if (_password.text != "") {
@@ -163,11 +120,12 @@ class Update extends State<UpdateProfile> {
     );
   }
 
-  Widget buildTextField(String label, bool isPassword, TextEditingController info){
+  Widget buildTextField(String label, bool isPassword, TextEditingController info, String key){
     return Padding(
       padding: const EdgeInsets.only(bottom: 35),
       child:
       TextField(
+        key: Key(key),
         controller: info,
         obscureText: isPassword ? showPassword : false,
         decoration: InputDecoration(
@@ -222,14 +180,6 @@ class Update extends State<UpdateProfile> {
     _email.dispose();
     super.dispose();
   }
-  /*
-  String? displayUsername(){
-    if(user!.displayName != null){
-      return user!.displayName;
-    }
-    return " ";
-  }
-  */
 }
 
 
