@@ -1,28 +1,35 @@
-import 'package:mockito/annotations.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:test/test.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'dart:html';
+
+import 'package:capstone_project_intune/ui/profile.dart';
+import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:capstone_project_intune/ui/updateProfile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-class MockFirebaseAuth extends Mock implements FirebaseAuth{}
-class MockFirebaseUser extends Mock implements FirebaseUser{}
-class MockAuthResults extends Mock implements AuthResult{}
+void main() async{
 
-void main(){
-  MockFirebaseAuth auth = MockFirebaseAuth();
-  BehaviorSubject<MockFirebaseUser> user = BehaviorSubject<MockFirebaseUser>();
-  UserRepository repo = UserRepository.instance(auth: auth);
+  TestWidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp();
+  testWidgets("Clicking on A key while show A on top", (WidgetTester tester) async {
+    final button = find.byKey(ValueKey("A"));
+    final note = find.text("A");
 
-  group("User Tests", (){
-    test("Sign in with email and password", () async {
+    await tester.pumpWidget(MaterialApp(home: Tuning(title: "Tuning")));
+    await tester.tap(button);
+    await tester.pump();
 
-    });
-
-    test("Sign out", (){
-
-    });
+    expect(note, findsOneWidget);
   });
-}
+  testWidgets("Clicking on start will start listening to user", (WidgetTester tester) async {
+    final button = find.byKey(ValueKey("Start"));
+    final status = find.text("Play Something");
 
+    await tester.pumpWidget(MaterialApp(home: Tuning(title: "Tuning")));
+    await tester.tap(button);
+    await tester.pump();
+
+    expect(status, findsOneWidget);
+  });
+
+}

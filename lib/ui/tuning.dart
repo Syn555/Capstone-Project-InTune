@@ -94,18 +94,20 @@ class _Tuning extends State<Tuning> {
           Center(
               child: Text(
                 pianoTone,
+                key: Key("Note"),
                 style: const TextStyle(
                     color: Colors.red,
                     fontSize: 50.0,
                     fontWeight: FontWeight.bold),
               )),
-        const Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
-        TunerView(frequency: freq),
-        const Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
+          TunerView(frequency: freq),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         ),
           Center(
               child: Text(
                 status,
+                key: Key("Status"),
                 style: const TextStyle(
                     color: Colors.black87,
                     fontSize: 20.0,
@@ -248,6 +250,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              key: const Key("Start"),
                               heroTag: "Start",
                               backgroundColor: Colors.green,
                               splashColor: Colors.blueGrey,
@@ -256,6 +259,7 @@ class _Tuning extends State<Tuning> {
                   Expanded(
                       child: Center(
                           child: FloatingActionButton(
+                              key: const Key("Stop"),
                               heroTag: "Stop",
                               backgroundColor: Colors.red,
                               splashColor: Colors.blueGrey,
@@ -271,6 +275,7 @@ class _Tuning extends State<Tuning> {
 
   Widget whiteTile(String tone, double position, double whiteWidth) {
     return Positioned(
+      key: Key(tone),
       top: 0,
       left: position * whiteWidth,
       width: whiteWidth,
@@ -307,8 +312,7 @@ class _Tuning extends State<Tuning> {
       ),
     );}
 
-
-Future<void> _startCapture() async {
+  Future<void> _startCapture() async {
     await _audioRecorder.start(listener, onError,
         sampleRate: 44100, bufferSize: 3000);
 
