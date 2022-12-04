@@ -1,3 +1,4 @@
+import 'package:capstone_project_intune/on_change_practice.dart';
 import 'package:mockito/annotations.dart';
 import 'package:rxdart/rxdart.dart';
 // import 'package:test/test.dart';
@@ -23,6 +24,7 @@ main() async
 {
   //class.status (variable name) for class variables
 
+  // Set Up Mock Firebase Authentication
   final googleSignIn = MockGoogleSignIn();
   final signInAccount = await googleSignIn.signIn();
   final googleAuth = await signInAccount!.authentication;
@@ -40,9 +42,33 @@ main() async
   final firebaseAuth = MockFirebaseAuth(mockUser: user);
   final result = await firebaseAuth.signInWithCredential(credential);
 
+  // Set Up Mock Firestore
+
+  final firestoreInstance = FakeFirebaseFirestore();
+  // firestoreInstance.collection(rooms)
+
+ /* await instance.collection('users').add({
+    'username': 'Bob',
+  });
+  final snapshot = await instance.collection('users').get();
+  print(snapshot.docs.length); // 1
+  print(snapshot.docs.first.get('username')); // 'Bob'
+  print(instance.dump()); */
+
+  // Set Up Mock Firebase Storage
+
+  final storage = MockFirebaseStorage();
+
+  // Might need to add stuff
 
 
-  test('creates room', () => {
+  test('creates room', () {
+    final onChange = on_change_practice();
+    final onChangeState = onChange.createState();
+    onChangeState.createRoom();
+
+    expect(onChangeState.roomID, isNotNull);
+    expect(firestoreInstance.collection("rooms").doc(onChangeState.roomID), isNotNull);
 
 
   });
