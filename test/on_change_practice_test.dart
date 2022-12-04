@@ -1,4 +1,6 @@
 import 'package:capstone_project_intune/on_change_practice.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mockito/annotations.dart';
 import 'package:rxdart/rxdart.dart';
 // import 'package:test/test.dart';
@@ -24,7 +26,10 @@ main() async
 {
   //class.status (variable name) for class variables
 
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   // Set Up Mock Firebase Authentication
+
   final googleSignIn = MockGoogleSignIn();
   final signInAccount = await googleSignIn.signIn();
   final googleAuth = await signInAccount!.authentication;
@@ -39,12 +44,12 @@ main() async
     email: 'pls@testthisapp.com',
   );
 
-  final firebaseAuth = MockFirebaseAuth(mockUser: user);
-  final result = await firebaseAuth.signInWithCredential(credential);
+  final auth = MockFirebaseAuth(mockUser: user);
+  final result = await auth.signInWithCredential(credential);
 
   // Set Up Mock Firestore
 
-  final firestoreInstance = FakeFirebaseFirestore();
+  final database = FakeFirebaseFirestore();
   // firestoreInstance.collection(rooms)
 
  /* await instance.collection('users').add({
@@ -62,7 +67,14 @@ main() async
   // Might need to add stuff
 
 
-  test('creates room', () {
+  // Initialize App
+  Firebase.initializeApp();
+
+
+  test ('creates room', () {
+
+    //final database = FakeFirebaseFirestore();
+
     final onChange = on_change_practice();
     final onChangeState = onChange.createState();
     onChangeState.createRoom();
