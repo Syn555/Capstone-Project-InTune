@@ -17,7 +17,7 @@ class _Profile extends State<Profile> {
         leading: BackButton(
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("Profile"),
+          title: const Text("Profile"),
       ),
 
       body: Column(
@@ -142,6 +142,7 @@ class _Profile extends State<Profile> {
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
               child:
               ElevatedButton(
+                key: Key("SignOut"),
                 onPressed: () => {
                   FirebaseAuth.instance.signOut(),
                 },
@@ -174,6 +175,7 @@ class _Profile extends State<Profile> {
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
               child:
               ElevatedButton(
+                key: Key("Delete"),
                 onPressed: () =>{
                   FirebaseAuth.instance.currentUser!.delete(),
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Account Deleted"),),),
@@ -206,3 +208,4 @@ class _Profile extends State<Profile> {
     );
   }
 }
+

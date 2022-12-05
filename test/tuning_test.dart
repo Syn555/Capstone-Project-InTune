@@ -1,36 +1,47 @@
 import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:flutter/material.dart';
-//import 'package:test/test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void main(){
-  WidgetsFlutterBinding.ensureInitialized();
-  //testing start function
-  test('Should start capture and set status to "Play Something"',() async {
-    const readTone = Tuning(title: "Tuning");
-    //final readToneState= readTone.createState();
-    final actualText= find.text("Play Something");
-    final status= find.byKey(ValueKey("Status"));
-    expect(status, actualText);
+void main() async{
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets("Should display A on top of screen", (WidgetTester tester) async {
+    final button = find.byKey(const ValueKey("A"));
+    final note = find.text("A");
+
+    await tester.pumpWidget(const MaterialApp(home: Tuning(title: "Tuning")));
+    await tester.tap(button);
+    await tester.pump();
+
+    expect(note, findsOneWidget);
   });
 
-  //actual start function
-  test('Should start capture and set status to "Play Something"',() async {
-    const readTone = Tuning(title: "Tuning");
-    //final readToneState= readTone.createState(Tuning(title: Tuning));
-    readTone.startCapture();
-    expect(const Tuning(title: 'Tuning',).unitTestVariable, "Play something");
+  testWidgets("Should start listening to user input", (WidgetTester tester) async {
+    final button = find.byKey(const ValueKey("Start"));
+    final status  = find.text("Play something");
+
+    await tester.pumpWidget(const MaterialApp(home: Tuning(title: "Tuning")));
+    await tester.tap(button);
+    await tester.pump();
+
+    expect(status, findsOneWidget);
   });
 
-  test('Should stop capture and set status to "Tuned!!!!"',()async{
-    final readTone = _Tuning();
-    readTone.stopCaptureTuned();
-    expect(_Tuning().unitTestVariable,"Tuned!!!!");
-  });
+  testWidgets("Should stop listening to user input", (WidgetTester tester) async {
+    final button = find.byKey(const ValueKey("Stop"));
+    final status  = find.text("Click start");
 
-  test('Should stop capture and set status to "Click on start"',()async{
-    final readTone = _Tuning();
-    readTone.stopCapture();
-    expect(_Tuning().unitTestVariable,"Click on start");
+    await tester.pumpWidget(const MaterialApp(home: Tuning(title: "Tuning")));
+    await tester.tap(button);
+    await tester.pump();
+
+    expect(status, findsOneWidget);
   });
+/*
+  test('Should stop capture and set status to "Tuned!!!!"',() async{
+    final status = find.text("Tuned!!!!");
+    Tune().stopCaptureTuned;
+    expect(status, findsOneWidget);
+  });
+*/
 }

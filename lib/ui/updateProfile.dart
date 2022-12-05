@@ -53,14 +53,13 @@ class Update extends State<UpdateProfile> {
              ),
             buildTextField("New Email", false, _email, "emailField"),
             ElevatedButton(
+              key: const Key("emailButton"),
                onPressed: () {
                  if (_email.text != "") {
                    setState(() {
                      email = _email.text;
                    });
                    changeEmail();
-                   //print(user!.email);
-                   //print(_email.text);
                  }
                },
                style: ElevatedButton.styleFrom(
@@ -87,6 +86,7 @@ class Update extends State<UpdateProfile> {
            ),
             buildTextField("New Password", true, _password, "passField"),
             ElevatedButton(
+              key: const Key("passButton"),
                onPressed: () {
                  if (_password.text != "") {
                    setState(() {
