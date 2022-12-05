@@ -12,7 +12,6 @@ void main() async{
     await tester.pumpWidget(const MaterialApp(home: Tuning(title: "Tuning")));
     await tester.tap(button);
     await tester.pump();
-
     expect(note, findsOneWidget);
   });
 
