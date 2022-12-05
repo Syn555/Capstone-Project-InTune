@@ -39,9 +39,12 @@ dependencies:
   #xml
   xml: ^5.3.0
   collection: ^1.15.0
+  js: any
+  #for piano
+
   flutter:
     sdk: flutter
-
+  url_launcher:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -56,10 +59,12 @@ dependencies:
   firebase_storage: ^10.3.11
   agora_rtc_engine: ^5.1.1
   convex_bottom_bar:
+  audioplayers: ^1.1.1
+  just_audio: ^0.9.30
+  uri_to_file: ^0.2.0
   flutter_sound: ^9.2.13
   open_file: ^3.2.1
   flutter_ffmpeg: ^0.4.2
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -86,6 +91,7 @@ flutter:
     - hanon-no1-stripped.musicxml
     - blank.musicxml
     - testers.txt
+    - assets/notes/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

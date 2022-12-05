@@ -1,69 +1,21 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:capstone_project_intune/ui/tuning.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:capstone_project_intune/pitch_detector.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show Clipboard, ClipboardData, rootBundle;
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:pitchupdart/instrument_type.dart';
 import 'package:pitchupdart/pitch_handler.dart';
-import 'package:pitchupdart/pitch_result.dart';
 import 'package:xml/xml.dart';
 import 'package:capstone_project_intune/musicXML/parser.dart';
 import 'package:capstone_project_intune/musicXML/data.dart';
-import 'package:capstone_project_intune/notes/music-line.dart';
+
 import 'package:capstone_project_intune/main.dart';
-import 'package:open_file/open_file.dart';
-import 'package:file_picker/file_picker.dart';
 
 const double STAFF_HEIGHT = 36;
-
-// class CounterStorage {
-//   Future<String> get _localPath async {
-//     final directory = await getApplicationDocumentsDirectory();
-//
-//     return directory.path;
-//   }
-//
-//   Future<File> get _localFile async {
-//     final path = await _localPath;
-//     return File('$path/counter.txt');
-//   }
-//
-//   Future<int> readCounter() async {
-//     try {
-//       final file = await _localFile;
-//
-//       // Read the file
-//       final contents = await file.readAsString();
-//
-//       return int.parse(contents);
-//     } catch (e) {
-//       // If encountering an error, return 0
-//       return 0;
-//     }
-//   }
-//
-//   Future<File> writeCounter(int counter) async {
-//     final file = await _localFile;
-//
-//     // Write the file
-//     return file.writeAsString('$counter');
-//   }
-// }
-
-//read and write
-Future<void> writeToFile(ByteData data, String path) {
-  final buffer = data.buffer;
-  return new File(path).writeAsBytes(
-      buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-}
-
 
 class MyHomePage1 extends StatelessWidget {
   @override
@@ -79,6 +31,8 @@ class MyHomePage1 extends StatelessWidget {
     );
   }
 }
+
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -89,42 +43,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _openResult = 'Unknown';
-  Future<void> openFile() async {
-    //read and write
-    const filename = 'test.xml';
-    var bytes = await rootBundle.load("blank.musicxml");
-    String? dir = (await getApplicationDocumentsDirectory()).path;
-    writeToFile(bytes,'$dir/$filename');
-
-    //String? filePath = r'/storage/emulated/0/update.apk';
-    //FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    // if (result != null) {
-    //   dir = result.files.single.path;
-    // } else {
-    //   // User canceled the picker
-    // }
-
-    final _result = await OpenFile.open('$dir/$filename');
-    print(_result.message);
-
-    setState(() {
-      _openResult = "type=${_result.type}  message=${_result.message}";
-    });
-
-  }
 
 
   Future<Score> loadXML() async {
     //final Directory directory = await getApplicationDocumentsDirectory();
-    // final rawFile = everything.toString();
-    // //print(everything);
-    // final document= XmlDocument.parse(rawFile);
-    // final result = parseMusicXML(document);
-    // return result;
-    final rawFile = await rootBundle.loadString('blank.musicxml');
+
+    /*final rawFile = everything.toString();
+    print(everything);
+    final document= XmlDocument.parse(rawFile);
+    final result = parseMusicXML(document);
+*/
+    final rawFile = await mountainImagesRef.getDownloadURL();
     final result = parseMusicXML(XmlDocument.parse(rawFile));
+
     return result;
   }
 
@@ -135,45 +66,35 @@ class _MyHomePageState extends State<MyHomePage> {
   var note = "";
   var notePicked = "";
   var everything;
+  var holder=""; //holds the notes for comp
   List<String> notesPlayed= [];
   List<String> notesToBeAdded= [];
   var noteStatus= "";
   var status = "Click on start";
 
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   widget.storage.readCounter().then((value) {
-  //     setState(() {
-  //       everything = value;
-  //     });
-  //   });
-  // }
-  //
-  // Future<File> _writeCounter() {
-  //
-  //
-  //   // Write the variable as a string to the file.
-  //   return widget.storage.writeCounter(everything);
-  // }
-
-
+  late final myFile;
+  late final myFilePath;
+  late final mountainImagesRef;
 
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
-
     return Scaffold(
-      drawer: const SideDrawer(),
+      drawer: const SideDrawerReg(),
       appBar: AppBar(
         title: const Text('Composition'),
       ),
       body: Center(
-        child: Column(children: [
-          Center(
-            child: Container(
+          child: Column(children: [
+            Center(
+                child: Text(
+                  holder,
+                  style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 50.0,
+                      fontWeight: FontWeight.bold),
+                )
+              /*child: Container(
               alignment: Alignment.center,
               width: size.width - 40,
               height: size.height-500,
@@ -199,86 +120,43 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                   }
               ),
+            ),*/
             ),
-          ),
-          Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                      child: Center(
-                          child: FloatingActionButton(
-                              heroTag: "Start",
-                              backgroundColor: Colors.green,
-                              splashColor: Colors.blueGrey,
-                              onPressed: _startCapture,
-                              child: const Text("Start")))),
-                  Expanded(
-                      child: Center(
-                          child: FloatingActionButton(
-                              heroTag: "Stop",
-                              backgroundColor: Colors.red,
-                              splashColor: Colors.blueGrey,
-                              onPressed: _stopCapture,
-                              child: const Text("Stop")))),
-                  Expanded(child: Text(
-                              status,
-                              style: const TextStyle(
-                              color: Colors.black87,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold),
-                              ))
-                ],
-              ))
-        ],
-        )
+            Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Center(
+                            child: FloatingActionButton(
+                                heroTag: "Start",
+                                backgroundColor: Colors.green,
+                                splashColor: Colors.blueGrey,
+                                onPressed: _startCapture,
+                                child: const Text("Start")))),
+                    Expanded(
+                        child: Center(
+                            child: FloatingActionButton(
+                                heroTag: "Stop",
+                                backgroundColor: Colors.red,
+                                splashColor: Colors.blueGrey,
+                                onPressed: _stopCapture,
+                                child: const Text("Stop")))),
+                    Expanded(child: Text(
+                      status,
+                      style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    ))
+                  ],
+                ))
+          ],
+          )
       ),
     );
   }
 
 
-
-
-  Future<String> update(List<String> n) async {
-    //final titles = parsedXML.findAllElements('note');
-    //print(noteFun());
-    //final file = await _localFile;
-    var notesAdded=n;
-    var start= '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE score-partwise PUBLIC-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise version="3.1"><part-list><score-part id="P1"><part-name>Piano</part-name><score-instrument id="P1-I1"><instrument-name>Piano</instrument-name></score-instrument></score-part></part-list><part id="P1"><measure number="1"><attributes><divisions>4</divisions><key><fifths>0</fifths></key><time><beats>2</beats><beat-type>4</beat-type></time><staves>1</staves><clef number="1"><sign>G</sign><line>2</line></clef></attributes>';
-    String newNote;
-    var ending= '\</measure></part></score-partwise>';
-    var allNotes="";
-    //print(notesAdded);
-    for(var i=0; i < notesAdded.length;i++) {
-      newNote='<note> <pitch> <step>'+ notesAdded[i] +'\</step> <octave>5</octave> </pitch> <duration>1</duration> <voice>1</voice><type>eighth</type> <stem default-y="3">up</stem><staff>1</staff> <beam number="1">begin</beam></note>';
-      allNotes= allNotes+newNote;
-    }
-    //print(allNotes);
-    //print(newNote);
-
-    everything= start+allNotes+ending;
-
-
-    // //read and write
-    // final filename = 'test.pdf';
-    // var bytes = await rootBundle.load("blank.musicxml");
-    // String dir = (await getApplicationDocumentsDirectory()).path;
-    // writeToFile(bytes,'$dir/$filename');
-    //
-    // OpenFile.open('$dir/$filename');
-    return everything;
-    //var file = _write(everything);
-    //print(everything);
-
-    /*var files= File('text');
-    var sink= files.openWrite();
-    sink.write('testing');
-    sink.close();
-    files.openWrite(mode: FileMode.append, encoding: ascii);
-    */
-
-
-
-  }
 
 
 
@@ -291,20 +169,44 @@ class _MyHomePageState extends State<MyHomePage> {
       note = "";
       status = "Play something";
     });
-
   }
 
   Future<void> _stopCapture() async {
     await _audioRecorder.stop();
 
+    //testing
+    //notesToBeAdded= ['A','B','C'] ABC;
+
+    //add data to clipboard
+    await Clipboard.setData(ClipboardData(text:notesPlayed.join()));
+
+    /*Create a storage reference from our app
+    final storageRef = FirebaseStorage.instance.ref();
+// Create a reference to 'images/mountains.jpg'
+    final mountainImagesRef = storageRef.child(myFilePath);
+    try {
+      await mountainImagesRef.putFile(myFilePath);
+      print("Upload Complete!");
+    } on FirebaseException catch (e) {
+      print("Upload Not Complete");
+    }*/
+
+    //open browser for music comp
+    var url = Uri.parse('https://editor.drawthedots.com/');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode:LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
+
     setState(() {
-      update(notesToBeAdded);
+      //update(notesToBeAdded);
       note = "";
       status = "Click on start";
     });
-    //loadXML();
-    openFile();
 
+
+    //loadXML();
 
 
   }
@@ -319,23 +221,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
     //If there is a pitch - evaluate it
     if (result.pitched) {
-        //Uses the pitchupDart library to check a given pitch for a Guitar
-        final handledPitchResult = pitchupDart.handlePitch(result.pitch);
-        status = handledPitchResult.tuningStatus.toString();
-        var holder= handledPitchResult.note;
+      //Uses the pitchupDart library to check a given pitch for a Guitar
+      final handledPitchResult = pitchupDart.handlePitch(result.pitch);
+      status = handledPitchResult.tuningStatus.toString();
+
+      holder= handledPitchResult.note;
+
+      //for abc notation
+      if(holder=="C#") {
+        holder= "C^";
+      }else if(holder=="D#"){
+        holder= "D^";
+      }else if(holder=="F#"){
+        holder= "F^";
+      }else if(holder=="G#"){
+        holder= "G^";
+      } else if(holder=="A#"){
+        holder= "A^";
+      } else if(holder=="B#"){
+        holder= "B^";
+      }else{
+        holder= handledPitchResult.note;
+      }
 
       //Updates the state with the result
-      //   if (status == "TuningStatus.tuned") {
-      //     note = "";
-      //     print("Actual pitchresult: $holder");
-      //     notesPlayed.add(holder);
-      //     //print(holder);
-      //     //print(notesPlayed);
-      //     update(notesPlayed);
-      //   }
-      //}
-      //);
+      setState(() {
+        // if (status == "TuningStatus.tuned")
+        note = "";
+        print("Actual pitchresult: $holder");
+        //take all notes and add it to the notesPlayed List
+        notesPlayed.add(holder);
+        //print(holder);
+      }
+      );
     }
+
   }
 
 

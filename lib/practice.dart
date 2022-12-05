@@ -106,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .size;
 
     return Scaffold(
-      drawer: const SideDrawer(),
+      drawer: const SideDrawerReg(),
       appBar: AppBar(
         title: const Text('Intonation Practice'),
       ),

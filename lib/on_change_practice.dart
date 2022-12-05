@@ -47,7 +47,7 @@ class _on_change_practiceState extends State<on_change_practice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SideDrawer(),
+      drawer: const SideDrawerReg(),
       appBar: AppBar(
         title: const Text('Virtual Band-ish'),
       ),
