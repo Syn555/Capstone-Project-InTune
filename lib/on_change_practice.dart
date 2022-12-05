@@ -193,6 +193,7 @@ class _on_change_practiceState extends State<on_change_practice> {
   }
 
   Future<void> joinCall() async {
+    controller.text = "Call";
     setState(() {
       controller.text.isNotEmpty
           ? _validateError = true

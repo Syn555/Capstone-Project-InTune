@@ -1,2 +1,2 @@
 const appId = '739751da70fd4feeb29d171653ba8c00';
-const token = '007eJxTYDhmUXLo7n52Ga07Iu5HumcsCzrExrZWSdXryiuJuZERlisUGMyNLc1NDVMSzQ3SUkzSUlOTjCxTDM0NzUyNkxItkg0MvuZ2JjcEMjKkfshmYWSAQBCflSEjNScnn4EBABcBHxg=';
+const token = '007eJxTYGDUyD1yq8im6VzjjadW7Ru0JF6Ju9p/mz3/5kK79E9bbkcqMJgbW5qbGqYkmhukpZikpaYmGVmmGJobmpkaJyVaJBsYvPPvTW4IZGQQNBFhYIRCEJ+FwTkxJ4eBAQCJvx+A';
