@@ -8,6 +8,7 @@ import 'package:pitchupdart/pitch_handler.dart';
 import 'package:capstone_project_intune/pitch_detector.dart';
 import 'package:flutter/services.dart';
 import 'package:audioplayers/audioplayers.dart';
+
 var freq = 0.0;
 
 class Tuning extends StatefulWidget {
@@ -15,10 +16,10 @@ class Tuning extends StatefulWidget {
   final String title;
 
   @override
-  State<Tuning> createState() => _Tuning();
+  State<Tuning> createState() => Tune();
 }
 
-class _Tuning extends State<Tuning> {
+class Tune extends State<Tuning> {
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
   final pitchupDart = PitchHandler(InstrumentType.guitar);
@@ -94,7 +95,7 @@ class _Tuning extends State<Tuning> {
           Center(
               child: Text(
                 pianoTone,
-                key: Key("Note"),
+                key: const Key("Note"),
                 style: const TextStyle(
                     color: Colors.red,
                     fontSize: 50.0,
@@ -107,7 +108,7 @@ class _Tuning extends State<Tuning> {
           Center(
               child: Text(
                 status,
-                key: Key("Status"),
+                key: const Key("Status"),
                 style: const TextStyle(
                     color: Colors.black87,
                     fontSize: 20.0,
@@ -254,7 +255,7 @@ class _Tuning extends State<Tuning> {
                               heroTag: "Start",
                               backgroundColor: Colors.green,
                               splashColor: Colors.blueGrey,
-                              onPressed: _startCapture,
+                              onPressed: startCapture,
                               child: const Text("Start")))),
                   Expanded(
                       child: Center(
@@ -263,7 +264,7 @@ class _Tuning extends State<Tuning> {
                               heroTag: "Stop",
                               backgroundColor: Colors.red,
                               splashColor: Colors.blueGrey,
-                              onPressed: _stopCapture,
+                              onPressed: stopCapture,
                               child: const Text("Stop")))),
                 ],
               ))
@@ -312,26 +313,26 @@ class _Tuning extends State<Tuning> {
       ),
     );}
 
-  Future<void> _startCapture() async {
+  Future<void> startCapture() async {
     await _audioRecorder.start(listener, onError,
         sampleRate: 44100, bufferSize: 3000);
 
     setState(() {
       note = "";
-      status = "Play something";
+      status = "Play";
     });
   }
 
-  Future<void> _stopCapture() async {
+  Future<void> stopCapture() async {
     await _audioRecorder.stop();
 
     setState(() {
       note = "";
-      status = "Click on start";
+      status = "Click start";
     });
   }
 
-  Future<void> _stopCaptureTuned() async {
+  Future<void> stopCaptureTuned() async {
     await _audioRecorder.stop();
 
     setState(() {
@@ -359,7 +360,7 @@ class _Tuning extends State<Tuning> {
       setState(() {
         if(status == "TuningStatus.tuned"){
           status = "Tuned!!!!".toUpperCase();
-          _stopCaptureTuned();
+          stopCaptureTuned();
         }else if (status == "TuningStatus.toohigh" || status == "TuningStatus.waytoohigh"){
           status = "Too high, please tune lower";
         }else if( status == "TuningStatus.toolow" || status ==  "TuningStatus.waytoolow"){
