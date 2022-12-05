@@ -83,5 +83,11 @@ main() async
     //expect(firestoreInstance.collection("rooms").doc(onChangeState.roomID), isNotNull);
   });
 
+  // test ('join call', (){
+  //   final onChange = on_change_practice();
+  //   final onChangeState = onChange.createState();
+  //   onChangeState.joinCall();
+  //   expect(onChangeState.controller.text, isNotNull);
+  // });
 
 }
