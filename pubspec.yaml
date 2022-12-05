@@ -55,11 +55,10 @@ dependencies:
   firebase_auth: ^4.1.5 #Firebase auth dependency
   firebase_database: ^10.0.6
   file_picker: ^4.5.0
-  permission_handler:
-  cloud_firestore: ^4.1.0
-  firebase_storage: ^11.0.6
-  agora_rtc_engine: ^6.0.0
-  signal_strength_indicator:
+  permission_handler: ^9.2.0
+  cloud_firestore: ^3.5.1
+  firebase_storage: ^10.3.11
+  agora_rtc_engine: ^5.1.1
   convex_bottom_bar:
   audioplayers: ^1.1.1
   just_audio: ^0.9.30
@@ -103,7 +102,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   assets:
+    - hanon-no1.musicxml
     - hanon-no1-stripped.musicxml
+    - blank.musicxml
     - testers.txt
     - assets/notes/
 

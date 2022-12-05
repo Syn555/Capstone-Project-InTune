@@ -1,5 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:capstone_project_intune/video_call.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,7 +11,6 @@ import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:capstone_project_intune/main.dart';
 import 'package:capstone_project_intune/Helpers/utils.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class on_change_practice extends StatefulWidget {
@@ -23,6 +25,8 @@ class _on_change_practiceState extends State<on_change_practice> {
   // FlutterSoundRecorder _recorderSession;
   String roomID = "";
   String pathToAudio = "";
+  bool _validateError = false;
+  ClientRole? _role = ClientRole.Broadcaster;
 
 
   // FIGURE OUT SUPER CLASS BS UPDATE: FIGURED IT OUT YAY
@@ -53,8 +57,8 @@ class _on_change_practiceState extends State<on_change_practice> {
             const Text(
               "Enter Room ID to Join:",
               style: TextStyle(
-                fontSize: 20,
-                letterSpacing: 2
+                  fontSize: 20,
+                  letterSpacing: 2
               ),
             ),
             TextField(controller: controller),
@@ -65,6 +69,16 @@ class _on_change_practiceState extends State<on_change_practice> {
                   fontSize: 20,
                   letterSpacing: 2
               ),
+            ),
+            RadioListTile(
+              title: const Text('Room'),
+              onChanged: (ClientRole? value){
+                setState((){
+                  _role = value;
+                });
+              },
+              value: ClientRole.Broadcaster,
+              groupValue: _role,
             ),
             Expanded(
                 child: Row(
@@ -85,6 +99,14 @@ class _on_change_practiceState extends State<on_change_practice> {
                                 splashColor: Colors.white,
                                 onPressed: joinRoom,
                                 child: const Text("Join")))),
+                    Expanded(
+                        child: Center(
+                            child: FloatingActionButton(
+                                heroTag: "Call",
+                                backgroundColor: Colors.black,
+                                splashColor: Colors.white,
+                                onPressed: joinCall,
+                                child: const Text("Call")))),
                     Expanded(
                         child: Center(
                             child: FloatingActionButton(
@@ -170,6 +192,32 @@ class _on_change_practiceState extends State<on_change_practice> {
     }
   }
 
+  Future<void> joinCall() async {
+    controller.text = "Call";
+    setState(() {
+      controller.text.isNotEmpty
+          ? _validateError = true
+          : _validateError = false;
+    });
+    if(controller.text.isNotEmpty){
+      await _handleCameraAndMic(Permission.camera);
+      await _handleCameraAndMic(Permission.microphone);
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => video_call(
+            channelName: controller.text, role: _role,
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleCameraAndMic(Permission permission) async {
+    final status = await permission.request();
+    log(status.toString());
+  }
+
   // To be called in body of database listener
   void startRecording() async {
     // switchOn(); //Set synced db field to true
@@ -243,6 +291,8 @@ class _on_change_practiceState extends State<on_change_practice> {
   void dispose()
   {
     recorder.closeRecorder();
+    super.dispose();
+    controller.dispose();
     super.dispose();
   }
 
