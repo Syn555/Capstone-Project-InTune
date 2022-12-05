@@ -405,6 +405,8 @@ class _on_change_practiceState extends State<on_change_practice> {
   void processAudio(List<String> paths)
   {
     String ffmpegExec = "";
+    var count = 1;
+
     for(var name in paths)
     {
       ffmpegExec += "-i $name ";
@@ -415,9 +417,11 @@ class _on_change_practiceState extends State<on_change_practice> {
         print("file $name: doesn't exist");
       }
       print("file $name: exists.");
+
+      count++;
     }
 
-    ffmpegExec += "-filter_complex amix=inputs=2:duration=first:dropout_transition=3 /storage/emulated/0/Download/mixed_$roomID.mp4";
+    ffmpegExec += "-filter_complex amix=inputs=$count:duration=first:dropout_transition=3 /storage/emulated/0/Download/mixed_$roomID.mp4";
 
     print("ffmpeg command is: $ffmpegExec");
 
