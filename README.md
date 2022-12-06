@@ -27,6 +27,17 @@ Users must be logged in to access
 # Virtual Band
 Users must be logged in to access
 
+#Needed for using the call button on Live Band
+1. Need to make an agora.io account
+2. Create a project (doesn't matter what name)
+3. Go to the project configuration (config)
+4. Generate a Temp token for audio/video call 
+5. Copy the APP ID and Token and replace it in the lib/Helpers/setting.dart file.
+![image](https://user-images.githubusercontent.com/89527340/206043108-3b089dec-244a-4536-a0e2-1fcbc4b42b5e.png)
+6. When agora ask you to create a channel name when creating the token. Go to the file lib/on_change_practice.dart file, go to line 196 and replace "Call" with the your channel name that you made on agora.
+![image](https://user-images.githubusercontent.com/89527340/206044243-187eb428-11a5-43bb-ab6c-a3e54e47f01f.png)
+7. You are all set to use the call in Live Band.
+
 
 # Contributors
 Amira Annous </br>
