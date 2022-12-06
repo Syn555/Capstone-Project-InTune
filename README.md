@@ -45,6 +45,7 @@ Users must be logged in to access
   Note: Only one person needs to hit the start button, it'll automatically start recording for all users in the room.
 4) "Stop" : Stops the recording session. (Only one person needs to hit the stop button in order to stop all recordings)
 5) "Merge" : Merge all the audio recording and it'll then be downloaded into the users download files int their device. (The mixed audio will be called "mixed_....",       individual audios will have their own names.
+
 -"Call" button : Join a video call session.
   Steps needed for using the call button on Live Band
   1. Need to make an agora.io account
