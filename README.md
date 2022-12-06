@@ -11,7 +11,7 @@ How to use:
 2. Press 'Start' button
 3. Tune note by adjusting pitch according to prompts within the application
 4. 'TUNED!!!' InTune will tell you when you're note is tuned correctly
-5. Select another note to tune, and press start...
+5. Press Stop button inorder to select another note to tune, and press start...
 
 # LINK TO PRE-RELEASE
 https://github.com/Capstone-Projects-2022-Fall/capstone-project-intune/releases/tag/v3.0
