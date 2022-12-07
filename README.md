@@ -58,6 +58,9 @@ Users must be logged in to access
 ![image](https://user-images.githubusercontent.com/89527340/206044243-187eb428-11a5-43bb-ab6c-a3e54e47f01f.png)
   7. You are all set to use the call in Live Band.
 
+# Bugs
+Besides functionality that wasn't completed yet. A main bug is when switching inbetween functions, ex: live band, composition, tuning, etc., the user would sometimes be logged off and would be required to be logged back into account.
+A bug in Practice/Intonation would be that the application would be able to listen to the notes being played but the parser xml file does not work. And stops development reading music notes and matching it to the correct audio.
 
 # Contributors
 Amira Annous </br>
