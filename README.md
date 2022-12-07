@@ -4,11 +4,6 @@ InTune is a real time music note detection mobile/web application that provides 
 # Account
 Create a free account with InTune by going to the Login/SignUp page. Users email and password is securely stored through Firebase authentication.
 
-# LINK TO PRE-RELEASE
-https://github.com/Capstone-Projects-2022-Fall/capstone-project-intune/releases/tag/v3.0
-
-# Testing document is called "InTune Acceptance QA Testing doc.xlsx"
-
 # Profile
 - "Update Account" : User can update their previous email to a new email. User can also change their password.
 - "Upload Sheets & Created Sheets" : Does nothing. This has yet to be finished implemented. If you wish to upload files and see the files you have uploaded go to "Practice/Intonation Practice".
@@ -61,6 +56,9 @@ Users must be logged in to access
 # Bugs
 Besides functionality that wasn't completed yet. A main bug is when switching inbetween functions, ex: live band, composition, tuning, etc., the user would sometimes be logged off and would be required to be logged back into account.
 A bug in Practice/Intonation would be that the application would be able to listen to the notes being played but the parser xml file does not work. And stops development reading music notes and matching it to the correct audio.
+
+#New Features
+There are no new features in this release. However, live band feature has been updated to include a video call ability.
 
 # Contributors
 Amira Annous </br>
